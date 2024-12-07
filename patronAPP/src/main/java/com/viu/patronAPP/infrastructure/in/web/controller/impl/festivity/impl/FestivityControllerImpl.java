@@ -2,7 +2,7 @@ package com.viu.patronAPP.infrastructure.in.web.controller.impl.festivity.impl;
 
 import com.viu.patronAPP.domain.model.Festivity;
 import com.viu.patronAPP.domain.ports.in.FestivityUseCasesPort;
-import com.viu.patronAPP.infrastructure.DTO.user.FestivityDTO;
+import com.viu.patronAPP.infrastructure.DTO.festivity.FestivityDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.festivity.FestivityController;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

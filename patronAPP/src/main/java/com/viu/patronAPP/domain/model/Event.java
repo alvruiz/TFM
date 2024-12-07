@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Data
@@ -15,6 +16,6 @@ public class Event {
     private LocalDateTime endDate;
     private Coords coords;
     private int maxCapacity;
-    private int[] attendees;
+    private List<String> attendees;
     private String festivityId;
 }

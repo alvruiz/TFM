@@ -8,6 +8,8 @@ import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.event.E
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 @AllArgsConstructor
@@ -20,4 +22,23 @@ public class EventRepositoryAdapter implements EventPort {
         EventEntity entityEntity = EventMapper.mapEventDomainToEntity(event);
         return EventMapper.mapEventEntityToDomain(eventRepository.save(entityEntity));
     }
+
+    @Override
+    public Event getEventById(String eventId) {
+        Optional<EventEntity> eventOptional = eventRepository.findById(eventId);
+        return eventOptional.map(EventMapper::mapEventEntityToDomain).orElse(null);
+    }
+
+    @Override
+    public void deleteEvent(String eventId) {
+        eventRepository.deleteById(eventId);
+    }
+
+    @Override
+    public void updateEvent(String id, Event event) {
+        EventEntity entityEntity = EventMapper.mapEventDomainToEntity(event);
+        entityEntity.setId(id);
+        eventRepository.save(entityEntity);
+    }
 }
+

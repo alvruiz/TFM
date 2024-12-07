@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.DTO.user;
+package com.viu.patronAPP.infrastructure.DTO.province;
 
 import lombok.Builder;
 import lombok.Data;
