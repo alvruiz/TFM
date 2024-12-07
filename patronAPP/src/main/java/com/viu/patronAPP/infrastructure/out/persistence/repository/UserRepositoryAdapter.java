@@ -1,0 +1,32 @@
+package com.viu.patronAPP.infrastructure.out.persistence.repository;
+
+import com.viu.patronAPP.domain.model.User;
+import com.viu.patronAPP.domain.ports.out.UserPort;
+import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.UserEntity;
+import com.viu.patronAPP.infrastructure.out.persistence.mapper.user.UserMapper;
+import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.user.UserMongoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@RequiredArgsConstructor
+public class UserRepositoryAdapter implements UserPort {
+
+    private final UserMongoRepository userRepository;
+
+    @Override
+    public User getUserById(String id) {
+        return userRepository.findById(id).map(UserMapper::mapUserEntityToDomain).orElse(null);
+    }
+
+    @Override
+    public void createUser(User user) {
+        UserEntity userEntity = UserMapper.mapUserDomainToEntity(user);
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).map(UserMapper::mapUserEntityToDomain).orElse(null);
+    }
+}
