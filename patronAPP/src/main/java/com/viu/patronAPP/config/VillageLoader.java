@@ -18,6 +18,7 @@ public class VillageLoader {
             villageRepository.deleteAll();
             VillageEntity castronuñoEntity = VillageEntity.builder()
                     .name("Castronuño")
+                    .id("1")
                     .coords(Coords.builder()
                             .latitude(41.390485)
                             .longitude(-5.262498)
@@ -27,6 +28,7 @@ public class VillageLoader {
                     .build();
             VillageEntity villarejoEntity = VillageEntity.builder()
                     .name("Villarejo de Órbigo")
+                    .id("2")
                     .coords(Coords.builder()
                             .latitude(42.445197)
                             .longitude(-5.903779)
@@ -37,6 +39,7 @@ public class VillageLoader {
 
             VillageEntity villaornateEntity = VillageEntity.builder()
                     .name("Villaornate y Castro")
+                    .id("3")
                     .coords(Coords.builder()
                             .latitude(42.184812)
                             .longitude(-5.549757)
@@ -47,6 +50,7 @@ public class VillageLoader {
 
             VillageEntity villaobispoEntity = VillageEntity.builder()
                     .name("Villaobispo De Otero")
+                    .id("4")
                     .coords(Coords.builder()
                             .latitude(42.499988)
                             .longitude(-6.058563)
@@ -57,6 +61,7 @@ public class VillageLoader {
 
             VillageEntity palanquinosEntity = VillageEntity.builder()
                     .name("Palanquinos")
+                    .id("5")
                     .coords(Coords.builder()
                             .latitude(42.471355)
                             .longitude(-5.480471)
@@ -66,6 +71,7 @@ public class VillageLoader {
                     .build();
             VillageEntity atapuercaEntity = VillageEntity.builder()
                     .name("Atapuerca")
+                    .id("6")
                     .coords(Coords.builder()
                             .latitude(42.338611)
                             .longitude(-3.647222)
@@ -76,6 +82,7 @@ public class VillageLoader {
 
             VillageEntity albaDeTormesEntity = VillageEntity.builder()
                     .name("Alba de Tormes")
+                    .id("7")
                     .coords(Coords.builder()
                             .latitude(40.948056)
                             .longitude(-5.463611)
@@ -86,6 +93,7 @@ public class VillageLoader {
 
             VillageEntity tordesillasEntity = VillageEntity.builder()
                     .name("Tordesillas")
+                    .id("8")
                     .coords(Coords.builder()
                             .latitude(41.310278)
                             .longitude(-4.975278)
@@ -96,6 +104,7 @@ public class VillageLoader {
 
             VillageEntity candeledaEntity = VillageEntity.builder()
                     .name("Candeleda")
+                    .id("9")
                     .coords(Coords.builder()
                             .latitude(40.208611)
                             .longitude(-5.3075)

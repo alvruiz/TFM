@@ -16,6 +16,7 @@ public class User {
     private int age;
     private String gender;
     private Rol rol;
+    private String villageId;
 
     private List<String> eventsParticipating;
 }

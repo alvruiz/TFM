@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection="users")
+@Document(collection = "users")
 @Data
 @Builder
 public class UserEntity {
@@ -22,6 +22,7 @@ public class UserEntity {
     private int age;
     private String gender;
     private Rol rol;
+    private String villageId;
 
     private List<String> eventsParticipating;
 }

@@ -16,4 +16,5 @@ public class UserDTO {
     private String gender;
     private Rol rol;
     private List<String> eventsParticipating;
+    private String villageId;
 }

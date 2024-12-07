@@ -27,6 +27,7 @@ public class UserDataLoader {
                     .age(40)
                     .gender("M")
                     .rol(Rol.ADMIN)
+                    .villageId("1")
                     .eventsParticipating(Arrays.asList("Evento1", "Evento2"))
                     .build();
 
