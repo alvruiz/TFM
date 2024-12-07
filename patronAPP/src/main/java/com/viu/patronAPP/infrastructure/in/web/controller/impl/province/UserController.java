@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.in.web.controller.impl.user;
+package com.viu.patronAPP.infrastructure.in.web.controller.impl.province;
 
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +9,7 @@ public interface UserController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email);
+
     @PostMapping("/")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO);
 

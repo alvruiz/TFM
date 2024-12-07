@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.in.web.controller.impl.user.impl;
+package com.viu.patronAPP.infrastructure.in.web.controller.impl.province.impl;
 
 import com.viu.patronAPP.application.services.ProvinceServiceImpl;
 import com.viu.patronAPP.domain.model.Province;
