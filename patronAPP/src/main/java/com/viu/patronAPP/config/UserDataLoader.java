@@ -21,9 +21,10 @@ public class UserDataLoader {
 
             // Crear usuarios usando Builder
             UserEntity admin = UserEntity.builder()
-                    .name("Administrador")
-                    .surname("Pérez")
-                    .email("admin@ejemplo.com")
+                    .name("admin")
+                    .surname("admin")
+                    .email("admin@admin.com")
+                    .password("$2a$12$Rt41qKjNvAa4y386V2/zZu.n5f2IhQ5LyNnd4DpPn.XyEO8Rh6hHu")
                     .age(40)
                     .gender("M")
                     .rol(Rol.ADMIN)
@@ -34,6 +35,7 @@ public class UserDataLoader {
             UserEntity user1 = UserEntity.builder()
                     .name("Carlos")
                     .surname("García")
+                    .password("carlos")
                     .email("carlos.garcia@ejemplo.com")
                     .age(29)
                     .gender("M")
@@ -44,6 +46,7 @@ public class UserDataLoader {
             UserEntity user2 = UserEntity.builder()
                     .name("María")
                     .surname("López")
+                    .password("maria")
                     .email("maria.lopez@ejemplo.com")
                     .age(32)
                     .gender("F")
@@ -54,6 +57,7 @@ public class UserDataLoader {
             UserEntity user3 = UserEntity.builder()
                     .name("Lucía")
                     .surname("Martínez")
+                    .password("luca")
                     .email("lucia.martinez@ejemplo.com")
                     .age(25)
                     .gender("F")
@@ -64,6 +68,7 @@ public class UserDataLoader {
             UserEntity user4 = UserEntity.builder()
                     .name("Javier")
                     .surname("Fernández")
+                    .password("javi")
                     .email("javier.fernandez@ejemplo.com")
                     .age(35)
                     .gender("M")
@@ -71,7 +76,6 @@ public class UserDataLoader {
                     .eventsParticipating(Arrays.asList("Evento1", "Evento3"))
                     .build();
 
-            // Guardar usuarios en la base de datos
             List<UserEntity> users = Arrays.asList(admin, user1, user2, user3, user4);
             userRepository.saveAll(users);
 
