@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Box, TextField, Button, Typography, Select, MenuItem, InputLabel, FormControl, FormHelperText } from '@mui/material';
+import { Box, FormHelperText, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import Grid from "@mui/material/Grid2";
+import {
+    Root,
+    ImageContainer,
+    VideoBackground,
+    LoginContainer,
+    Title,
+    Subtitle,
+    StyledButton,
+    StyledTextField,
+    FormControlStyled,
+    ToggleButton
+} from './LoginSignInPageStyles';
 import colors from '../../utils/colors';
-import styles from './styles';
-
 
 const LoginSignInPage = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -97,38 +107,37 @@ const LoginSignInPage = () => {
     };
 
     return (
-        <Box sx={styles.root}>
+        <Root>
             <Grid container sx={{ maxHeight: '100vh', minWidth: '100vw' }}>
                 {/* Columna del Video */}
                 <Grid size={{ xs: 12, md: 7 }} sx={{ height: '100vh', position: 'relative' }}>
-                    <Box sx={styles.imageContainer}>
-                        <video autoPlay loop muted style={styles.videoBackground}>
+                    <ImageContainer>
+                        <VideoBackground autoPlay loop muted>
                             <source src="/videos/portada.mp4" type="video/mp4" />
                             Tu navegador no soporta el elemento de video.
-                        </video>
-                    </Box>
+                        </VideoBackground>
+                    </ImageContainer>
                     {/* Texto encima de la imagen */}
-                    <Box sx={styles.imageContainer}>
+                    <ImageContainer>
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                            <Typography sx={{ ...styles.title2, marginRight: '8px' }}>Hola!</Typography>
-                            <Typography className='typewriter thick' sx={styles.title2}></Typography>
-                        </Box>
+                            <Typography sx={{ fontSize: '2.5rem', fontWeight: 'bold', marginRight: '8px' }}>Hola!</Typography>
+                            <Typography className="typewriter" sx={{ fontSize: '2.5rem', fontWeight: 'bold', marginRight: '8px' }}></Typography>
 
-                        <Typography sx={styles.subtitle}>¿Nos vamos de fiesta a algún pueblo de España?</Typography>
-                    </Box>
+                        </Box>
+                        <Subtitle>¿Nos vamos de fiesta a algún pueblo de España?</Subtitle>
+                    </ImageContainer>
                 </Grid>
 
                 {/* Columna del Formulario */}
                 <Grid size={{ xs: 12, md: 5 }} sx={{ maxHeight: '100vh' }}>
-                    <Box sx={styles.loginContainer}>
-                        <Typography variant="h5" align="center" sx={styles.title}>
+                    <LoginContainer>
+                        <Title align="center">
                             {isLogin ? 'Iniciar sesión' : 'Registrarse'}
-                        </Typography>
+                        </Title>
                         <form onSubmit={handleFormSubmit}>
                             {!isLogin && (
                                 <>
-                                    <TextField
-                                        sx={{ marginBottom: 2, '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: colors.textDark }, '& .MuiInputLabel-root.Mui-focused': { color: colors.textDark } }}
+                                    <StyledTextField
                                         label="Nombre"
                                         variant="outlined"
                                         fullWidth
@@ -139,8 +148,7 @@ const LoginSignInPage = () => {
                                         error={!!errors.name}
                                         helperText={errors.name}
                                     />
-                                    <TextField
-                                        sx={{ marginBottom: 2, '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: colors.textDark }, '& .MuiInputLabel-root.Mui-focused': { color: colors.textDark } }}
+                                    <StyledTextField
                                         label="Apellidos"
                                         variant="outlined"
                                         fullWidth
@@ -153,8 +161,7 @@ const LoginSignInPage = () => {
                                     />
                                 </>
                             )}
-                            <TextField
-                                sx={{ marginBottom: 2, '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: colors.textDark }, '& .MuiInputLabel-root.Mui-focused': { color: colors.textDark } }}
+                            <StyledTextField
                                 label="Correo electrónico"
                                 variant="outlined"
                                 fullWidth
@@ -165,8 +172,7 @@ const LoginSignInPage = () => {
                                 error={!!errors.email}
                                 helperText={errors.email}
                             />
-                            <TextField
-                                sx={{ marginBottom: 2, '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: colors.textDark }, '& .MuiInputLabel-root.Mui-focused': { color: colors.textDark } }}
+                            <StyledTextField
                                 label="Contraseña"
                                 variant="outlined"
                                 type="password"
@@ -179,8 +185,7 @@ const LoginSignInPage = () => {
                                 helperText={errors.password}
                             />
                             {!isLogin && (
-                                <TextField
-                                    sx={{ marginBottom: 2, '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: colors.textDark }, '& .MuiInputLabel-root.Mui-focused': { color: colors.textDark } }}
+                                <StyledTextField
                                     label="Confirmar Contraseña"
                                     variant="outlined"
                                     type="password"
@@ -195,8 +200,7 @@ const LoginSignInPage = () => {
                             )}
                             {!isLogin && (
                                 <>
-                                    <TextField
-                                        sx={{ marginBottom: 2, '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: colors.textDark }, '& .MuiInputLabel-root.Mui-focused': { color: colors.textDark } }}
+                                    <StyledTextField
                                         label="Edad"
                                         variant="outlined"
                                         type="number"
@@ -208,7 +212,7 @@ const LoginSignInPage = () => {
                                         error={!!errors.age}
                                         helperText={errors.age}
                                     />
-                                    <FormControl sx={styles.formControl} fullWidth>
+                                    <FormControlStyled fullWidth>
                                         <InputLabel>Sexo</InputLabel>
                                         <Select
                                             name="gender"
@@ -223,62 +227,34 @@ const LoginSignInPage = () => {
                                             <MenuItem value="other">Otro</MenuItem>
                                         </Select>
                                         <FormHelperText>{errors.gender}</FormHelperText>
-                                    </FormControl>
+                                    </FormControlStyled>
                                 </>
                             )}
-                            <Button variant="contained" fullWidth type="submit" size="small" sx={{ backgroundColor: colors.textDark, '&:hover': { backgroundColor: colors.secondary, color: colors.textDark, borderColor: colors.textDark } }}>
+                            <StyledButton variant="contained" fullWidth type="submit">
                                 {isLogin ? 'Iniciar sesión' : 'Registrarse'}
-                            </Button>
+                            </StyledButton>
                         </form>
                         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
                             {isLogin && (
-                                <Button sx={{
-                                    ...styles.toggleButton,
-                                    '&:hover': {
-                                        color: colors.secondary,
-                                        backgroundColor: colors.backgroundLight,
-                                    },
-                                }} fullWidth variant="text" color="primary">
+                                <ToggleButton fullWidth variant="text" color="primary">
                                     ¿Olvidaste la contraseña?
-                                </Button>
+                                </ToggleButton>
                             )}
-                            {!isLogin &&
-                                <Button
-                                    sx={{
-                                        ...styles.toggleButton,
-                                        '&:hover': {
-                                            color: colors.secondary,
-                                            backgroundColor: colors.backgroundLight,
-                                        }
-                                    }}
-                                    fullWidth
-                                    variant="text"
-                                    color="primary"
-                                    onClick={() => setIsLogin(!isLogin)}
-                                >
+                            {!isLogin && (
+                                <ToggleButton fullWidth variant="text" color="primary" onClick={() => setIsLogin(!isLogin)}>
                                     ¿Ya tienes cuenta? Inicia sesión
-                                </Button>
-                            }
-                            {isLogin && <Button
-                                sx={{
-                                    ...styles.toggleButton,
-                                    '&:hover': {
-                                        color: colors.secondary,
-                                        backgroundColor: colors.backgroundLight,
-                                    }
-                                }}
-                                fullWidth
-                                variant="text"
-                                color="primary"
-                                onClick={() => setIsLogin(!isLogin)}
-                            >
-                                ¿No tienes cuenta? Regístrate'
-                            </Button>}
+                                </ToggleButton>
+                            )}
+                            {isLogin && (
+                                <ToggleButton fullWidth variant="text" color="primary" onClick={() => setIsLogin(!isLogin)}>
+                                    ¿No tienes cuenta? Regístrate
+                                </ToggleButton>
+                            )}
                         </Box>
-                    </Box>
+                    </LoginContainer>
                 </Grid>
             </Grid>
-        </Box >
+        </Root>
     );
 };
 
