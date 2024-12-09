@@ -15,7 +15,7 @@
       "isolatedModules": true,
       "jsx": "react-jsx"
     },
-    "include": ["src/components", "custom.d.ts"],
+    "include": ["src/components", "custom.d.ts", "src/stores"],
     "exclude": [
       "node_modules"
     ]

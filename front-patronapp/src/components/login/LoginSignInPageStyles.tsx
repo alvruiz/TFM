@@ -1,11 +1,13 @@
 // LoginSignInPageStyles.ts
 import styled from 'styled-components';
-import { Box, Button, TextField, Typography, FormControl, Select, InputLabel, MenuItem, FormHelperText } from '@mui/material';
+import { Box, Button, TextField, Typography, FormControl } from '@mui/material';
 import colors from '../../utils/colors';
 
 export const Root = styled(Box)`
   display: flex;
   flex-direction: row;
+     boxSizing: 'border-box';
+
 `;
 
 export const ImageContainer = styled(Box)`
@@ -20,24 +22,34 @@ export const ImageContainer = styled(Box)`
   color: white;
   opacity: 0.9;
   z-index: 1;
+  width: 100%;
+  overflow:hidden;
 `;
 
 export const VideoBackground = styled.video`
-  width: 100%;
-  object-fit: cover;
-  height: 100vh;
+
+  height: 100vh;  /* Fija la altura del video a la altura del contenedor */
+  width: 100%
+  object-fit: fill;  /* El video cubre el contenedor sin perder la proporción, recortando el exceso */
+  overflow: hidden;  /* Oculta el contenido de la imagen que no se puede mostrar en el video */
+
 `;
 
 export const LoginContainer = styled(Box)`
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 8%;
+  padding-right: 8%;
+  box-sizing: content-box; 
+  overflow-y: auto;
+  min-height: 100%;
   background-color: rgba(246, 232, 214, 0.9);
   display: flex;
   flex-direction: column;
+  gap: 12px;
   justify-content: center;
   z-index: 1;
-  height: 100vh;
 `;
+
+
 
 export const Title = styled(Typography)`
   color: ${colors.textDark};
@@ -61,7 +73,7 @@ export const StyledButton = styled(Button)`
 `;
 
 export const StyledTextField = styled(TextField)`
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   & .MuiOutlinedInput-root.Mui-focused fieldset {
     border-color: ${colors.textDark};
   }
@@ -71,7 +83,6 @@ export const StyledTextField = styled(TextField)`
 `;
 
 export const FormControlStyled = styled(FormControl)`
-  margin-bottom: 16px;
 `;
 
 export const ToggleButton = styled(Button)`
