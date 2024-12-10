@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.in.web.controller.impl.province;
+package com.viu.patronAPP.infrastructure.in.web.controller.impl.user;
 
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;

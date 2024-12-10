@@ -3,7 +3,7 @@ package com.viu.patronAPP.infrastructure.in.web.controller.impl.user.impl;
 import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.ports.in.UserUseCasesPort;
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
-import com.viu.patronAPP.infrastructure.in.web.controller.impl.province.UserController;
+import com.viu.patronAPP.infrastructure.in.web.controller.impl.user.UserController;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

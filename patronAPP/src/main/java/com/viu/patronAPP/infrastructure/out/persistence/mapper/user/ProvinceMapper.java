@@ -13,6 +13,7 @@ public class ProvinceMapper {
                 .name(province.getName())
                 .coords(province.getCoords())
                 .imageUrl(province.getImage())
+                .autonomousCommunity(province.getAutonomousCommunity())
                 .build();
     }
 
@@ -22,6 +23,7 @@ public class ProvinceMapper {
                 .name(provinceEntity.getName())
                 .coords(provinceEntity.getCoords())
                 .image(provinceEntity.getImageUrl())
+                .autonomousCommunity(provinceEntity.getAutonomousCommunity())
                 .build();
     }
 }

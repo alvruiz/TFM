@@ -1,4 +1,3 @@
-// LoginSignInPageStyles.ts
 import styled from 'styled-components';
 import { Box, Button, TextField, Typography, FormControl } from '@mui/material';
 import colors from '../../utils/colors';
@@ -28,10 +27,10 @@ export const ImageContainer = styled(Box)`
 
 export const VideoBackground = styled.video`
 
-  height: 100vh;  /* Fija la altura del video a la altura del contenedor */
+  height: 100vh;  
   width: 100%
-  object-fit: fill;  /* El video cubre el contenedor sin perder la proporción, recortando el exceso */
-  overflow: hidden;  /* Oculta el contenido de la imagen que no se puede mostrar en el video */
+  object-fit: fill;  
+  overflow: hidden;  
 
 `;
 

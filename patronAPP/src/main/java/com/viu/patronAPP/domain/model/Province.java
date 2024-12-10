@@ -10,4 +10,5 @@ public class Province {
     private String name;
     private Coords coords;
     private String image;
+    private String autonomousCommunity;
 }

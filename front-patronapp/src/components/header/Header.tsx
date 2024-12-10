@@ -1,28 +1,25 @@
 import React from "react";
-import {
-    Stack,
-    Button,
-    Toolbar,
-    Container,
-    AppBar,
-} from "@mui/material";
-import { Person } from '@mui/icons-material';  // Importar el ícono
+import { Stack, Button, Toolbar, Container, AppBar } from "@mui/material";
+import { Person } from '@mui/icons-material';
 import colors from "../../utils/colors";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-    const navigate = useNavigate(); // Crea la función de navegación
+    const navigate = useNavigate();
 
     return (
-        <AppBar sx={{ backgroundColor: colors.backgroundLight, color: colors.textDark }}>
+        <AppBar
+            position="sticky"
+            sx={{
+                backgroundColor: colors.backgroundLight,
+                color: colors.textDark,
+                boxShadow: 3,
+                zIndex: 1300,
+            }}
+        >
             <Container sx={{ margin: 0, width: '100%' }} maxWidth={false}>
-                <Toolbar>
-                    <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        width="100%"
-                    >
+                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Stack direction="row" alignItems="center">
                         {/* Logo */}
                         <img
                             src="/logoConTexto.png"
@@ -30,25 +27,27 @@ const Header = () => {
                             style={{ height: '50px', transition: 'transform 0.3s ease, opacity 0.3s ease' }}
                             className="logo"
                         />
-                        <Stack direction="row" gap={3} justifyContent="flex-end" width="auto">
-                            <Button
-                                variant="contained"
-                                sx={{
-                                    backgroundColor: colors.textDark,
-                                    '&:hover': {
-                                        backgroundColor: colors.secondary,
-                                        color: colors.textDark,
-                                    },
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}
-                                onClick={() => navigate('/signInLogIn')}
-                            >
-                                {/* Ícono de persona */}
-                                <Person sx={{ marginRight: 1 }} /> {/* El margen derecho es opcional */}
-                                Iniciar sesión
-                            </Button>
-                        </Stack>
+                    </Stack>
+
+                    <Stack direction="row" gap={3} alignItems="center">
+                        {/* Botón de Iniciar sesión */}
+                        <Button
+                            variant="contained"
+                            sx={{
+                                backgroundColor: colors.textDark,
+                                '&:hover': {
+                                    backgroundColor: colors.secondary,
+                                    color: colors.textDark,
+                                },
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                            onClick={() => navigate('/signInLogIn')}
+                        >
+                            {/* Ícono de persona */}
+                            <Person sx={{ marginRight: 1 }} />
+                            Iniciar sesión
+                        </Button>
                     </Stack>
                 </Toolbar>
             </Container>

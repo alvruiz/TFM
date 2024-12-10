@@ -7,6 +7,8 @@ import com.viu.patronAPP.infrastructure.DTO.event.SubscribeDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.event.EventController;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,9 +18,9 @@ public class EventControllerImpl implements EventController {
 
     private final EventUseCasesPort eventUseCasesPort;
 
-
     @Override
     public ResponseEntity<EventDTO> createEvent(EventDTO eventDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Event event = Event.builder()
                 .name(eventDTO.getEventName())
                 .description(eventDTO.getEventDescription())

@@ -1,3 +1,9 @@
 export interface Province {
-    id: number;
+    name: string,
+    coords: {
+        latitude: string,
+        longitude: string
+    },
+    image: string
+    autonomousCommunity: string
 }

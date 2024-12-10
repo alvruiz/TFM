@@ -3,7 +3,7 @@ package com.viu.patronAPP.infrastructure.in.web.controller.impl.province.impl;
 import com.viu.patronAPP.application.services.ProvinceServiceImpl;
 import com.viu.patronAPP.domain.model.Province;
 import com.viu.patronAPP.domain.model.Village;
-import com.viu.patronAPP.infrastructure.in.web.controller.impl.user.ProvinceController;
+import com.viu.patronAPP.infrastructure.in.web.controller.impl.province.ProvinceController;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

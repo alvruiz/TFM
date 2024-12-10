@@ -15,4 +15,5 @@ public class ProvinceEntity {
     private String name;
     private Coords coords;
     private String imageUrl;
+    private String autonomousCommunity;
 }

@@ -24,7 +24,7 @@ public class WebSecurityConfig {
             "/v3/api-docs*/**",
             "/swagger-ui/**",
             "/authenticate",
-            "/province/**",
+            "/provinces/**",
             "/user/**",
 
     };

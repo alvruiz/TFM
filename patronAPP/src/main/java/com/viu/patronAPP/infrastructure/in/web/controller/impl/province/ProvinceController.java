@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.in.web.controller.impl.user;
+package com.viu.patronAPP.infrastructure.in.web.controller.impl.province;
 
 import com.viu.patronAPP.domain.model.Province;
 import com.viu.patronAPP.domain.model.Village;
@@ -7,13 +7,14 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping("/province")
+@RequestMapping(value = "/provinces", produces = "application/json")
 @Tag(name = "Province", description = "Operations related to provinces and villages.")
 public interface ProvinceController {
 
@@ -26,6 +27,7 @@ public interface ProvinceController {
             }
     )
     @GetMapping("/")
+    @CrossOrigin
     public ResponseEntity<List<Province>> getProvinces();
 
     @Operation(
@@ -38,6 +40,7 @@ public interface ProvinceController {
             }
     )
     @GetMapping("/{provinceId}")
+    @CrossOrigin
     public ResponseEntity<List<Village>> getVillagesbyProvince(
             @PathVariable @Parameter(description = "ID of the province to retrieve villages for") String provinceId
     );

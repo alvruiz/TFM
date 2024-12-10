@@ -1,15 +1,15 @@
 import { create } from 'zustand';
-import axios from 'axios';
 import { Province } from '../model/Province';
-interface ProvinciaStore {
-    provincias: Province[];
+import { getProvinces } from '../services/get-provinces';
+interface ProvinceStore {
+    provinces: Province[];
     isLoading: boolean;
     error: string | null;
     getProvinces: () => Promise<void>;
 }
 
-const useProvinciaStore = create<ProvinciaStore>((set) => ({
-    provincias: [],
+const useProvinceStore = create<ProvinceStore>((set) => ({
+    provinces: [],
     isLoading: false,
     error: null,
 
@@ -17,12 +17,12 @@ const useProvinciaStore = create<ProvinciaStore>((set) => ({
         set({ isLoading: true, error: null });
 
         try {
-            const response = await axios.get<Province[]>('https://api.example.com/provincias'); // Reemplaza con tu API
-            set({ provincias: response.data, isLoading: false });
+            const response = await getProvinces();
+            set({ provinces: response, isLoading: false });
         } catch (error) {
             set({ error: 'Error al obtener las provincias', isLoading: false });
         }
     },
 }));
 
-export default useProvinciaStore;
+export default useProvinceStore;
