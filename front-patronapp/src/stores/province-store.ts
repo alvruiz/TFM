@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Province } from '../model/Province';
-import { getProvinces } from '../services/get-provinces';
+import { getProvinces } from '../services/get-provinces.service';
 interface ProvinceStore {
     provinces: Province[];
     isLoading: boolean;

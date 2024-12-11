@@ -1,6 +1,7 @@
 package com.viu.patronAPP.infrastructure.in.web.controller.impl.user;
 
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
+import com.viu.patronAPP.infrastructure.DTO.user.UserLoginDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,4 +38,16 @@ public interface UserController {
     public ResponseEntity<UserDTO> createUser(
             @RequestBody @Parameter(description = "User details to be created") UserDTO userDTO
     );
+
+    @Operation(
+            summary = "Login user",
+            description = "This endpoint allows you to login a user by providing the email and password.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User logged in successfully"),
+                    @ApiResponse(responseCode = "404", description = "Bad credentials")
+            }
+    )
+    @PostMapping("/login")
+    @CrossOrigin
+    public ResponseEntity<UserDTO> login(@RequestBody @Parameter(description = "User login details") UserLoginDTO userLoginDTO);
 }

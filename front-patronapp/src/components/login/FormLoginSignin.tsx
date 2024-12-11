@@ -13,9 +13,13 @@ import {
     FormControlStyled,
     ToggleButton
 } from './LoginSignInPageStyles';
-
+import { login } from '../../services/login.service';
+import { useNavigate } from 'react-router-dom';
+import useUserStore from '../../stores/user-store';
 const LoginSignInPage = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const { user, isLoading } = useUserStore();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -58,7 +62,7 @@ const LoginSignInPage = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleFormSubmit = (e: React.FormEvent) => {
+    const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const newErrors = { ...errors };
 
@@ -71,12 +75,13 @@ const LoginSignInPage = () => {
         }
 
         // Validación de la contraseña
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const passwordRegex = /^.{8,}$/;  // La contraseña debe tener al menos 8 caracteres
         if (formData.password.length < 8 || !passwordRegex.test(formData.password)) {
-            newErrors.password = 'La contraseña debe tener al menos 8 caracteres, incluyendo letras y números.';
+            newErrors.password = 'La contraseña debe tener al menos 8 caracteres.';
         } else {
             newErrors.password = '';
         }
+
 
         // Si hay errores, no enviamos el formulario
         if (Object.values(newErrors).some(error => error !== '')) {
@@ -86,6 +91,10 @@ const LoginSignInPage = () => {
 
         // Si no hay errores, procedemos con el envío del formulario
         if (isLogin) {
+            const result = await login(formData.email, formData.password);
+            if (result) {
+                navigate('/')
+            }
             console.log('Iniciar sesión con:', formData.email, formData.password);
         } else {
             console.log('Registro con:', formData);
@@ -203,7 +212,7 @@ const LoginSignInPage = () => {
                                         </FormControlStyled>
                                     </>
                                 )}
-                                <StyledButton variant="contained" fullWidth type="submit">
+                                <StyledButton variant="contained" fullWidth type="submit" >
                                     {isLogin ? 'Iniciar sesión' : 'Registrarse'}
                                 </StyledButton>
                             </form>
@@ -234,3 +243,4 @@ const LoginSignInPage = () => {
 };
 
 export default LoginSignInPage;
+

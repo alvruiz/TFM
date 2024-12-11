@@ -1,12 +1,13 @@
 import React from "react";
 import { Stack, Button, Toolbar, Container, AppBar } from "@mui/material";
-import { Person } from '@mui/icons-material';
+import { Logout, Person } from '@mui/icons-material';
 import colors from "../../utils/colors";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../../stores/user-store";
 
 const Header = () => {
     const navigate = useNavigate();
-
+    const { user } = useUserStore();
     return (
         <AppBar
             position="sticky"
@@ -30,24 +31,38 @@ const Header = () => {
                     </Stack>
 
                     <Stack direction="row" gap={3} alignItems="center">
-                        {/* Botón de Iniciar sesión */}
-                        <Button
-                            variant="contained"
-                            sx={{
-                                backgroundColor: colors.textDark,
-                                '&:hover': {
-                                    backgroundColor: colors.secondary,
-                                    color: colors.textDark,
+                        {/* Botón de Iniciar sesión solo si no está logueado */}
+                        {user ? (
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: colors.textDark,
+                                    '&:hover': {
+                                        backgroundColor: colors.secondary,
+                                        color: colors.textDark,
+                                    },
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                                onClick={() => navigate('/signInLogIn')}
+                            >
+                                {/* Ícono de persona */}
+                                <Person sx={{ marginRight: 1 }} />
+                                Iniciar sesión
+                            </Button>) :
+                            <Button sx={{
+                                color: colors.textDark, backgroundColor: colors.secondary, '&:hover': {
+                                    backgroundColor: colors.primary,
+                                    color: colors.secondary,
                                 },
                                 display: 'flex',
                                 alignItems: 'center',
-                            }}
-                            onClick={() => navigate('/signInLogIn')}
-                        >
-                            {/* Ícono de persona */}
-                            <Person sx={{ marginRight: 1 }} />
-                            Iniciar sesión
-                        </Button>
+                            }} onClick={() => navigate('/signInLogIn')}>
+                                <Logout sx={{ marginRight: 1 }}></Logout>
+                                Cerrar sesión
+
+                            </Button>}
+
                     </Stack>
                 </Toolbar>
             </Container>
