@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../configuration/config";
 import { User } from '../model/User';
 
-export const register = async (name: string, surname: string, email: string, password: string, age: string, gender: string): Promise<User> => {
+export const register = async (name: string, surname: string, email: string, password: string, age: string, gender: string, imageUrl: string): Promise<User> => {
     try {
         const response = await axios.post(`${API_BASE_URL}/user`, {
             name,
@@ -11,7 +11,8 @@ export const register = async (name: string, surname: string, email: string, pas
             age,
             gender,
             email,
-            password
+            password,
+            imageUrl
         }, {
             headers: {
                 'Accept': 'application/json',

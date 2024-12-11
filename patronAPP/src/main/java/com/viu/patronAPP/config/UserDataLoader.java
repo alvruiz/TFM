@@ -28,6 +28,7 @@ public class UserDataLoader {
                     .age(40)
                     .gender("M")
                     .rol(Rol.ADMIN)
+                    .imageUrl("https://static.vecteezy.com/system/resources/previews/020/429/953/non_2x/admin-icon-vector.jpg")
                     .villageId("1")
                     .eventsParticipating(Arrays.asList("Evento1", "Evento2"))
                     .build();
@@ -35,6 +36,7 @@ public class UserDataLoader {
             UserEntity user1 = UserEntity.builder()
                     .name("Carlos")
                     .surname("García")
+                    .imageUrl("https://st3.depositphotos.com/12985790/15794/i/450/depositphotos_157947226-stock-photo-man-looking-at-camera.jpg")
                     .password("$2a$12$yEqw.B7oQ4tE5X0BL7eV4.IykONqjXJ4SKbA0YO1Lmcg9JeEoQ2K6")
                     .email("carlos.garcia@ejemplo.com")
                     .age(29)
@@ -46,6 +48,7 @@ public class UserDataLoader {
             UserEntity user2 = UserEntity.builder()
                     .name("María")
                     .surname("López")
+                    .imageUrl("https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png")
                     .password("$2a$12$do4Ri9bBOO7l4VgV62z7ruwXJl97NBjw01glJd0KwJzAyKmvHHajK")
                     .email("maria.lopez@ejemplo.com")
                     .age(32)
@@ -56,6 +59,8 @@ public class UserDataLoader {
 
             UserEntity user3 = UserEntity.builder()
                     .name("Lucía")
+                    .imageUrl("https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png")
+
                     .surname("Martínez")
                     .password("$2a$12$gsXsDs6Rz5mE75FjA4NKMz5yblfqqpp2sF1BHYhFl6gA1yn5shczS")
                     .email("lucia.martinez@ejemplo.com")
@@ -70,6 +75,7 @@ public class UserDataLoader {
                     .surname("Fernández")
                     .password("$2a$12$8gFOy0gy5GxwJqACJz9OguobebtZfi6nb/ugYYCHETv8qaERgEXWm")
                     .email("javier.fernandez@ejemplo.com")
+                    .imageUrl("https://us.123rf.com/450wm/vadymvdrobot/vadymvdrobot1803/vadymvdrobot180303722/97983403-foto-de-la-situaci%C3%B3n-alegre-del-hombre-joven-aislada-sobre-la-pared-blanca-del-fondo-mirando-la.jpg?ver=6")
                     .age(35)
                     .gender("M")
                     .rol(Rol.USER)

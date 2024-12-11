@@ -17,6 +17,6 @@ public class User {
     private String gender;
     private Rol rol;
     private String villageId;
-
+    private String imageUrl;
     private List<String> eventsParticipating;
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public static UserEntity mapUserDomainToEntity(User user){
+    public static UserEntity mapUserDomainToEntity(User user) {
         return UserEntity.builder()
                 .id(user.getId())
                 .name(user.getName())
@@ -19,10 +19,11 @@ public class UserMapper {
                 .gender(user.getGender())
                 .rol(user.getRol())
                 .eventsParticipating(user.getEventsParticipating())
+                .imageUrl(user.getImageUrl())
                 .build();
     }
 
-    public static User mapUserEntityToDomain(UserEntity userEntity){
+    public static User mapUserEntityToDomain(UserEntity userEntity) {
         return User.builder()
                 .id(userEntity.getId())
                 .name(userEntity.getName())
@@ -33,6 +34,7 @@ public class UserMapper {
                 .gender(userEntity.getGender())
                 .rol(userEntity.getRol())
                 .eventsParticipating(userEntity.getEventsParticipating())
+                .imageUrl(userEntity.getImageUrl())
                 .build();
     }
 }

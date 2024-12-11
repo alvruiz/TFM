@@ -20,7 +20,7 @@ import useUserStore from '../../stores/user-store';
 import { register } from '../../services/register.service';
 const LoginSignInPage = () => {
     const [isLogin, setIsLogin] = useState(true);
-    const { user, isLoading } = useUserStore();
+    const { user, isLoading, getUser } = useUserStore();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
@@ -29,6 +29,7 @@ const LoginSignInPage = () => {
         surname: '',
         age: '',
         gender: '',
+        imageUrl: '',
     });
 
     const [errors, setErrors] = useState({
@@ -38,6 +39,7 @@ const LoginSignInPage = () => {
         surname: '',
         age: '',
         gender: '',
+        imageUrl: '',
     });
 
     useEffect(() => {
@@ -48,6 +50,7 @@ const LoginSignInPage = () => {
             surname: '',
             age: '',
             gender: '',
+            imageUrl: '',
         });
         setErrors({
             email: '',
@@ -56,6 +59,7 @@ const LoginSignInPage = () => {
             surname: '',
             age: '',
             gender: '',
+            imageUrl: '',
         });
     }, [isLogin]);
 
@@ -93,13 +97,13 @@ const LoginSignInPage = () => {
 
         // Si no hay errores, procedemos con el envío del formulario
         if (isLogin) {
-            const result = await login(formData.email, formData.password);
+            const result = await getUser(formData.email, formData.password);
             if (result) {
                 navigate('/')
             }
             console.log('Iniciar sesión con:', formData.email, formData.password);
         } else {
-            const result = await register(formData.name, formData.surname, formData.email, formData.password, formData.age, formData.gender);
+            const result = await register(formData.name, formData.surname, formData.email, formData.password, formData.age, formData.gender, formData.imageUrl);
             if (result) {
                 navigate('/')
             }
@@ -186,8 +190,20 @@ const LoginSignInPage = () => {
                                     error={!!errors.password}
                                     helperText={errors.password}
                                 />
+
                                 {!isLogin && (
                                     <>
+                                        <StyledTextField
+                                            label="Url imagen de perfil"
+                                            variant="outlined"
+                                            fullWidth
+                                            name="imageUrl"
+                                            value={formData.imageUrl}
+                                            onChange={handleInputChange}
+                                            required
+                                            error={!!errors.imageUrl}
+                                            helperText={errors.imageUrl}
+                                        />
                                         <StyledTextField
                                             label="Edad"
                                             variant="outlined"

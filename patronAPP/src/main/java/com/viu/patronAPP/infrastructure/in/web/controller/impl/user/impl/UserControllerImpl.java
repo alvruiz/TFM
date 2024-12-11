@@ -25,6 +25,7 @@ public class UserControllerImpl implements UserController {
                 .age(user.getAge())
                 .gender(user.getGender())
                 .rol(user.getRol())
+                .imageUrl(user.getImageUrl())
                 .eventsParticipating(user.getEventsParticipating())
                 .build();
         return ResponseEntity.ok(userDTO);
@@ -39,6 +40,7 @@ public class UserControllerImpl implements UserController {
                 .age(userDTO.getAge())
                 .gender(userDTO.getGender())
                 .rol(userDTO.getRol())
+                .imageUrl(userDTO.getImageUrl())
                 .eventsParticipating(userDTO.getEventsParticipating())
                 .build();
         userService.createUser(user);
@@ -55,6 +57,7 @@ public class UserControllerImpl implements UserController {
                 .age(user.getAge())
                 .gender(user.getGender())
                 .rol(user.getRol())
+                .imageUrl(user.getImageUrl())
                 .eventsParticipating(user.getEventsParticipating())
                 .build();
         return ResponseEntity.ok(userDTO);

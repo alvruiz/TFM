@@ -3,6 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useProvinceStore from '../../stores/province-store';
 import { ClipLoader } from 'react-spinners';
+import colors from '../../utils/colors';
 
 const SpainMap = () => {
     const { provinces, isLoading } = useProvinceStore();
@@ -84,14 +85,28 @@ const SpainMap = () => {
                 // Función para agregar interactividad a cada provincia
                 function onEachFeature(feature, layer) {
                     const province = getProvinceByFeature(feature)
-
                     const popupContent = `
-                            <div style="text-align: center;">
-                                <h3><strong>${province.name}</strong></h3>
-                                <img src="${province.image}" alt="${feature.properties.name}" style="width: 100px; height: 100px; margin-bottom: 10px;" />
-                                <button id="verMasBtn-${feature.properties.name}">Fiestas patronales</button>
-                            </div>
-                        `;
+<div 
+    style="text-align: center; display: flex; justify-content: center; align-items: center; flex-direction: column; background-image: url('${province.image}'); background-size: cover; background-position: center; color: white; padding: 20px; width: 250px; height: 300px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"
+>
+    <div style="background-color: rgba(0, 0, 0, 0.7); border-radius: 10%; padding: 10px; margin-bottom: 10px;">
+        <h3 style="font-family: 'Roboto', sans-serif; color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); margin: 0;">
+            <strong>${province.name}</strong>
+        </h3>
+    </div>
+    <button 
+        id="verMasBtn-${feature.properties.name}" 
+        style="background-color: #F4A259; color: #6A4A3C; border: none; padding: 10px 20px; cursor: pointer; font-family: 'Roboto', sans-serif; text-transform: none; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); border-radius: 5px; text-align: center; transition: background-color 0.3s ease;"
+        onmouseover="this.style.backgroundColor='#4C3B29'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='#F4A259'; this.style.color='#6A4A3C';"
+    >
+        Fiestas patronales
+    </button>
+</div>
+
+                `;
+
+
                     layer.bindPopup(popupContent);
 
                     layer.on('popupopen', () => {
