@@ -32,7 +32,6 @@ const SpainMap = () => {
             }
         ).addTo(map);
 
-        // Esperar que el mapa esté completamente cargado antes de añadir el GeoJSON
         // Obtener el archivo GeoJSON de todas las provincias de España
         fetch(
             "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/spain-provinces.geojson"
@@ -62,10 +61,15 @@ const SpainMap = () => {
                     return communityColors[autonomousCommunity] || "#B0C4DE";
                 }
 
-                // Estilo para las provincias con colores de la paleta
-                function style(feature) {
+                function getProvinceByFeature(feature) {
                     const featureSpanish = feature.properties.name.includes("/") ? feature.properties.name.split("/")[1] : feature.properties.name;
                     const province = provinces.find(province => province.name === featureSpanish);
+                    return province;
+                }
+
+                // Estilo para las provincias con colores de la paleta
+                function style(feature) {
+                    const province = getProvinceByFeature(feature)
 
                     return {
                         fillColor: getColorByAutonomousCommunity(province?.autonomousCommunity || "#B0C4DE"),
@@ -79,12 +83,13 @@ const SpainMap = () => {
 
                 // Función para agregar interactividad a cada provincia
                 function onEachFeature(feature, layer) {
+                    const province = getProvinceByFeature(feature)
+
                     const popupContent = `
                             <div style="text-align: center;">
-                                <h3><strong>${feature.properties.name}</strong></h3>
-                                <img src="https://via.placeholder.com/150" alt="${feature.properties.name}" style="width: 100px; height: 100px; margin-bottom: 10px;" />
-                                <p>Información sobre la provincia de ${feature.properties.name}.</p>
-                                <button id="verMasBtn-${feature.properties.name}">Ver más</button>
+                                <h3><strong>${province.name}</strong></h3>
+                                <img src="${province.image}" alt="${feature.properties.name}" style="width: 100px; height: 100px; margin-bottom: 10px;" />
+                                <button id="verMasBtn-${feature.properties.name}">Fiestas patronales</button>
                             </div>
                         `;
                     layer.bindPopup(popupContent);
@@ -130,7 +135,7 @@ const SpainMap = () => {
     }, [provinces]);
 
     return (
-        <div>
+        <>
             {isLoading ? (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                     <ClipLoader color="#6A4A3C" loading={isLoading} size={70} />
@@ -138,7 +143,7 @@ const SpainMap = () => {
             ) : (
                 <div id="map" style={{ height: "100vh", width: "100%" }}></div>
             )}
-        </div>
+        </>
     );
 };
 

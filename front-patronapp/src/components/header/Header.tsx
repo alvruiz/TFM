@@ -10,7 +10,7 @@ const Header = () => {
     const { user } = useUserStore();
     return (
         <AppBar
-            position="sticky"
+            position="relative"
             sx={{
                 backgroundColor: colors.backgroundLight,
                 color: colors.textDark,

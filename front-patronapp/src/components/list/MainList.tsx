@@ -20,11 +20,7 @@ const MainList = () => {
             <Root>
                 <Header></Header>
 
-                <Grid container>
-                    <Grid size={{ xs: 12, md: 12 }} sx={{ position: 'relative', backgroundColor: 'rgba(246, 232, 214, 0.9)' }}>
-                        <SpainMap></SpainMap>
-                    </Grid>
-                </Grid>
+                <SpainMap></SpainMap>
             </Root>
         </StyledEngineProvider>
     );
