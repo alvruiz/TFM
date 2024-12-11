@@ -1,4 +1,5 @@
 export interface Province {
+    id: string,
     name: string,
     coords: {
         latitude: string,

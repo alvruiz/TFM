@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Stack, Button, Toolbar, Container, AppBar, Avatar } from "@mui/material";
+import { Stack, Button, Toolbar, Container, AppBar, Avatar, IconButton } from "@mui/material";
 import { Logout, Person } from '@mui/icons-material';
 import colors from "../../utils/colors";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +7,7 @@ import useUserStore from "../../stores/user-store";
 
 const Header = () => {
     const navigate = useNavigate();
-    const { user, logOut } = useUserStore(); // Obtener logOut del store
-    useEffect(() => {
-    }, [user]);
+    const { user, logOut } = useUserStore();
 
     const handleLogout = () => {
         logOut(); // Llamar a la función logOut del store
@@ -26,60 +24,76 @@ const Header = () => {
                 zIndex: 1300,
             }}
         >
-            <Container sx={{ margin: 0, width: '100%' }} maxWidth={false}>
-                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Stack direction="row" alignItems="center">
-                        {/* Logo */}
-                        <img
-                            src="/logoConTexto.png"
-                            alt="Logo"
-                            style={{ height: '50px', transition: 'transform 0.3s ease, opacity 0.3s ease' }}
-                            className="logo"
-                            onClick={() => navigate('/')} // Redirigir al inicio al hacer clic en el logo
-                        />
-                    </Stack>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Stack direction="row" alignItems="center">
+                    {/* Logo */}
+                    <img
+                        src="/logoConTexto.png"
+                        alt="Logo"
+                        style={{ margin: "10px", height: '50px', transition: 'transform 0.3s ease, opacity 0.3s ease' }}
+                        className="logo"
+                        onClick={() => navigate('/')} // Redirigir al inicio al hacer clic en el logo
+                    />
+                </Stack>
 
-                    <Stack direction="row" gap={3} alignItems="center">
-                        {/* Botón de Iniciar sesión solo si no está logueado */}
-                        {!user ? (
+                <Stack direction="row" gap={3} alignItems="center">
+                    {/* Botón de Iniciar sesión solo si no está logueado */}
+                    {!user ? (
+                        <Button
+                            variant="contained"
+                            sx={{
+                                backgroundColor: colors.textDark,
+                                '&:hover': {
+                                    backgroundColor: colors.secondary,
+                                    color: colors.textDark,
+                                },
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                            onClick={() => navigate('/signInLogIn')}
+                        >
+                            <Person sx={{ marginRight: 1 }} />
+                            Iniciar sesión
+                        </Button>
+                    ) : (
+                        <>
+                            <ProfileCircle imageUrl={user.imageUrl} altText={user.name} />
+                            {/* Mostrar solo el icono en pantallas pequeñas */}
                             <Button
-                                variant="contained"
                                 sx={{
-                                    backgroundColor: colors.textDark,
+                                    display: { xs: 'none', sm: 'flex' }, // Ocultar en pantallas pequeñas
+                                    color: colors.textDark,
+                                    backgroundColor: colors.secondary,
                                     '&:hover': {
-                                        backgroundColor: colors.secondary,
-                                        color: colors.textDark,
+                                        backgroundColor: colors.primary,
+                                        color: colors.secondary,
                                     },
-                                    display: 'flex',
                                     alignItems: 'center',
+                                    whiteSpace: 'nowrap',
                                 }}
-                                onClick={() => navigate('/signInLogIn')}
+                                onClick={handleLogout}
                             >
-                                <Person sx={{ marginRight: 1 }} />
-                                Iniciar sesión
-                            </Button>) :
-                            <>
-                                <ProfileCircle imageUrl={user.imageUrl} altText={user.name} />
-                                <Button
-                                    sx={{
-                                        color: colors.textDark, backgroundColor: colors.secondary, '&:hover': {
-                                            backgroundColor: colors.primary,
-                                            color: colors.secondary,
-                                        },
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                    }}
-                                    onClick={handleLogout} // Llamar al handleLogout para cerrar sesión
-                                >
-                                    <Logout sx={{ marginRight: 1 }} />
-                                    Cerrar sesión
-                                </Button>
-                            </>
-                        }
-
-                    </Stack>
-                </Toolbar>
-            </Container>
+                                <Logout sx={{ marginRight: 1 }} />
+                                Cerrar sesión
+                            </Button>
+                            <IconButton
+                                sx={{
+                                    display: { xs: 'flex', sm: 'none' },
+                                    color: colors.textDark,
+                                    backgroundColor: colors.secondary,
+                                    '&:hover': {
+                                        backgroundColor: colors.primary,
+                                        color: colors.secondary,
+                                    },
+                                }}
+                                onClick={handleLogout}
+                            >
+                                <Logout />
+                            </IconButton>
+                        </>
+                    )}
+                </Stack>
+            </Toolbar>
         </AppBar>
     );
 };
