@@ -4,7 +4,7 @@ import { API_BASE_URL } from '../configuration/config';
 
 export const getProvinces = async (): Promise<Province[]> => {
     try {
-        const response = await axios.get<Province[]>(`${API_BASE_URL}/provinces/`, {
+        const response = await axios.get<Province[]>(`${API_BASE_URL}/provinces`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Box, Button, TextField, Typography, FormControl } from '@mui/material';
+import { Box, Button, TextField, Typography, FormControl, Select } from '@mui/material';
 import colors from '../../utils/colors';
 
 export const Root = styled(Box)`
@@ -89,5 +89,26 @@ export const ToggleButton = styled(Button)`
   &:hover {
     color: ${colors.secondary};
     background-color: ${colors.backgroundLight};
+  }
+`;
+export const StyledSelect = styled(Select)`
+  margin-bottom: 8px;
+
+  & .MuiOutlinedInput-root {
+    & .MuiOutlinedInput-notchedOutline {
+      border-color: ${colors.textDark}; /* Aplica el borde personalizado cuando no está enfocado */
+    }
+
+    &:hover .MuiOutlinedInput-notchedOutline {
+      border-color: blue; /* Aplica el borde personalizado al hacer hover */
+    }
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: green; /* Aplica el borde personalizado cuando está enfocado */
+    }
+  }
+
+  & .MuiInputLabel-root.Mui-focused {
+    color: ${colors.textDark}; /* Aplica el color de la etiqueta cuando está enfocado */
   }
 `;

@@ -26,7 +26,7 @@ public interface ProvinceController {
                     @ApiResponse(responseCode = "500", description = "Internal server error")
             }
     )
-    @GetMapping("/")
+    @GetMapping()
     @CrossOrigin
     public ResponseEntity<List<Province>> getProvinces();
 

@@ -11,11 +11,13 @@ import {
     StyledButton,
     StyledTextField,
     FormControlStyled,
-    ToggleButton
+    ToggleButton,
+    StyledSelect
 } from './LoginSignInPageStyles';
 import { login } from '../../services/login.service';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../stores/user-store';
+import { register } from '../../services/register.service';
 const LoginSignInPage = () => {
     const [isLogin, setIsLogin] = useState(true);
     const { user, isLoading } = useUserStore();
@@ -97,6 +99,10 @@ const LoginSignInPage = () => {
             }
             console.log('Iniciar sesión con:', formData.email, formData.password);
         } else {
+            const result = await register(formData.name, formData.surname, formData.email, formData.password, formData.age, formData.gender);
+            if (result) {
+                navigate('/')
+            }
             console.log('Registro con:', formData);
         }
     };
@@ -196,7 +202,7 @@ const LoginSignInPage = () => {
                                         />
                                         <FormControlStyled fullWidth>
                                             <InputLabel>Sexo</InputLabel>
-                                            <Select
+                                            <StyledSelect
                                                 name="gender"
                                                 value={formData.gender}
                                                 onChange={handleInputChange}
@@ -207,7 +213,7 @@ const LoginSignInPage = () => {
                                                 <MenuItem value="male">Hombre</MenuItem>
                                                 <MenuItem value="female">Mujer</MenuItem>
                                                 <MenuItem value="other">Otro</MenuItem>
-                                            </Select>
+                                            </StyledSelect>
                                             <FormHelperText>{errors.gender}</FormHelperText>
                                         </FormControlStyled>
                                     </>
@@ -243,4 +249,5 @@ const LoginSignInPage = () => {
 };
 
 export default LoginSignInPage;
+
 

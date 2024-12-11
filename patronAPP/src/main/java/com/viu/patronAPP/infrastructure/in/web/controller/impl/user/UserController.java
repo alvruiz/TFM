@@ -34,7 +34,8 @@ public interface UserController {
                     @ApiResponse(responseCode = "400", description = "Invalid input provided")
             }
     )
-    @PostMapping("/")
+    @PostMapping()
+    @CrossOrigin
     public ResponseEntity<UserDTO> createUser(
             @RequestBody @Parameter(description = "User details to be created") UserDTO userDTO
     );

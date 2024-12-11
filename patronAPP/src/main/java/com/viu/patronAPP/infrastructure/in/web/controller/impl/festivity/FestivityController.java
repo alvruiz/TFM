@@ -20,7 +20,7 @@ public interface FestivityController {
                     @ApiResponse(responseCode = "400", description = "Invalid input")
             }
     )
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<FestivityDTO> createFestivity(
             @RequestBody @Parameter(description = "Details of the festivity to be created") FestivityDTO festivityDTO
     );
