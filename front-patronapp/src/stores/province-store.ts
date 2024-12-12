@@ -12,7 +12,7 @@ interface ProvinceStore {
     isLoading: boolean;
     error: string | null;
     getProvinces: () => Promise<void>;
-    getVillages: (id: string) => Promise<void>;
+    getVillages: (id: string, page: number, itemsPerPage: number) => Promise<Village[]>;
     getFestivities: () => Promise<void>;
 }
 
@@ -34,13 +34,13 @@ const useProvinceStore = create<ProvinceStore>((set, get) => ({
             set({ error: 'Error al obtener las provincias', isLoading: false });
         }
     },
-    getVillages: async (id: string) => {
+    getVillages: async (id: string, page: number, itemsPerPage: number): Promise<Village[]> => {
         set({ isLoading: true, error: null });
         const actualProvince = get().provinces.find((province) => province.id === id);
-        console.log(actualProvince);
         try {
-            const response = await getVillages(id);
+            const response = await getVillages(id, page, itemsPerPage);
             set({ actualProvince: actualProvince, villages: response, isLoading: false });
+            return response;
         } catch (error) {
             set({ error: 'Error al obtener las villages', isLoading: false });
         }

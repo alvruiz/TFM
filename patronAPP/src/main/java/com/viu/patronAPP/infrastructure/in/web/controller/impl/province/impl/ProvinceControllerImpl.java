@@ -20,8 +20,8 @@ public class ProvinceControllerImpl implements ProvinceController {
         return ResponseEntity.ok(provinceService.getProvinces());
     }
 
-    public ResponseEntity<List<Village>> getVillagesbyProvince(String provinceId) {
-        return ResponseEntity.ok(provinceService.getVillagesByProvince(provinceId));
+    public ResponseEntity<List<Village>> getVillagesbyProvince(String provinceId, String page, String size) {
+        return ResponseEntity.ok(provinceService.getVillagesByProvince(provinceId, page, size));
     }
 
 }

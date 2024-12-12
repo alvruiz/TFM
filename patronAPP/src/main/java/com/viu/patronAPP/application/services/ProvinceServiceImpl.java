@@ -29,12 +29,12 @@ public class ProvinceServiceImpl implements ProvinceUseCasesPort {
     }
 
     @Override
-    public List<Village> getVillagesByProvince(String provinceId) {
+    public List<Village> getVillagesByProvince(String provinceId, String page, String size) {
         Province province = getProvinceById(provinceId);
         if (province == null) {
             throw new NotFoundException("Province not found");
         }
-        return villagePort.getVillagesByProvince(provinceId);
+        return villagePort.getVillagesByProvince(provinceId, page, size);
     }
 
 

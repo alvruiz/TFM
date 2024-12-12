@@ -2,9 +2,9 @@ import axios from 'axios';
 import { API_BASE_URL } from '../configuration/config';
 import { Village } from '../model/Village';
 import { Festivity } from '../model/Festivity';
-export const getVillages = async (id: string): Promise<Village[]> => {
+export const getVillages = async (id: string, page: number, itemsPerPage: number): Promise<Village[]> => {
     try {
-        const response = await axios.get<Village[]>(`${API_BASE_URL}/provinces/${id}`, {
+        const response = await axios.get<Village[]>(`${API_BASE_URL}/provinces/${id}?page=${page}&size=${itemsPerPage}`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

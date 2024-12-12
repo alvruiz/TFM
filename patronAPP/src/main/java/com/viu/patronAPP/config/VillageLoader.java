@@ -1,7 +1,9 @@
 package com.viu.patronAPP.config;
 
 import com.viu.patronAPP.domain.model.Coords;
+import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.FestivityEntity;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.VillageEntity;
+import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.festivity.FestivityMongoRepository;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.village.VillageMongoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +16,10 @@ import java.util.List;
 public class VillageLoader {
 
     @Bean
-    public CommandLineRunner loadVillages(VillageMongoRepository villageRepository) {
+    public CommandLineRunner loadVillages(VillageMongoRepository villageRepository, FestivityMongoRepository festivityRepository) {
         return args -> {
             villageRepository.deleteAll();
+            festivityRepository.deleteAll();
             VillageEntity castronuñoEntity = VillageEntity.builder()
                     .name("Castronuño")
                     .id("1")
@@ -190,6 +193,22 @@ public class VillageLoader {
                     atapuercaEntity, alaejosEntity, adaliaEntity, aguasalEntity, aguilarEntity, albaDeTormesEntity, tordesillasEntity, candeledaEntity));
 
             List<VillageEntity> villages = Arrays.asList(
+                    VillageEntity.builder().name("Castronuño").id("1").coords(Coords.builder().latitude(41.390485).longitude(-5.262498).build()).imageUrl("https://www.cyltv.es/mediao/8AC773D2-CB16-36DA-42443158195DB759.JPG").provinceId("49").build(),
+                    VillageEntity.builder().name("Villarejo de Órbigo").id("2").coords(Coords.builder().latitude(42.445197).longitude(-5.903779).build()).imageUrl("https://www.diocesisastorga.es/recursos/parroquias/d51460a45f36d2a8b6ba9c189e1a1e9d.jpg").provinceId("24").build(),
+                    VillageEntity.builder().name("Villaornate y Castro").id("3").coords(Coords.builder().latitude(42.184812).longitude(-5.549757).build()).imageUrl("https://leonsurdigital.com/upload/images/06_2023/9234_8621_img_28474-1.jpg").provinceId("24").build(),
+                    VillageEntity.builder().name("Villaobispo De Otero").id("4").coords(Coords.builder().latitude(42.499988).longitude(-6.058563).build()).imageUrl("https://media2.clubrural.com/img990x400/pueblos/leon/villaobispo-de-otero/20160219064630-leon-villaobispo-de-otero.jpg").provinceId("24").build(),
+                    VillageEntity.builder().name("Palanquinos").id("5").coords(Coords.builder().latitude(42.471355).longitude(-5.480471).build()).imageUrl("https://leonsurdigital.com/upload/images/04_2024/1263_4-palanquinos.jpg").provinceId("24").build(),
+                    VillageEntity.builder().name("Atapuerca").id("6").coords(Coords.builder().latitude(42.338611).longitude(-3.647222).build()).imageUrl("https://example.com/atapuerca.jpg").provinceId("09").build(),
+                    VillageEntity.builder().name("Alba de Tormes").id("7").coords(Coords.builder().latitude(40.948056).longitude(-5.463611).build()).imageUrl("https://example.com/alba_de_tormes.jpg").provinceId("37").build(),
+                    VillageEntity.builder().name("Tordesillas").id("8").coords(Coords.builder().latitude(41.310278).longitude(-4.975278).build()).imageUrl("https://abrasador.com/wp-content/uploads/2024/01/5-Cosas-que-ver-en-Tordesillas.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Candeleda").id("9").coords(Coords.builder().latitude(40.208611).longitude(-5.3075).build()).imageUrl("https://media-cdn.tripadvisor.com/media/photo-c/1280x250/0d/93/d0/2e/piscinas-naturales-candeleda.jpg").provinceId("05").build(),
+                    VillageEntity.builder().name("Aguasal").id("10").coords(Coords.builder().latitude(41.3040932127772).longitude(-4.626361159).build()).imageUrl("https://www.mapa.gob.es/images/es/dsc_0330_a_tcm30-556517.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Aguilar de Campos").id("11").coords(Coords.builder().latitude(41.9762697026253).longitude(-5.1966922789).build()).imageUrl("https://static.wixstatic.com/media/be2270_fbf3be35ba8c4b4d9437a42c3a39187f~mv2.jpg/v1/fill/w_497,h_332,al_c,q_80,enc_auto/be2270_fbf3be35ba8c4b4d9437a42c3a39187f~mv2.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Adalia").id("12").coords(Coords.builder().latitude(41.6438088287139).longitude(-5.1263019774).build()).imageUrl("https://s3.ppllstatics.com/elnortedecastilla/www/multimedia/202005/25/media/cortadas/Imagen%20Iglesia%20del%20Salvador%20(2)-k1qG--624x385@El%20Norte.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Alaejos").id("15").coords(Coords.builder().latitude(41.3073713272509).longitude(-5.2174956654).build()).imageUrl("https://www.turismocastillayleon.com/es/patrimonio-cultura/alaejos.ficheros/267611-hq_Alaejos01_Valladolid.jpg/h,267611-hq_Alaejos01_Valladolid.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Arroyo de la Encomienda").id("21").coords(Coords.builder().latitude(41.6247643815669).longitude(-4.7922456571).build()).imageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Arroyo_de_la_Encomienda%2C_La_Flecha%2C_Plaza_de_Espa%C3%B1a%2C_Ayuntamiento_1.jpg/320px-Arroyo_de_la_Encomienda%2C_La_Flecha%2C_Plaza_de_Espa%C3%B1a%2C_Ayuntamiento_1.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Ataquines").id("22").coords(Coords.builder().latitude(41.1852529705255).longitude(-4.7756640226).build()).imageUrl("https://ucmedia.er2.co/es/des/f/0/1600/28620.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Bahabon").id("23").coords(Coords.builder().latitude(41.6529473).longitude(-4.7283877).build()).imageUrl("https://upload.wikimedia.org/wikipedia/commons/9/91/Iglesia_de_Bahab%C3%B3n.jpg").provinceId("49").build(),
                     VillageEntity.builder().name("Adalia").id("12").coords(Coords.builder().latitude(41.6438088287139).longitude(-5.1263019774).build()).imageUrl("https://media2.clubrural.com/img500x180/pueblos/valladolid/gallegos-de-hornija/20160219143040-valladolid-gallegos-de-hornija.jpg").provinceId("49").build(),
                     VillageEntity.builder().name("Aguasal").id("13").coords(Coords.builder().latitude(41.3040932127772).longitude(-4.626361159).build()).imageUrl("https://vivetupueblo.es/wp-content/uploads/2020/08/Aguasal.-Valladolid.-Castilla-y-Leon.-Calle.-7.jpg").provinceId("49").build(),
                     VillageEntity.builder().name("Aguilar de Campos").id("14").coords(Coords.builder().latitude(41.9762697026253).longitude(-5.1966922789).build()).imageUrl("https://1.bp.blogspot.com/-piFXc2N4nAU/VK8RVy-HvzI/AAAAAAAAAMA/_mkFqvuxn7o/s1600/Aguilar%2Bde%2BCampos_Aytº.%2B[1280x768].JPG").provinceId("49").build(),
@@ -227,6 +246,11 @@ public class VillageLoader {
 
             villageRepository.saveAll(villages);
             System.out.println("Villages loaded successfully");
+
+            List<FestivityEntity> festivities = Arrays.asList(
+                    FestivityEntity.builder().name("Fiesta de la Comunidad").id("1").villageId("1").build()
+            );
+
         };
     }
 }

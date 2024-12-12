@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,6 +39,8 @@ public interface ProvinceController {
     @GetMapping("/{provinceId}")
     @CrossOrigin
     public ResponseEntity<List<Village>> getVillagesbyProvince(
-            @PathVariable @Parameter(description = "ID of the province to retrieve villages for") String provinceId
+            @PathVariable @Parameter(description = "ID of the province to retrieve villages for") String provinceId,
+            @RequestParam @Parameter(description = "Page to retrieve villages for") String page,
+            @RequestParam @Parameter(description = "Size of the page to retrieve villages for") String size
     );
 }

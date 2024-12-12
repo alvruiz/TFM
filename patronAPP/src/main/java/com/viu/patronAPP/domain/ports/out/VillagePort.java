@@ -5,5 +5,5 @@ import com.viu.patronAPP.domain.model.Village;
 import java.util.List;
 
 public interface VillagePort {
-    public List<Village> getVillagesByProvince(String provinceId);
+    public List<Village> getVillagesByProvince(String provinceId, String page, String size);
 }

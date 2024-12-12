@@ -11,5 +11,5 @@ public interface ProvinceUseCasesPort {
 
     Province getProvinceById(String provinceId);
 
-    List<Village> getVillagesByProvince(String provinceId);
+    List<Village> getVillagesByProvince(String provinceId, String page, String size);
 }
