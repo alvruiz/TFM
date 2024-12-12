@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @AllArgsConstructor
 public class FestivityControllerImpl implements FestivityController {
@@ -37,6 +40,19 @@ public class FestivityControllerImpl implements FestivityController {
                 .patron(festivity.getPatron())
                 .villageId(festivity.getVillageId())
                 .build());
+    }
+
+    @Override
+    public ResponseEntity<List<FestivityDTO>> getFestivities(String page) {
+        List<Festivity> festivities = festivityUseCasesPort.getAllFestivities();
+        System.out.println(festivities);
+        return ResponseEntity.ok(festivities.stream().map(festivity -> FestivityDTO.builder()
+                .name(festivity.getName())
+                .startDate(festivity.getStartDate())
+                .endDate(festivity.getEndDate())
+                .patron(festivity.getPatron())
+                .villageId(festivity.getVillageId())
+                .build()).collect(Collectors.toList()));
     }
 
 }

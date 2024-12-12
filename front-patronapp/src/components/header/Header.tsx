@@ -30,7 +30,7 @@ const Header = () => {
                     <img
                         src="/logoConTexto.png"
                         alt="Logo"
-                        style={{ margin: "10px", height: '50px', transition: 'transform 0.3s ease, opacity 0.3s ease' }}
+                        style={{ margin: "10px", height: '50px', transition: 'transform 0.3s ease, opacity 0.3s ease', cursor: 'pointer' }}
                         className="logo"
                         onClick={() => navigate('/')} // Redirigir al inicio al hacer clic en el logo
                     />
@@ -104,8 +104,8 @@ const ProfileCircle = ({ imageUrl, altText }) => {
             src={imageUrl}
             alt={altText}
             sx={{
-                width: 50, // Tamaño del círculo
-                height: 50, // Tamaño del círculo
+                width: 40, // Tamaño del círculo
+                height: 40, // Tamaño del círculo
                 border: '2px solid white', // Borde blanco
                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Sombra
             }}

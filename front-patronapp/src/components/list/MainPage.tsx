@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Root } from './MainListStyles';
+import { Root } from './MainPageStyles';
 import Grid from "@mui/material/Grid2";
 import { StyledEngineProvider } from '@mui/material';
 import SpainMap from '../map/SpainMap';
@@ -7,7 +7,7 @@ import Header from '../header/Header';
 import useProvinceStore from '../../stores/province-store';
 
 
-const MainList = () => {
+const MainPage = () => {
     const { provinces, isLoading, error, getProvinces } = useProvinceStore();
     useEffect(() => {
         if (provinces.length === 0) {
@@ -26,4 +26,4 @@ const MainList = () => {
     );
 };
 
-export default MainList;
+export default MainPage;

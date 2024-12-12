@@ -8,6 +8,7 @@ import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.festivi
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -25,5 +26,10 @@ public class FestivityRepositoryAdapter implements FestivityPort {
     @Override
     public Festivity getFestivityByVillageId(String villageId) {
         return FestivityMapper.mapFestivityEntityToDomain(Objects.requireNonNull(festivityRepository.findByVillageId(villageId).orElse(null)));
+    }
+
+    @Override
+    public List<Festivity> getAllFestivities() {
+        return festivityRepository.findAll().stream().map(FestivityMapper::mapFestivityEntityToDomain).toList();
     }
 }

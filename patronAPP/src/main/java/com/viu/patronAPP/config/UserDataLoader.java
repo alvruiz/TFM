@@ -28,7 +28,7 @@ public class UserDataLoader {
                     .age(40)
                     .gender("M")
                     .rol(Rol.ADMIN)
-                    .imageUrl("https://static.vecteezy.com/system/resources/previews/020/429/953/non_2x/admin-icon-vector.jpg")
+                    .imageUrl("https://store-images.s-microsoft.com/image/apps.31920.f265099d-4c71-493f-b32c-b66015371675.41795bd4-3595-4260-808a-d3feb5d18d45.5b70495e-924a-49e6-a2cd-85d3bdfa781d.png")
                     .villageId("1")
                     .eventsParticipating(Arrays.asList("Evento1", "Evento2"))
                     .build();

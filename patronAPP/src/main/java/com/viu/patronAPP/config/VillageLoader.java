@@ -99,7 +99,7 @@ public class VillageLoader {
                             .latitude(41.310278)
                             .longitude(-4.975278)
                             .build())
-                    .imageUrl("https://example.com/tordesillas.jpg")
+                    .imageUrl("https://abrasador.com/wp-content/uploads/2024/01/5-Cosas-que-ver-en-Tordesillas.jpg")
                     .provinceId("49")
                     .build();
 
@@ -110,7 +110,7 @@ public class VillageLoader {
                             .latitude(40.208611)
                             .longitude(-5.3075)
                             .build())
-                    .imageUrl("https://example.com/candeleda.jpg")
+                    .imageUrl("https://media-cdn.tripadvisor.com/media/photo-c/1280x250/0d/93/d0/2e/piscinas-naturales-candeleda.jpg")
                     .provinceId("05")
                     .build();
             VillageEntity aguasalEntity = VillageEntity.builder()

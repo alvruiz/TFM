@@ -158,7 +158,7 @@ const SpainMap = () => {
                     <ClipLoader color="#6A4A3C" loading={isLoading} size={70} />
                 </div>
             ) : (
-                <div id="map" style={{ position: "absolute", height: "100vh", width: "100%" }}></div>
+                <div id="map" style={{ position: "relative", height: "100vh", width: "100%" }}></div>
             )}
         </>
     );

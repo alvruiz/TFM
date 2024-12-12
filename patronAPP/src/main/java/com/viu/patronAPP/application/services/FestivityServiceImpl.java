@@ -6,6 +6,8 @@ import com.viu.patronAPP.domain.ports.out.FestivityPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class FestivityServiceImpl implements FestivityUseCasesPort {
@@ -19,5 +21,10 @@ public class FestivityServiceImpl implements FestivityUseCasesPort {
     @Override
     public Festivity getFestivityByVillageId(String villageId) {
         return festivityPort.getFestivityByVillageId(villageId);
+    }
+
+    @Override
+    public List<Festivity> getAllFestivities() {
+        return festivityPort.getAllFestivities();
     }
 }

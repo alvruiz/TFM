@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/festivity")
 @Tag(name = "Festivity", description = "Operations related to festivities, such as creation and retrieval of festival data.")
 public interface FestivityController {
@@ -34,7 +36,21 @@ public interface FestivityController {
             }
     )
     @GetMapping("/{villageId}")
+    @CrossOrigin
     public ResponseEntity<FestivityDTO> getFestivityByVillageId(
             @PathVariable @Parameter(description = "ID of the village to retrieve the festivity") String villageId
     );
+
+
+    @Operation(
+            summary = "Get all festivities",
+            description = "This endpoint retrieves all festivities available in the system.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Festivities retrieved successfully"),
+                    @ApiResponse(responseCode = "500", description = "Internal server error")
+            }
+    )
+    @GetMapping()
+    @CrossOrigin
+    public ResponseEntity<List<FestivityDTO>> getFestivities(@RequestParam("page") String page);
 }
