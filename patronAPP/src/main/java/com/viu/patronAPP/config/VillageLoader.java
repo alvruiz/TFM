@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,177 +21,7 @@ public class VillageLoader {
         return args -> {
             villageRepository.deleteAll();
             festivityRepository.deleteAll();
-            VillageEntity castronuñoEntity = VillageEntity.builder()
-                    .name("Castronuño")
-                    .id("1")
-                    .coords(Coords.builder()
-                            .latitude(41.390485)
-                            .longitude(-5.262498)
-                            .build())
-                    .imageUrl("https://www.cyltv.es/mediao/8AC773D2-CB16-36DA-42443158195DB759.JPG")
-                    .provinceId("49")
-                    .build();
-            VillageEntity villarejoEntity = VillageEntity.builder()
-                    .name("Villarejo de Órbigo")
-                    .id("2")
-                    .coords(Coords.builder()
-                            .latitude(42.445197)
-                            .longitude(-5.903779)
-                            .build())
-                    .imageUrl("https://www.diocesisastorga.es/recursos/parroquias/d51460a45f36d2a8b6ba9c189e1a1e9d.jpg")
-                    .provinceId("24")
-                    .build();
 
-            VillageEntity villaornateEntity = VillageEntity.builder()
-                    .name("Villaornate y Castro")
-                    .id("3")
-                    .coords(Coords.builder()
-                            .latitude(42.184812)
-                            .longitude(-5.549757)
-                            .build())
-                    .imageUrl("https://leonsurdigital.com/upload/images/06_2023/9234_8621_img_28474-1.jpg")
-                    .provinceId("24")
-                    .build();
-
-            VillageEntity villaobispoEntity = VillageEntity.builder()
-                    .name("Villaobispo De Otero")
-                    .id("4")
-                    .coords(Coords.builder()
-                            .latitude(42.499988)
-                            .longitude(-6.058563)
-                            .build())
-                    .imageUrl("https://media2.clubrural.com/img990x400/pueblos/leon/villaobispo-de-otero/20160219064630-leon-villaobispo-de-otero.jpg")
-                    .provinceId("24")
-                    .build();
-
-            VillageEntity palanquinosEntity = VillageEntity.builder()
-                    .name("Palanquinos")
-                    .id("5")
-                    .coords(Coords.builder()
-                            .latitude(42.471355)
-                            .longitude(-5.480471)
-                            .build())
-                    .imageUrl("https://leonsurdigital.com/upload/images/04_2024/1263_4-palanquinos.jpg")
-                    .provinceId("24")
-                    .build();
-            VillageEntity atapuercaEntity = VillageEntity.builder()
-                    .name("Atapuerca")
-                    .id("6")
-                    .coords(Coords.builder()
-                            .latitude(42.338611)
-                            .longitude(-3.647222)
-                            .build())
-                    .imageUrl("https://example.com/atapuerca.jpg")
-                    .provinceId("09")
-                    .build();
-
-            VillageEntity albaDeTormesEntity = VillageEntity.builder()
-                    .name("Alba de Tormes")
-                    .id("7")
-                    .coords(Coords.builder()
-                            .latitude(40.948056)
-                            .longitude(-5.463611)
-                            .build())
-                    .imageUrl("https://example.com/alba_de_tormes.jpg")
-                    .provinceId("37")
-                    .build();
-
-            VillageEntity tordesillasEntity = VillageEntity.builder()
-                    .name("Tordesillas")
-                    .id("8")
-                    .coords(Coords.builder()
-                            .latitude(41.310278)
-                            .longitude(-4.975278)
-                            .build())
-                    .imageUrl("https://abrasador.com/wp-content/uploads/2024/01/5-Cosas-que-ver-en-Tordesillas.jpg")
-                    .provinceId("49")
-                    .build();
-
-            VillageEntity candeledaEntity = VillageEntity.builder()
-                    .name("Candeleda")
-                    .id("9")
-                    .coords(Coords.builder()
-                            .latitude(40.208611)
-                            .longitude(-5.3075)
-                            .build())
-                    .imageUrl("https://media-cdn.tripadvisor.com/media/photo-c/1280x250/0d/93/d0/2e/piscinas-naturales-candeleda.jpg")
-                    .provinceId("05")
-                    .build();
-            VillageEntity aguasalEntity = VillageEntity.builder()
-                    .name("Aguasal")
-                    .id("10")
-                    .coords(Coords.builder()
-                            .latitude(41.3040932127772)
-                            .longitude(-4.626361159)
-                            .build())
-                    .imageUrl("https://www.mapa.gob.es/images/es/dsc_0330_a_tcm30-556517.jpg")
-                    .provinceId("49")
-                    .build();
-
-            VillageEntity aguilarEntity = VillageEntity.builder()
-                    .name("Aguilar-de-Campos")
-                    .id("11")
-                    .coords(Coords.builder()
-                            .latitude(41.9762697026253)
-                            .longitude(-5.1966922789)
-                            .build())
-                    .imageUrl("https://static.wixstatic.com/media/be2270_fbf3be35ba8c4b4d9437a42c3a39187f~mv2.jpg/v1/fill/w_497,h_332,al_c,q_80,enc_auto/be2270_fbf3be35ba8c4b4d9437a42c3a39187f~mv2.jpg")
-                    .provinceId("49")
-                    .build();
-            VillageEntity adaliaEntity = VillageEntity.builder()
-                    .name("Adalia")
-                    .id("12")
-                    .coords(Coords.builder()
-                            .latitude(41.6438088287139)
-                            .longitude(-5.1263019774)
-                            .build())
-                    .imageUrl("https://s3.ppllstatics.com/elnortedecastilla/www/multimedia/202005/25/media/cortadas/Imagen%20Iglesia%20del%20Salvador%20(2)-k1qG--624x385@El%20Norte.jpg")
-                    .provinceId("49")
-                    .build();
-            VillageEntity alaejosEntity = VillageEntity.builder()
-                    .name("Alaejos")
-                    .id("15")
-                    .coords(Coords.builder()
-                            .latitude(41.3073713272509)
-                            .longitude(-5.2174956654)
-                            .build())
-                    .imageUrl("https://www.turismocastillayleon.com/es/patrimonio-cultura/alaejos.ficheros/267611-hq_Alaejos01_Valladolid.jpg/h,267611-hq_Alaejos01_Valladolid.jpg")
-                    .provinceId("49")
-                    .build();
-            VillageEntity arroyoEntity = VillageEntity.builder()
-                    .name("Arroyo de la Encomienda")
-                    .id("21")
-                    .coords(Coords.builder()
-                            .latitude(41.6247643815669)
-                            .longitude(-4.7922456571)
-                            .build())
-                    .imageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Arroyo_de_la_Encomienda%2C_La_Flecha%2C_Plaza_de_Espa%C3%B1a%2C_Ayuntamiento_1.jpg/320px-Arroyo_de_la_Encomienda%2C_La_Flecha%2C_Plaza_de_Espa%C3%B1a%2C_Ayuntamiento_1.jpg")
-                    .provinceId("49")
-                    .build();
-
-            VillageEntity ataquinesEntity = VillageEntity.builder()
-                    .name("Ataquines")
-                    .id("22")
-                    .coords(Coords.builder()
-                            .latitude(41.1852529705255)
-                            .longitude(-4.7756640226)
-                            .build())
-                    .imageUrl("https://ucmedia.er2.co/es/des/f/0/1600/28620.jpg")
-                    .provinceId("49")
-                    .build();
-
-            VillageEntity bahabonEntity = VillageEntity.builder()
-                    .name("Bahabon")
-                    .id("23")
-                    .coords(Coords.builder()
-                            .latitude(41.6529473)
-                            .longitude(-4.7283877)
-                            .build())
-                    .imageUrl("https://upload.wikimedia.org/wikipedia/commons/9/91/Iglesia_de_Bahab%C3%B3n.jpg")
-                    .provinceId("49")
-                    .build();
-            villageRepository.saveAll(Arrays.asList(castronuñoEntity, villarejoEntity, villaornateEntity, villaobispoEntity, palanquinosEntity,
-                    atapuercaEntity, alaejosEntity, adaliaEntity, aguasalEntity, aguilarEntity, albaDeTormesEntity, tordesillasEntity, candeledaEntity));
 
             List<VillageEntity> villages = Arrays.asList(
                     VillageEntity.builder().name("Castronuño").id("1").coords(Coords.builder().latitude(41.390485).longitude(-5.262498).build()).imageUrl("https://www.cyltv.es/mediao/8AC773D2-CB16-36DA-42443158195DB759.JPG").provinceId("49").build(),
@@ -239,8 +70,15 @@ public class VillageLoader {
                     VillageEntity.builder().name("Cabezon de Valderaduey").id("39").coords(Coords.builder().latitude(41.6529473).longitude(-4.7283877).build()).imageUrl("https://s1.ppllstatics.com/elnortedecastilla/www/multimedia/2023/04/24/cabezon2-kj9C-U200136341584wvE-1200x840@ElNorte.jpg").provinceId("49").build(),
                     VillageEntity.builder().name("Cabreros del Monte").id("40").coords(Coords.builder().latitude(41.844715221929).longitude(-5.28440147511).build()).imageUrl("http://3.bp.blogspot.com/-wLTpSSwecqo/VNqp_-GgfrI/AAAAAAAAAtg/-pdMwW1kxC8/s1600/Cabreros%2Bdel%2BMonte_Iglesia%2BParroquial%2Bde%2BSan%2BJuan%2BBautista%2B[1024x768].jpg").provinceId("49").build(),
                     VillageEntity.builder().name("Campaspero").id("41").coords(Coords.builder().latitude(41.5011044287228).longitude(-4.2251893317).build()).imageUrl("https://fotos.hoteles.net/articulos/campaspero-turismo-valladolid-4413-1.jpg").provinceId("49").build(),
-                    VillageEntity.builder().name("Campillo El").id("42").coords(Coords.builder().latitude(37.6922172748497).longitude(-6.6417620247).build()).imageUrl("https://media2.clubrural.com/img990x400/pueblos/valladolid/el-campillo/20160218200535-valladolid-el-campillo.jpg").provinceId("49").build()
-
+                    VillageEntity.builder().name("Campillo El").id("42").coords(Coords.builder().latitude(37.6922172748497).longitude(-6.6417620247).build()).imageUrl("https://media2.clubrural.com/img990x400/pueblos/valladolid/el-campillo/20160218200535-valladolid-el-campillo.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Esguevillas de Esgueva").id("43").coords(Coords.builder().latitude(41.7533698198745).longitude(-4.3751444797).build()).imageUrl("https://www.biodiversidadvirtual.org/etno/data/media/29/Iglesia-de-Esguevillas-de-Esgueva-(Valladolid)-72523.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Fombellida").id("44").coords(Coords.builder().latitude(41.749569778988).longitude(-4.18805011851).build()).imageUrl("https://www.hernandezrabal.com/espana/castillaleon/valladolid/vdfonigl.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Fompedraza").id("45").coords(Coords.builder().latitude(41.5185685944398).longitude(-4.1446783669).build()).imageUrl("https://vasdepuebloenpueblo.files.wordpress.com/2015/06/iglesia-de-san-bartolome-iii.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Fontihoyuelo").id("46").coords(Coords.builder().latitude(42.168710754076).longitude(-5.05438760987).build()).imageUrl("https://s2.ppllstatics.com/elnortedecastilla/www/multimedia/202207/03/media/cortadas/fontiyoyuelo2-kM8H-U170555963782K8F-1248x770@El Norte.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Fresno el Viejo").id("47").coords(Coords.builder().latitude(41.180412206643).longitude(-5.16445348322).build()).imageUrl("https://www.cyltv.es/media/imagenesf/197039c0-eeec-3db5-eb60aed2c5842e23.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Fuensaldana").id("48").coords(Coords.builder().latitude(41.7130890195157).longitude(-4.7458438517).build()).imageUrl("https://s1.ppllstatics.com/elnortedecastilla/www/multimedia/202207/05/media/cortadas/fuensaldana1-kb3D-U170556138921EFE-1248x770@El Norte.jpg").provinceId("49").build(),
+                    VillageEntity.builder().name("Fuente el Sol").id("49").coords(Coords.builder().latitude(41.1721514067333).longitude(-4.9327304661).build()).imageUrl("https://ucmedia.er2.co/es/des/3/5/1600/28669.jpg#google").provinceId("49").build(),
+                    VillageEntity.builder().name("Fuente Olmedo").id("50").coords(Coords.builder().latitude(41.2497748134535).longitude(-4.6409573222).build()).imageUrl("https://2.bp.blogspot.com/-chQbVrKr6T8/VUVulRWVGlI/AAAAAAAABdk/wBiEhaf5me0/s1600/Fuente%2BOlmedo%2B_%2BIglesia%2BParroquial%2Bde%2BSan%2BJuan%2BEvangelista_S.XVII-XVIII%2B(5)%2B(Copiar).JPG").provinceId("49").build()
 
             );
 
@@ -248,9 +86,60 @@ public class VillageLoader {
             System.out.println("Villages loaded successfully");
 
             List<FestivityEntity> festivities = Arrays.asList(
-                    FestivityEntity.builder().name("Fiesta de la Comunidad").id("1").villageId("1").build()
-            );
+                    FestivityEntity.builder().name("Fiesta Patronal San Pedro").id("1").villageId("1").patron("San Pedro").startDate(LocalDate.of(2025, 4, 1)).endDate(LocalDate.of(2025, 4, 2)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa María").id("2").villageId("2").patron("Santa María").startDate(LocalDate.of(2025, 6, 15)).endDate(LocalDate.of(2025, 6, 17)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Juan").id("3").villageId("3").patron("San Juan").startDate(LocalDate.of(2025, 8, 23)).endDate(LocalDate.of(2025, 8, 24)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Miguel").id("4").villageId("4").patron("San Miguel").startDate(LocalDate.of(2025, 9, 29)).endDate(LocalDate.of(2025, 9, 30)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Antonio").id("5").villageId("5").patron("San Antonio").startDate(LocalDate.of(2025, 10, 13)).endDate(LocalDate.of(2025, 10, 14)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Virgen del Carmen").id("6").villageId("6").patron("Virgen del Carmen").startDate(LocalDate.of(2025, 7, 16)).endDate(LocalDate.of(2025, 7, 17)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San José").id("7").villageId("7").patron("San José").startDate(LocalDate.of(2025, 3, 19)).endDate(LocalDate.of(2025, 3, 20)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Francisco").id("8").villageId("8").patron("San Francisco").startDate(LocalDate.of(2025, 10, 4)).endDate(LocalDate.of(2025, 10, 5)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa Teresa").id("9").villageId("9").patron("Santa Teresa").startDate(LocalDate.of(2025, 10, 15)).endDate(LocalDate.of(2025, 10, 16)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Nuestra Señora de la Asunción").id("10").villageId("10").patron("Nuestra Señora de la Asunción").startDate(LocalDate.of(2025, 8, 15)).endDate(LocalDate.of(2025, 8, 16)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Isidro").id("11").villageId("11").patron("San Isidro").startDate(LocalDate.of(2025, 5, 15)).endDate(LocalDate.of(2025, 5, 16)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santiago Apóstol").id("12").villageId("12").patron("Santiago Apóstol").startDate(LocalDate.of(2025, 7, 25)).endDate(LocalDate.of(2025, 7, 26)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Bartolomé").id("13").villageId("13").patron("San Bartolomé").startDate(LocalDate.of(2025, 8, 24)).endDate(LocalDate.of(2025, 8, 25)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Roque").id("14").villageId("14").patron("San Roque").startDate(LocalDate.of(2025, 8, 16)).endDate(LocalDate.of(2025, 8, 17)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa Ana").id("15").villageId("15").patron("Santa Ana").startDate(LocalDate.of(2025, 7, 26)).endDate(LocalDate.of(2025, 7, 27)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Nicolás").id("16").villageId("16").patron("San Nicolás").startDate(LocalDate.of(2025, 12, 6)).endDate(LocalDate.of(2025, 12, 7)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Nuestra Señora del Rosario").id("17").villageId("17").patron("Nuestra Señora del Rosario").startDate(LocalDate.of(2025, 10, 7)).endDate(LocalDate.of(2025, 10, 8)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Fermín").id("18").villageId("18").patron("San Fermín").startDate(LocalDate.of(2025, 7, 7)).endDate(LocalDate.of(2025, 7, 8)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Vicente").id("19").villageId("19").patron("San Vicente").startDate(LocalDate.of(2025, 1, 22)).endDate(LocalDate.of(2025, 1, 23)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Andrés").id("20").villageId("20").patron("San Andrés").startDate(LocalDate.of(2025, 11, 30)).endDate(LocalDate.of(2025, 12, 1)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa Bárbara").id("21").villageId("21").patron("Santa Bárbara").startDate(LocalDate.of(2025, 12, 4)).endDate(LocalDate.of(2025, 12, 5)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Valentín").id("22").villageId("22").patron("San Valentín").startDate(LocalDate.of(2025, 2, 14)).endDate(LocalDate.of(2025, 2, 15)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Blas").id("23").villageId("23").patron("San Blas").startDate(LocalDate.of(2025, 2, 3)).endDate(LocalDate.of(2025, 2, 4)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Jorge").id("24").villageId("24").patron("San Jorge").startDate(LocalDate.of(2025, 4, 23)).endDate(LocalDate.of(2025, 4, 24)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Cristóbal").id("25").villageId("25").patron("San Cristóbal").startDate(LocalDate.of(2025, 7, 10)).endDate(LocalDate.of(2025, 7, 11)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Sebastián").id("26").villageId("26").patron("San Sebastián").startDate(LocalDate.of(2025, 1, 20)).endDate(LocalDate.of(2025, 1, 21)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Virgen de Guadalupe").id("27").villageId("27").patron("Virgen de Guadalupe").startDate(LocalDate.of(2025, 12, 12)).endDate(LocalDate.of(2025, 12, 13)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Virgen de Fátima").id("28").villageId("28").patron("Virgen de Fátima").startDate(LocalDate.of(2025, 5, 13)).endDate(LocalDate.of(2025, 5, 14)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa Clara").id("29").villageId("29").patron("Santa Clara").startDate(LocalDate.of(2025, 8, 11)).endDate(LocalDate.of(2025, 8, 12)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Ramón").id("30").villageId("30").patron("San Ramón").startDate(LocalDate.of(2025, 8, 31)).endDate(LocalDate.of(2025, 9, 1)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Agustín").id("31").villageId("31").patron("San Agustín").startDate(LocalDate.of(2025, 8, 28)).endDate(LocalDate.of(2025, 8, 29)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Gregorio").id("32").villageId("32").patron("San Gregorio").startDate(LocalDate.of(2025, 5, 9)).endDate(LocalDate.of(2025, 5, 10)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Mateo").id("33").villageId("33").patron("San Mateo").startDate(LocalDate.of(2025, 9, 21)).endDate(LocalDate.of(2025, 9, 22)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa Lucía").id("34").villageId("34").patron("Santa Lucía").startDate(LocalDate.of(2025, 12, 13)).endDate(LocalDate.of(2025, 12, 14)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Pablo").id("35").villageId("35").patron("San Pablo").startDate(LocalDate.of(2025, 6, 29)).endDate(LocalDate.of(2025, 6, 30)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Rafael").id("36").villageId("36").patron("San Rafael").startDate(LocalDate.of(2025, 10, 24)).endDate(LocalDate.of(2025, 10, 25)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Joaquín").id("37").villageId("37").patron("San Joaquín").startDate(LocalDate.of(2025, 7, 26)).endDate(LocalDate.of(2025, 7, 27)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa Catalina").id("38").villageId("38").patron("Santa Catalina").startDate(LocalDate.of(2025, 11, 25)).endDate(LocalDate.of(2025, 11, 26)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Santa Cruz").id("39").villageId("39").patron("Santa Cruz").startDate(LocalDate.of(2025, 5, 3)).endDate(LocalDate.of(2025, 5, 4)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Marcos").id("40").villageId("40").patron("San Marcos").startDate(LocalDate.of(2025, 4, 25)).endDate(LocalDate.of(2025, 4, 26)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Esteban").id("41").villageId("41").patron("San Esteban").startDate(LocalDate.of(2025, 12, 26)).endDate(LocalDate.of(2025, 12, 27)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Virgen de los Dolores").id("42").villageId("42").patron("Virgen de los Dolores").startDate(LocalDate.of(2025, 9, 15)).endDate(LocalDate.of(2025, 9, 16)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Lorenzo").id("43").villageId("43").patron("San Lorenzo").startDate(LocalDate.of(2025, 8, 10)).endDate(LocalDate.of(2025, 8, 11)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Felipe").id("44").villageId("44").patron("San Felipe").startDate(LocalDate.of(2025, 5, 3)).endDate(LocalDate.of(2025, 5, 4)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Judas Tadeo").id("45").villageId("45").patron("San Judas Tadeo").startDate(LocalDate.of(2025, 10, 28)).endDate(LocalDate.of(2025, 10, 29)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Marcos").id("46").villageId("46").patron("San Marcos").startDate(LocalDate.of(2025, 4, 25)).endDate(LocalDate.of(2025, 4, 26)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Juan de la Cruz").id("47").villageId("47").patron("San Juan de la Cruz").startDate(LocalDate.of(2025, 12, 14)).endDate(LocalDate.of(2025, 12, 15)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Martín").id("48").villageId("48").patron("San Martín").startDate(LocalDate.of(2025, 11, 11)).endDate(LocalDate.of(2025, 11, 12)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Valentín").id("49").villageId("49").patron("San Valentín").startDate(LocalDate.of(2025, 2, 14)).endDate(LocalDate.of(2025, 2, 15)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal Virgen de la Merced").id("50").villageId("50").patron("Virgen de la Merced").startDate(LocalDate.of(2025, 9, 24)).endDate(LocalDate.of(2025, 9, 25)).build()
 
+            );
+            festivityRepository.saveAll(festivities);
+            System.out.println("Festivities loaded successfully");
         };
     }
 }

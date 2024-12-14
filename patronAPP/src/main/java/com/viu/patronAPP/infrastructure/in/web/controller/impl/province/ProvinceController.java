@@ -1,7 +1,7 @@
 package com.viu.patronAPP.infrastructure.in.web.controller.impl.province;
 
-import com.viu.patronAPP.domain.model.Province;
-import com.viu.patronAPP.domain.model.Village;
+import com.viu.patronAPP.infrastructure.DTO.province.ProvinceDTO;
+import com.viu.patronAPP.infrastructure.DTO.province.VillageDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,7 +25,7 @@ public interface ProvinceController {
     )
     @GetMapping()
     @CrossOrigin
-    public ResponseEntity<List<Province>> getProvinces();
+    public ResponseEntity<List<ProvinceDTO>> getProvinces();
 
     @Operation(
             summary = "Get villages by province ID",
@@ -36,11 +36,18 @@ public interface ProvinceController {
                     @ApiResponse(responseCode = "500", description = "Internal server error")
             }
     )
-    @GetMapping("/{provinceId}")
+    @GetMapping("/{provinceId}/villages/paginated")
     @CrossOrigin
-    public ResponseEntity<List<Village>> getVillagesbyProvince(
+    public ResponseEntity<List<VillageDTO>> getVillagesbyProvince(
             @PathVariable @Parameter(description = "ID of the province to retrieve villages for") String provinceId,
             @RequestParam @Parameter(description = "Page to retrieve villages for") String page,
             @RequestParam @Parameter(description = "Size of the page to retrieve villages for") String size
+    );
+
+    @GetMapping("/{provinceId}/villages")
+    @CrossOrigin
+    public ResponseEntity<List<VillageDTO>> getAllVillages(
+            @PathVariable @Parameter(description = "ID of the province to retrieve villages for") String provinceId
+
     );
 }

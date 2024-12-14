@@ -1,9 +1,11 @@
 package com.viu.patronAPP.application.services;
 
+import com.viu.patronAPP.domain.model.Festivity;
 import com.viu.patronAPP.domain.model.Province;
 import com.viu.patronAPP.domain.model.Village;
 import com.viu.patronAPP.domain.model.exceptions.NotFoundException;
 import com.viu.patronAPP.domain.ports.in.ProvinceUseCasesPort;
+import com.viu.patronAPP.domain.ports.out.FestivityPort;
 import com.viu.patronAPP.domain.ports.out.ProvincePort;
 import com.viu.patronAPP.domain.ports.out.VillagePort;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ public class ProvinceServiceImpl implements ProvinceUseCasesPort {
 
     private final ProvincePort provincePort;
     private final VillagePort villagePort;
+    private final FestivityPort festivityPort;
 
     @Override
     public List<Province> getProvinces() {
@@ -34,7 +37,18 @@ public class ProvinceServiceImpl implements ProvinceUseCasesPort {
         if (province == null) {
             throw new NotFoundException("Province not found");
         }
-        return villagePort.getVillagesByProvince(provinceId, page, size);
+        List<Village> villages = villagePort.getVillagesByProvince(provinceId, page, size);
+        List<Festivity> festivities = festivityPort.getAllFestivitiesByIds(villages.stream().map(Village::getId).toList());
+        villages.forEach(village -> village.setFestivity(festivities.stream().filter(festivity -> festivity.getVillageId().equals(village.getId())).findFirst().orElse(null)));
+        return villages;
+    }
+
+    @Override
+    public List<Village> getAllVillages(String provinceId) {
+        List<Village> villages = villagePort.getAllVillages(provinceId);
+        List<Festivity> festivities = festivityPort.getAllFestivitiesByIds(villages.stream().map(Village::getId).toList());
+        villages.forEach(village -> village.setFestivity(festivities.stream().filter(festivity -> festivity.getVillageId().equals(village.getId())).findFirst().orElse(null)));
+        return villages;
     }
 
 

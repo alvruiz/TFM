@@ -7,6 +7,7 @@ import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.village
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,8 +17,14 @@ import java.util.List;
 public class VillageRepositoryAdapter implements VillagePort {
     private final VillageMongoRepository villageRepository;
 
+    @Override
     public List<Village> getVillagesByProvince(String provinceId, String page, String size) {
-        Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
-        return villageRepository.findByProvinceId(provinceId, pageable).stream().map(VillageMapper::mapVillageEntityToDomain).toList();
+        Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.ASC, "id"));
+        return villageRepository.findByProvinceIdOrderById(provinceId, pageable).stream().map(VillageMapper::mapVillageEntityToDomain).toList();
+    }
+
+    @Override
+    public List<Village> getAllVillages(String provinceId) {
+        return villageRepository.findByProvinceId(provinceId).stream().map(VillageMapper::mapVillageEntityToDomain).toList();
     }
 }

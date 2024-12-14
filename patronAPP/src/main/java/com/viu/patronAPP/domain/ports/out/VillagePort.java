@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface VillagePort {
     public List<Village> getVillagesByProvince(String provinceId, String page, String size);
+
+    public List<Village> getAllVillages(String provinceId);
+
 }

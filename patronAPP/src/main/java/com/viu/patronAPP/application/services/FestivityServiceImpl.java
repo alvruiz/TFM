@@ -24,7 +24,7 @@ public class FestivityServiceImpl implements FestivityUseCasesPort {
     }
 
     @Override
-    public List<Festivity> getAllFestivities() {
-        return festivityPort.getAllFestivities();
+    public List<Festivity> getAllFestivities(String page, String size) {
+        return festivityPort.getAllFestivities(page, size);
     }
 }

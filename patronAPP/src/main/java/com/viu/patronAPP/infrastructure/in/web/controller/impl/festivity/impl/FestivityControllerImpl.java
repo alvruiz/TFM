@@ -43,9 +43,8 @@ public class FestivityControllerImpl implements FestivityController {
     }
 
     @Override
-    public ResponseEntity<List<FestivityDTO>> getFestivities(String page) {
-        List<Festivity> festivities = festivityUseCasesPort.getAllFestivities();
-        System.out.println(festivities);
+    public ResponseEntity<List<FestivityDTO>> getFestivities(String page, String size) {
+        List<Festivity> festivities = festivityUseCasesPort.getAllFestivities(page, size);
         return ResponseEntity.ok(festivities.stream().map(festivity -> FestivityDTO.builder()
                 .name(festivity.getName())
                 .startDate(festivity.getStartDate())

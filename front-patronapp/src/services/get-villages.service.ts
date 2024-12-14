@@ -2,9 +2,19 @@ import axios from 'axios';
 import { API_BASE_URL } from '../configuration/config';
 import { Village } from '../model/Village';
 import { Festivity } from '../model/Festivity';
-export const getVillages = async (id: string, page: number, itemsPerPage: number): Promise<Village[]> => {
+export const getVillages = async (id: string, page?: number, itemsPerPage?: number): Promise<Village[]> => {
     try {
-        const response = await axios.get<Village[]>(`${API_BASE_URL}/provinces/${id}?page=${page}&size=${itemsPerPage}`, {
+        if (!page && !itemsPerPage) {
+            const response = await axios.get<Village[]>(`${API_BASE_URL}/provinces/${id}/villages`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: false
+            });
+            return response.data;
+        }
+        const response = await axios.get<Village[]>(`${API_BASE_URL}/provinces/${id}/villages?page=${page}&size=${itemsPerPage}`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -19,9 +29,9 @@ export const getVillages = async (id: string, page: number, itemsPerPage: number
 };
 
 
-export const getVillageFestivity = async (): Promise<Festivity[]> => {
+export const getVillageFestivity = async (page: number, size: number): Promise<Festivity[]> => {
     try {
-        const response = await axios.get<Festivity[]>(`${API_BASE_URL}/festivity`, {
+        const response = await axios.get<Festivity[]>(`${API_BASE_URL}/festivities?page=${page}&size=${size}`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

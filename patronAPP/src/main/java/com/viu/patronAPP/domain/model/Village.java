@@ -11,4 +11,5 @@ public class Village {
     private Coords coords;
     private String imageUrl;
     private String provinceId;
+    private Festivity festivity;
 }

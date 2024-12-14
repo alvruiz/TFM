@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/festivity")
+@RequestMapping("/festivities")
 @Tag(name = "Festivity", description = "Operations related to festivities, such as creation and retrieval of festival data.")
 public interface FestivityController {
 
@@ -23,6 +23,7 @@ public interface FestivityController {
             }
     )
     @PostMapping()
+    @CrossOrigin
     public ResponseEntity<FestivityDTO> createFestivity(
             @RequestBody @Parameter(description = "Details of the festivity to be created") FestivityDTO festivityDTO
     );
@@ -38,6 +39,7 @@ public interface FestivityController {
     @GetMapping("/{villageId}")
     @CrossOrigin
     public ResponseEntity<FestivityDTO> getFestivityByVillageId(
+
             @PathVariable @Parameter(description = "ID of the village to retrieve the festivity") String villageId
     );
 
@@ -52,5 +54,6 @@ public interface FestivityController {
     )
     @GetMapping()
     @CrossOrigin
-    public ResponseEntity<List<FestivityDTO>> getFestivities(@RequestParam("page") String page);
+    public ResponseEntity<List<FestivityDTO>> getFestivities(@RequestParam @Parameter(description = "Page to retrieve festivities for") String page,
+                                                             @RequestParam @Parameter(description = "Size of the page to retrieve festivities for") String size);
 }

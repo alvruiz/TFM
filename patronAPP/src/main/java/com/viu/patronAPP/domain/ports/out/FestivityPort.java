@@ -9,5 +9,7 @@ public interface FestivityPort {
 
     public Festivity getFestivityByVillageId(String villageId);
 
-    public List<Festivity> getAllFestivities();
+    public List<Festivity> getAllFestivities(String page, String size);
+
+    public List<Festivity> getAllFestivitiesByIds(List<String> ids);
 }

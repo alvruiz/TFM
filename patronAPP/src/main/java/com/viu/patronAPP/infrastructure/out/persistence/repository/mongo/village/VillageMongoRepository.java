@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface VillageMongoRepository extends MongoRepository<VillageEntity, String> {
-    List<VillageEntity> findByProvinceId(String provinceId, Pageable pageable);
+    List<VillageEntity> findByProvinceIdOrderById(String provinceId, Pageable pageable);
+
+    List<VillageEntity> findByProvinceId(String provinceId);
 }

@@ -1,3 +1,5 @@
+import { Festivity } from "./Festivity";
+
 export interface Village {
     id: string;
     name: string;
@@ -6,5 +8,6 @@ export interface Village {
         latitude: string
     }
     imageUrl: string,
-    provinceId: string
+    provinceId: string,
+    festivity: Festivity
 }

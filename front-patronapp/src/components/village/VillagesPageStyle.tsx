@@ -4,6 +4,10 @@ import colors from '../../utils/colors';
 
 export const StyledCard = styled(Card)(() => ({
     transition: 'transform 0.3s, box-shadow 0.3s',
+    borderRadius: 40,
+    width: '100%',
+    backgroundColor: colors.backgroundLight,
+    color: colors.textDark,
     '&:hover': {
         transform: 'scale(1.05)',
         boxShadow: "2"

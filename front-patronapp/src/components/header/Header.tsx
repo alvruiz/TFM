@@ -19,6 +19,7 @@ const Header = () => {
             position="relative"
             sx={{
                 backgroundColor: colors.backgroundLight,
+                overflow: 'hidden',
                 color: colors.textDark,
                 boxShadow: 3,
                 zIndex: 1300,

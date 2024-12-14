@@ -26,7 +26,7 @@ public class WebSecurityConfig {
             "/authenticate",
             "/provinces/**",
             "/user/**",
-            "/festivity"
+            "/festivities/**",
 
     };
 

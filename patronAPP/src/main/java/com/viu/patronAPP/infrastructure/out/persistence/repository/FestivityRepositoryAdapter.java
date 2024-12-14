@@ -6,6 +6,8 @@ import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.FestivityEn
 import com.viu.patronAPP.infrastructure.out.persistence.mapper.user.FestivityMapper;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.festivity.FestivityMongoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +31,13 @@ public class FestivityRepositoryAdapter implements FestivityPort {
     }
 
     @Override
-    public List<Festivity> getAllFestivities() {
-        return festivityRepository.findAll().stream().map(FestivityMapper::mapFestivityEntityToDomain).toList();
+    public List<Festivity> getAllFestivities(String page, String size) {
+        Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+        return festivityRepository.findAll(pageable).stream().map(FestivityMapper::mapFestivityEntityToDomain).toList();
+    }
+
+    @Override
+    public List<Festivity> getAllFestivitiesByIds(List<String> ids) {
+        return festivityRepository.findAll().stream().filter(festivityEntity -> ids.contains(festivityEntity.getId())).map(FestivityMapper::mapFestivityEntityToDomain).toList();
     }
 }
