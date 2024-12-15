@@ -11,5 +11,4 @@ export const Root = styled('div')({
 
 export const Content = styled('div')({
      flex: 1, // El mapa ocupa el espacio restante
-     overflow: 'hidden', // Evita scroll en el mapa
 });

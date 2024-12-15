@@ -7,6 +7,7 @@ interface UserStore {
     isLoading: boolean;
     error: string | null;
     getUser: (email: string, password: string) => Promise<User>;
+    updateUser: (user: User) => void;
     logOut: () => void;
 }
 
@@ -37,6 +38,10 @@ const useUserStore = create<UserStore>((set) => {
         logOut: () => {
             set({ user: null });
             localStorage.removeItem('user'); // Elimina el usuario del localStorage
+        },
+        updateUser: (user: User) => {
+            set({ user });
+            localStorage.setItem('user', JSON.stringify(user));
         },
     };
 });

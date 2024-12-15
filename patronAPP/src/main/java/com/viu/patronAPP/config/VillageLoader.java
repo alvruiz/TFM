@@ -86,13 +86,13 @@ public class VillageLoader {
             System.out.println("Villages loaded successfully");
 
             List<FestivityEntity> festivities = Arrays.asList(
-                    FestivityEntity.builder().name("Fiesta Patronal San Pedro").id("1").villageId("1").patron("San Pedro").startDate(LocalDate.of(2025, 4, 1)).endDate(LocalDate.of(2025, 4, 2)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San Pedro").id("1").villageId("7").patron("San Pedro").startDate(LocalDate.of(2025, 4, 1)).endDate(LocalDate.of(2025, 4, 2)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal Santa María").id("2").villageId("2").patron("Santa María").startDate(LocalDate.of(2025, 6, 15)).endDate(LocalDate.of(2025, 6, 17)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal San Juan").id("3").villageId("3").patron("San Juan").startDate(LocalDate.of(2025, 8, 23)).endDate(LocalDate.of(2025, 8, 24)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal San Miguel").id("4").villageId("4").patron("San Miguel").startDate(LocalDate.of(2025, 9, 29)).endDate(LocalDate.of(2025, 9, 30)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal San Antonio").id("5").villageId("5").patron("San Antonio").startDate(LocalDate.of(2025, 10, 13)).endDate(LocalDate.of(2025, 10, 14)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal Virgen del Carmen").id("6").villageId("6").patron("Virgen del Carmen").startDate(LocalDate.of(2025, 7, 16)).endDate(LocalDate.of(2025, 7, 17)).build(),
-                    FestivityEntity.builder().name("Fiesta Patronal San José").id("7").villageId("7").patron("San José").startDate(LocalDate.of(2025, 3, 19)).endDate(LocalDate.of(2025, 3, 20)).build(),
+                    FestivityEntity.builder().name("Fiesta Patronal San José").id("7").villageId("1").patron("San José").startDate(LocalDate.of(2025, 9, 19)).endDate(LocalDate.of(2025, 9, 22)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal San Francisco").id("8").villageId("8").patron("San Francisco").startDate(LocalDate.of(2025, 10, 4)).endDate(LocalDate.of(2025, 10, 5)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal Santa Teresa").id("9").villageId("9").patron("Santa Teresa").startDate(LocalDate.of(2025, 10, 15)).endDate(LocalDate.of(2025, 10, 16)).build(),
                     FestivityEntity.builder().name("Fiesta Patronal Nuestra Señora de la Asunción").id("10").villageId("10").patron("Nuestra Señora de la Asunción").startDate(LocalDate.of(2025, 8, 15)).endDate(LocalDate.of(2025, 8, 16)).build(),

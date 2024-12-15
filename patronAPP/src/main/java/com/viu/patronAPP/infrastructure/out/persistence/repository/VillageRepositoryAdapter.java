@@ -27,4 +27,9 @@ public class VillageRepositoryAdapter implements VillagePort {
     public List<Village> getAllVillages(String provinceId) {
         return villageRepository.findByProvinceId(provinceId).stream().map(VillageMapper::mapVillageEntityToDomain).toList();
     }
+
+    @Override
+    public Village getVillageById(String id) {
+        return villageRepository.findById(id).map(VillageMapper::mapVillageEntityToDomain).orElse(null);
+    }
 }

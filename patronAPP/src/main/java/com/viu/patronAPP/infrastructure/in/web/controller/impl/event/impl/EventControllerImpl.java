@@ -11,6 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @AllArgsConstructor
 public class EventControllerImpl implements EventController {
@@ -33,6 +36,12 @@ public class EventControllerImpl implements EventController {
                 .build();
         eventUseCasesPort.createEvent(event);
         return ResponseEntity.ok(eventDTO);
+    }
+
+    @Override
+    public ResponseEntity<List<EventDTO>> getEventByFestivityId(String festivityId) {
+        List<Event> event = eventUseCasesPort.getEventByFestivityId(festivityId);
+        return ResponseEntity.ok(event.stream().map(eventDTO -> EventDTO.builder().eventName(eventDTO.getName()).eventDescription(eventDTO.getDescription()).eventStartDate(eventDTO.getStartDate()).eventEndDate(eventDTO.getEndDate()).coords(eventDTO.getCoords()).eventMaxCapacity(eventDTO.getMaxCapacity()).attendees(eventDTO.getAttendees()).eventFestivityId(eventDTO.getFestivityId()).build()).collect(Collectors.toList()));
     }
 
     @Override

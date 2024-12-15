@@ -38,7 +38,7 @@ public class ProvinceServiceImpl implements ProvinceUseCasesPort {
             throw new NotFoundException("Province not found");
         }
         List<Village> villages = villagePort.getVillagesByProvince(provinceId, page, size);
-        List<Festivity> festivities = festivityPort.getAllFestivitiesByIds(villages.stream().map(Village::getId).toList());
+        List<Festivity> festivities = festivityPort.getAllFestivitiesByVillageIds(villages.stream().map(Village::getId).toList());
         villages.forEach(village -> village.setFestivity(festivities.stream().filter(festivity -> festivity.getVillageId().equals(village.getId())).findFirst().orElse(null)));
         return villages;
     }
@@ -46,7 +46,7 @@ public class ProvinceServiceImpl implements ProvinceUseCasesPort {
     @Override
     public List<Village> getAllVillages(String provinceId) {
         List<Village> villages = villagePort.getAllVillages(provinceId);
-        List<Festivity> festivities = festivityPort.getAllFestivitiesByIds(villages.stream().map(Village::getId).toList());
+        List<Festivity> festivities = festivityPort.getAllFestivitiesByVillageIds(villages.stream().map(Village::getId).toList());
         villages.forEach(village -> village.setFestivity(festivities.stream().filter(festivity -> festivity.getVillageId().equals(village.getId())).findFirst().orElse(null)));
         return villages;
     }

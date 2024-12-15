@@ -49,6 +49,7 @@ public class ProvinceControllerImpl implements ProvinceController {
                 .imageUrl(village.getImageUrl())
                 .provinceId(village.getProvinceId())
                 .festivity(village.getFestivity() != null ? FestivityDTO.builder()
+                        .id(village.getFestivity().getId())
                         .name(village.getFestivity().getName())
                         .startDate(village.getFestivity().getStartDate())
                         .endDate(village.getFestivity().getEndDate())

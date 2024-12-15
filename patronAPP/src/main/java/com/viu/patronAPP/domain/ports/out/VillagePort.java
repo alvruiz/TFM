@@ -9,4 +9,5 @@ public interface VillagePort {
 
     public List<Village> getAllVillages(String provinceId);
 
+    public Village getVillageById(String id);
 }

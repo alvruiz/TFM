@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Builder
 @Data
 public class FestivityDTO {
+    private String id;
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;

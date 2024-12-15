@@ -27,6 +27,8 @@ public class WebSecurityConfig {
             "/provinces/**",
             "/user/**",
             "/festivities/**",
+            "/villages/**",
+            "/events/**"
 
     };
 

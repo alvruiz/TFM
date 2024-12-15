@@ -44,3 +44,20 @@ export const getVillageFestivity = async (page: number, size: number): Promise<F
         throw error;
     }
 };
+
+
+export const getVillage = async (id: string): Promise<Village> => {
+    try {
+        const response = await axios.get<Village>(`${API_BASE_URL}/villages/${id}`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            withCredentials: false
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching village:', error);
+        throw error;
+    }
+};

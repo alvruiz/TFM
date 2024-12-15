@@ -61,4 +61,11 @@ public class EventServiceImpl implements EventUseCasesPort {
         eventPort.updateEvent(eventId, event);
     }
 
+    @Override
+    public List<Event> getEventByFestivityId(String festivityId) {
+        if (eventPort.getEventByFestivityId(festivityId) == null) {
+            throw new NotFoundException("Event not found");
+        }
+        return eventPort.getEventByFestivityId(festivityId);
+    }
 }

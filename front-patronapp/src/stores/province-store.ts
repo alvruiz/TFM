@@ -4,6 +4,7 @@ import { getProvinces } from '../services/get-provinces.service';
 import { getVillageFestivity, getVillages } from '../services/get-villages.service';
 import { Village } from '../model/Village';
 import { Festivity } from '../model/Festivity';
+import { getEvents } from '../services/get-events.service';
 interface ProvinceStore {
     provinces: Province[];
     villages: Village[];
@@ -70,6 +71,7 @@ const useProvinceStore = create<ProvinceStore>((set, get) => ({
         }
     },
 
+
     getFestivities: async (page: number, itemsPerPage: number) => {
         set({ isLoading: true, error: null });
 
@@ -89,6 +91,8 @@ const useProvinceStore = create<ProvinceStore>((set, get) => ({
     setAmountItems: async (amountItems) => {
         set({ amountItems: amountItems })
     },
+
+
     resetPageAndAmountItems: async () => {
         set({ actualPage: 0, amountItems: 9 })
     }

@@ -37,7 +37,7 @@ public class FestivityRepositoryAdapter implements FestivityPort {
     }
 
     @Override
-    public List<Festivity> getAllFestivitiesByIds(List<String> ids) {
-        return festivityRepository.findAll().stream().filter(festivityEntity -> ids.contains(festivityEntity.getId())).map(FestivityMapper::mapFestivityEntityToDomain).toList();
+    public List<Festivity> getAllFestivitiesByVillageIds(List<String> ids) {
+        return festivityRepository.findAll().stream().filter(festivityEntity -> ids.contains(festivityEntity.getVillageId())).map(FestivityMapper::mapFestivityEntityToDomain).toList();
     }
 }

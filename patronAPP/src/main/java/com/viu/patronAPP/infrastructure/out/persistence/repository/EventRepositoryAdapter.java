@@ -8,6 +8,7 @@ import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.event.E
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -39,6 +40,11 @@ public class EventRepositoryAdapter implements EventPort {
         EventEntity entityEntity = EventMapper.mapEventDomainToEntity(event);
         entityEntity.setId(id);
         eventRepository.save(entityEntity);
+    }
+
+    @Override
+    public List<Event> getEventByFestivityId(String festivityId) {
+        return eventRepository.findByFestivityId(festivityId).stream().map(EventMapper::mapEventEntityToDomain).toList();
     }
 }
 

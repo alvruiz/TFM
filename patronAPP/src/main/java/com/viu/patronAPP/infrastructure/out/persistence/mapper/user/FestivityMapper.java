@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class FestivityMapper {
     public static Festivity mapFestivityEntityToDomain(FestivityEntity festivityEntity) {
         return Festivity.builder()
+                .id(festivityEntity.getId())
                 .name(festivityEntity.getName())
                 .startDate(festivityEntity.getStartDate())
                 .endDate(festivityEntity.getEndDate())
@@ -18,6 +19,7 @@ public class FestivityMapper {
 
     public static FestivityEntity mapFestivityDomainToEntity(Festivity festivity) {
         return FestivityEntity.builder()
+                .id(festivity.getId())
                 .name(festivity.getName())
                 .startDate(festivity.getStartDate())
                 .endDate(festivity.getEndDate())

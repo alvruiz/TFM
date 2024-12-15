@@ -46,6 +46,7 @@ public class FestivityControllerImpl implements FestivityController {
     public ResponseEntity<List<FestivityDTO>> getFestivities(String page, String size) {
         List<Festivity> festivities = festivityUseCasesPort.getAllFestivities(page, size);
         return ResponseEntity.ok(festivities.stream().map(festivity -> FestivityDTO.builder()
+                .id(festivity.getId())
                 .name(festivity.getName())
                 .startDate(festivity.getStartDate())
                 .endDate(festivity.getEndDate())

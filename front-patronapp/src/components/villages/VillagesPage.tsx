@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useProvinceStore from '../../stores/province-store';
 import Header from '../header/Header';
 import { CardContent, CardMedia, StyledEngineProvider, Typography, Button } from '@mui/material';
@@ -16,7 +16,7 @@ const VillagesPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(9);
 
     const [hasMore, setHasMore] = useState(true);
-
+    const navigate = useNavigate();
 
     // Controlar la cantidad de elementos por página según el ancho de la ventana
     const calculateItemsPerPage = () => {
@@ -115,6 +115,7 @@ const VillagesPage = () => {
                                     }}
                                 >
                                     <StyledCardActionArea
+                                        onClick={() => navigate(`/village/${village.id}`)}
                                         sx={{
                                             '&:hover .zoom-image': {
                                                 transform: 'scale(1.1)',

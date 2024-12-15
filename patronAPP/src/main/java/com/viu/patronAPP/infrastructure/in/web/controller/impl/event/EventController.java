@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/event")
+import java.util.List;
+
+@RequestMapping("/events")
 @Tag(name = "Event", description = "Operations related to event creation, subscription, and management.")
 public interface EventController {
     @Operation(
@@ -47,4 +49,16 @@ public interface EventController {
     )
     @PostMapping("/subscribe")
     public ResponseEntity<String> subscribeOrUnsubscribeEvent(@RequestBody SubscribeDTO suscribeDTO);
+
+    @Operation(
+            summary = "Get an event by festivity ID",
+            description = "This endpoint retrieves an event by its festivity ID.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Event retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Event not found")
+            }
+    )
+    @GetMapping("/{festivityId}")
+    @CrossOrigin
+    public ResponseEntity<List<EventDTO>> getEventByFestivityId(@PathVariable String festivityId);
 }
