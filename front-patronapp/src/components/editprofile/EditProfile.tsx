@@ -25,7 +25,7 @@ const EditProfile = () => {
 
     return (
         <StyledEngineProvider injectFirst>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%' }}>
+            <div style={{ minHeight: '100vh', width: '100%', backgroundColor: colors.backgroundLight2 }}>
                 <Header />
 
                 <EditProfileContainer sx={{ backgroundColor: colors.backgroundLight2, flex: 1 }}>

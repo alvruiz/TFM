@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class EventMapper {
     public static Event mapEventEntityToDomain(EventEntity eventEntity) {
         return Event.builder()
+                .id(eventEntity.getId())
                 .name(eventEntity.getName())
                 .description(eventEntity.getDescription())
                 .startDate(eventEntity.getStartDate())
@@ -21,6 +22,7 @@ public class EventMapper {
 
     public static EventEntity mapEventDomainToEntity(Event event) {
         return EventEntity.builder()
+                .id(event.getId())
                 .name(event.getName())
                 .description(event.getDescription())
                 .startDate(event.getStartDate())

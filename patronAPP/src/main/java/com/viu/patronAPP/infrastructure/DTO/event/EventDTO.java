@@ -10,6 +10,7 @@ import java.util.List;
 @Builder
 @Data
 public class EventDTO {
+    private String id;
     private String eventName;
     private String eventDescription;
     private LocalDateTime eventStartDate;

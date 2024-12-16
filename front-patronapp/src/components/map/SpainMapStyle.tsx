@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import colors from '../../utils/colors';
 
 export const StyledButton = styled(Button)`
+  color: ${colors.secondary};
   background-color: ${colors.textDark};
   &:hover {
     background-color: ${colors.secondary};

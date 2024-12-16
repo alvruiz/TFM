@@ -1,11 +1,11 @@
 import axios from "axios";
 import { API_BASE_URL } from "../configuration/config";
-import { Event } from "../model/Event";
+import FestivityEvent from "../model/Event";
 
 
-export const getEvents = async (festivityId: string): Promise<Event[]> => {
+export const getEvents = async (festivityId: string): Promise<FestivityEvent[]> => {
     try {
-        const response = await axios.get<Event[]>(`${API_BASE_URL}/events/${festivityId}`, {
+        const response = await axios.get<FestivityEvent[]>(`${API_BASE_URL}/events/${festivityId}`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

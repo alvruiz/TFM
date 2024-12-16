@@ -2,11 +2,11 @@ import { create } from "zustand";
 import { getEvents } from "../services/get-events.service";
 import { getVillage } from "../services/get-villages.service";
 import { Village } from "../model/Village";
-import { Event } from "../model/Event";
+import FestivityEvent from "../model/Event";
 
 interface VillageStore {
     village: Village | null;
-    events: Event[];
+    events: FestivityEvent[];
     isLoading: boolean;
     error: string | null;
     getVillage: (id: string) => Promise<void>;
@@ -23,6 +23,7 @@ const useVillageStore = create<VillageStore>((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await getVillage(id);
+            const events = await getEvents(response.festivity.id);
             set({ village: response, isLoading: false });
         } catch (error) {
             set({ error: 'Error al obtener la villa', isLoading: false });

@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @Data
 public class Event {
-
+    private String id;
     private String name;
     private String description;
     private LocalDateTime startDate;

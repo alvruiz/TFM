@@ -1,6 +1,5 @@
-
-
-export interface Event {
+export default interface FestivityEvent {
+    id: string,
     eventName: string;
     eventDescription: string;
     eventStartDate: Date;

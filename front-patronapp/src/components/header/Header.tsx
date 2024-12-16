@@ -28,7 +28,6 @@ const Header = () => {
                     color: colors.textDark,
                     boxShadow: 3,
                     zIndex: 1300,
-                    height: "7vh",
                 }}
             >
                 <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -37,7 +36,7 @@ const Header = () => {
                         <img
                             src="/logoConTexto.png"
                             alt="Logo"
-                            style={{ margin: "10px", height: '5vh', transition: 'transform 0.3s ease, opacity 0.3s ease', cursor: 'pointer' }}
+                            style={{ margin: "10px", height: '50px', transition: 'transform 0.3s ease, opacity 0.3s ease', cursor: 'pointer' }}
                             className="logo"
                             onClick={() => navigate('/')} // Redirigir al inicio al hacer clic en el logo
                         />

@@ -9,7 +9,6 @@ const EventMap = ({ village, events }) => {
 
         // Extraer las coordenadas del centro del mapa desde actualProvince
         const { latitude, longitude } = village.coords;
-
         // Crear el mapa y centrarlo en las coordenadas de actualProvince
         const map = L.map("map", {
             center: [latitude, longitude], // Coordenadas del centro de la provincia
@@ -53,7 +52,7 @@ const EventMap = ({ village, events }) => {
         };
     }, [village, events]); // Reactividad ante cambios en actualProvince o actualVillages
 
-    return <div id="map" style={{ height: "81vh", width: "100%" }}></div>;
+    return <div id="map" style={{ height: "100%", width: "100%" }}></div>;
 };
 
 export default EventMap;

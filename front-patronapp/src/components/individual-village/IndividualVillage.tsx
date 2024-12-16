@@ -1,24 +1,25 @@
 import { StyledEngineProvider } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Header from "../header/Header";
-import { Calendar, momentLocalizer } from 'react-big-calendar'
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import EventMap from "../map/events/EventMap";
 import useVillageStore from "../../stores/village-store";
-import { Card, CardContent, CardMedia } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import { ClipLoader } from "react-spinners";
 import { Root } from "../list/MainPageStyles";
 import { StyledTypographySubtitle, StyledTypographyTitle } from "./IndividualVillageStyles";
 import colors from "../../utils/colors";
-
-
+import EventDetailsModal from "./modal/EventDetailsModal";
+import FestivityEvent from "../../model/Event";
 const IndividualVillage = () => {
     const id = useParams().id;
     const [calendarStartDate, setCalendarStartDate] = useState(null);
-
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const { getEvents, getVillage, village, events } = useVillageStore();
     useEffect(() => {
         const fetchVillage = async () => {
@@ -41,75 +42,96 @@ const IndividualVillage = () => {
         }
     }, [village, calendarStartDate]);
 
-
     const localizer = momentLocalizer(moment);
     if (!village || !events) {
         return <ClipLoader color="#6A4A3C" loading={true} size={70} />;
     }
-    const isValidDate = (date) => {
-        const parsedDate = new Date(date);
-        return !isNaN(parsedDate.getTime());
+    const handleEventClick = (event) => {
+        setSelectedEvent(event);
+        setOpenModal(true);
     };
 
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedEvent(null);
+    };
     const defaultDate = "2025-08-19";
 
-    console.log(village)
     return (
         <StyledEngineProvider injectFirst>
-
             <Root>
-
-                <Header></Header>
-                <Grid container sx={{ flexGrow: 1 }}>
-                    <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }} sx={{ height: '12vh' }} >
-                        <Card style={{ border: "none", boxShadow: "none" }}>
-
+                <Header />
+                <Grid container sx={{ flexGrow: 1, height: 'calc(100vh - 64px)', margin: 0, padding: 0 }}>
+                    {/* Card section occupying full width */}
+                    <Grid size={{ xs: 12 }} sx={{ padding: 0 }}>
+                        <Card style={{ border: "none", boxShadow: "none", padding: 0 }}>
                             <CardContent sx={{ backgroundImage: `url(${village?.imageUrl ?? ""})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                                <div style={{ width: "50%", backgroundColor: colors.backgroundLight, borderRadius: 10, padding: 10, marginBottom: 10 }}>
+                                <div style={{ width: "100%", backgroundColor: colors.backgroundLight, padding: 10 }}>
                                     <StyledTypographyTitle>
                                         {village?.name ?? ""} - {village?.festivity?.name ?? ""}
                                     </StyledTypographyTitle>
                                     <StyledTypographySubtitle variant="body2" color="text.secondary">
                                     </StyledTypographySubtitle>
                                     <StyledTypographySubtitle variant="body2" color="text.secondary">
-                                        Ubicación: Latitud: {village?.coords?.latitude ?? ""}, Longitud: {village?.coords?.longitude ?? ""} <br></br>
                                         Fecha de inicio: {village?.festivity?.startDate ?? ""} - Fecha de fin: {village?.festivity?.endDate ?? ""}
                                     </StyledTypographySubtitle>
                                 </div>
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, md: 6, lg: 4 }} sx={{ flexGrow: 1, height: "81vh", paddingTop: 0.4 }} >
-                        <EventMap
-                            village={village}
-                            events={events}
-                        />
+
+                    {/* Content section below the Card (Map and Calendar side by side) */}
+                    <Grid container sx={{ flexGrow: 1, height: 'calc(100vh - 10vh - 64px)', padding: 0 }}>
+
+                        {/* Calendar - This comes first on smaller screens */}
+                        <Grid
+                            size={{ xs: 12, sm: 12, md: 6, lg: 7 }}
+                            order={{ xs: 1, sm: 1, md: 2, lg: 2 }}
+                            sx={{ padding: 2, backgroundColor: colors.backgroundLight2, height: '100%' }}
+                        >
+                            <div style={{ height: '100%' }}>
+                                <Calendar
+                                    localizer={localizer}
+                                    events={events && events.length > 0 ? events.map((event: FestivityEvent) => ({
+                                        id: event.id || 'asdasd',
+                                        title: event.eventName,
+                                        start: event.eventStartDate ? new Date(event.eventStartDate) : new Date(),
+                                        end: event.eventEndDate ? new Date(event.eventEndDate) : new Date()
+                                    })) : []}
+                                    date={calendarStartDate || defaultDate}
+                                    startAccessor="start"
+                                    endAccessor="end"
+                                    style={{ height: '100%' }}
+                                    onSelectEvent={(event) => handleEventClick(events.find(event2 => event.id === event2.id))}
+                                />
+                            </div>
+                        </Grid>
+
+                        {/* Event Map - This comes second on smaller screens */}
+                        <Grid
+                            size={{ xs: 12, sm: 12, md: 6, lg: 5 }}
+                            order={{ xs: 2, sm: 2, md: 1, lg: 1 }}
+                            sx={{ height: '100%', padding: 0 }}
+                        >
+                            <div style={{ height: '100%', backgroundColor: colors.backgroundLight2, display: 'flex', flexDirection: 'column' }}>
+                                {/* Event Map */}
+                                <div style={{ flex: 1 }}>
+                                    <EventMap village={village} events={events} />
+                                </div>
+                            </div>
+                        </Grid>
 
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, md: 6, lg: 8 }}>
-                        <div style={{ height: "81vh", padding: 1 }}>
-                            <Calendar
-                                localizer={localizer}
-                                events={events && events.length > 0 ? events.map((event) => ({
-                                    title: event.eventName,
-                                    start: event.eventStartDate ? new Date(event.eventStartDate) : new Date(),
-                                    end: event.eventEndDate ? new Date(event.eventEndDate) : new Date()
-                                })) : []}
-                                date={calendarStartDate || defaultDate}
-                                startAccessor="start"
-                                endAccessor="end"
-                                style={{ font: "Roboto" }}
-                                onShowMore={(events, date) => console.log(date)}
-                            />
-                        </div>
-                    </Grid>
-
 
                 </Grid>
+                <EventDetailsModal
+                    open={openModal}
+                    event={selectedEvent}
+                    onClose={handleCloseModal}
+                    village={village}
+                />
             </Root>
-        </StyledEngineProvider >
-
-
+        </StyledEngineProvider>
     );
 };
 

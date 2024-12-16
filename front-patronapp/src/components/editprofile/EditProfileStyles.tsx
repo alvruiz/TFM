@@ -14,7 +14,6 @@ export const EditProfileContainer = styled(Box)({
     height: '100%',
     borderRadius: '8px',
     backgroundColor: 'white',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
 });
 
 // Título de la página

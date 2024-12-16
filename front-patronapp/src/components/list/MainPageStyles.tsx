@@ -4,7 +4,7 @@ import colors from '../../utils/colors';
 
 
 export const Root = styled('div')({
-     height: '100vh',
+     maxHeight: '100vh',
      display: 'flex',
      flexDirection: 'column',
 });

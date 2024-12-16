@@ -35,13 +35,14 @@ public class EventControllerImpl implements EventController {
                 .festivityId(eventDTO.getEventFestivityId())
                 .build();
         eventUseCasesPort.createEvent(event);
+        eventDTO.setId(event.getId());
         return ResponseEntity.ok(eventDTO);
     }
 
     @Override
     public ResponseEntity<List<EventDTO>> getEventByFestivityId(String festivityId) {
         List<Event> event = eventUseCasesPort.getEventByFestivityId(festivityId);
-        return ResponseEntity.ok(event.stream().map(eventDTO -> EventDTO.builder().eventName(eventDTO.getName()).eventDescription(eventDTO.getDescription()).eventStartDate(eventDTO.getStartDate()).eventEndDate(eventDTO.getEndDate()).coords(eventDTO.getCoords()).eventMaxCapacity(eventDTO.getMaxCapacity()).attendees(eventDTO.getAttendees()).eventFestivityId(eventDTO.getFestivityId()).build()).collect(Collectors.toList()));
+        return ResponseEntity.ok(event.stream().map(eventDTO -> EventDTO.builder().id(eventDTO.getId()).eventName(eventDTO.getName()).eventDescription(eventDTO.getDescription()).eventStartDate(eventDTO.getStartDate()).eventEndDate(eventDTO.getEndDate()).coords(eventDTO.getCoords()).eventMaxCapacity(eventDTO.getMaxCapacity()).attendees(eventDTO.getAttendees()).eventFestivityId(eventDTO.getFestivityId()).build()).collect(Collectors.toList()));
     }
 
     @Override
