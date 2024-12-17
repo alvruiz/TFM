@@ -9,6 +9,7 @@ import { Content } from "../list/MainPageStyles";
 import { Role } from "../../model/Role";
 import CreateEventModal from "../individual-village/modal/CreteEventModal";
 import useVillageStore from "../../stores/village-store";
+import { LogoutButton, StyledButton, StyledIconButton } from "./HeaderStyles";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -113,69 +114,37 @@ const Header = () => {
                                                     fontSize: '16px',
                                                 }}
                                             >
-                                                Administrador
+                                                Community Manager
                                             </Typography>
                                         )}
                                         <ProfileCircle imageUrl={user.imageUrl} altText={user.name} width={40} height={40} />
                                     </Stack>)}
                                 {user.rol === Role.CM && currentRoute !== `/village/${user.villageId}` && (
-                                    <Button
-                                        sx={{
-                                            display: { xs: 'none', sm: 'flex' }, // Ocultar en pantallas pequeñas
-                                            color: colors.secondary,
-                                            backgroundColor: colors.textDark,
-                                            '&:hover': {
-                                                backgroundColor: colors.secondary,
-                                                color: colors.textDark,
-                                            },
-                                            alignItems: 'center',
-                                            whiteSpace: 'nowrap',
-                                        }}
+                                    <StyledButton
+
                                         onClick={() => navigate(`/village/${user.villageId}`)} // Redirigir al pueblo del alcalde
                                     >
                                         <Home />
-                                    </Button>
+                                    </StyledButton>
                                 )
                                 }
                                 {currentRoute === `/village/${id}` && (user.rol === Role.ADMIN || (user.rol === Role.CM && user.villageId === id)) && (
-                                    <Button
-                                        sx={{
-                                            display: { xs: 'none', sm: 'flex' }, // Ocultar en pantallas pequeñas
-                                            color: colors.secondary,
-                                            backgroundColor: colors.textDark,
-                                            '&:hover': {
-                                                backgroundColor: colors.secondary,
-                                                color: colors.textDark,
-                                            },
-                                            alignItems: 'center',
-                                            whiteSpace: 'nowrap',
-                                        }}
-                                        onClick={() => setModalOpen(true)} // Abrir el modal
-                                    >
-                                        <Add sx={{ marginRight: 1 }} />
-                                        Añadir evento
-                                    </Button>
+                                    <StyledButton onClick={() => setModalOpen(true)}>
+                                        <Add />
+                                        <Typography variant="body2" sx={{}}>
+                                            Añadir evento
+                                        </Typography>
+                                    </StyledButton>
                                 )}
 
                                 {/* Mostrar solo el icono en pantallas pequeñas */}
-                                <Button
-                                    sx={{
-                                        display: { xs: 'none', sm: 'flex' }, // Ocultar en pantallas pequeñas
-                                        color: colors.textDark,
-                                        backgroundColor: colors.secondary,
-                                        '&:hover': {
-                                            backgroundColor: colors.primary,
-                                            color: colors.secondary,
-                                        },
-                                        alignItems: 'center',
-                                        whiteSpace: 'nowrap',
-                                    }}
-                                    onClick={handleLogout}
-                                >
-                                    <Logout sx={{ marginRight: 1 }} />
-                                    Cerrar sesión
-                                </Button>
-                                <IconButton
+                                <LogoutButton onClick={handleLogout}>
+                                    <Logout />
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                                        Cerrar sesión
+                                    </Typography>
+                                </LogoutButton>
+                                <StyledIconButton
                                     sx={{
                                         display: { xs: 'flex', sm: 'none' },
                                         color: colors.textDark,
@@ -188,7 +157,7 @@ const Header = () => {
                                     onClick={handleLogout}
                                 >
                                     <Logout />
-                                </IconButton>
+                                </StyledIconButton>
                             </>
                         )}
                     </Stack>

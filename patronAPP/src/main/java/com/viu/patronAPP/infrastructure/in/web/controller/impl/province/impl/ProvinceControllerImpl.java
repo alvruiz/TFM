@@ -7,6 +7,7 @@ import com.viu.patronAPP.infrastructure.DTO.province.ProvinceDTO;
 import com.viu.patronAPP.infrastructure.DTO.province.VillageDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.province.ProvinceController;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +16,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class ProvinceControllerImpl implements ProvinceController {
     private final ProvinceServiceImpl provinceService;
 
 
     public ResponseEntity<List<ProvinceDTO>> getProvinces() {
+        log.info("Get provinces");
         return ResponseEntity.ok(provinceService.getProvinces().stream().map(province -> ProvinceDTO.builder()
                 .id(province.getId())
                 .name(province.getName())
@@ -31,17 +34,20 @@ public class ProvinceControllerImpl implements ProvinceController {
 
     @Override
     public ResponseEntity<List<VillageDTO>> getVillagesbyProvince(String provinceId, String page, String size) {
+        log.info("Get villages by province");
         List<Village> villages = provinceService.getVillagesByProvince(provinceId, page, size);
         return getListResponseEntity(villages);
     }
 
     @Override
     public ResponseEntity<List<VillageDTO>> getAllVillages(String provinceId) {
+        log.info("Get villages by province");
         List<Village> villages = provinceService.getAllVillages(provinceId);
         return getListResponseEntity(villages);
     }
 
     private ResponseEntity<List<VillageDTO>> getListResponseEntity(List<Village> villages) {
+        log.info("Get list response entity");
         return ResponseEntity.ok(villages.stream().map(village -> VillageDTO.builder()
                 .name(village.getName())
                 .id(village.getId())

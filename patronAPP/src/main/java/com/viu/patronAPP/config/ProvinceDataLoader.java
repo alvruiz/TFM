@@ -3,6 +3,7 @@ package com.viu.patronAPP.config;
 import com.viu.patronAPP.domain.model.Coords;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.ProvinceEntity;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.province.ProvinceMongoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class ProvinceDataLoader {
 
 
@@ -74,7 +76,7 @@ public class ProvinceDataLoader {
             );
             provinceRepository.saveAll(provinces);
 
-            System.out.println("Provinces loaded successfully");
+            log.info("Provinces loaded successfully");
         };
     }
 }

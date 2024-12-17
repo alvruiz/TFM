@@ -3,6 +3,7 @@ package com.viu.patronAPP.config;
 import com.viu.patronAPP.domain.model.Rol;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.UserEntity;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.user.UserMongoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class UserDataLoader {
 
     @Bean
@@ -85,7 +87,7 @@ public class UserDataLoader {
             List<UserEntity> users = Arrays.asList(admin, user1, user2, user3, user4);
             userRepository.saveAll(users);
 
-            System.out.println("Users loaded successfully");
+            log.info("Users loaded successfully");
         };
     }
 }

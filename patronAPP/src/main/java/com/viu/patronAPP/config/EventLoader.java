@@ -3,6 +3,7 @@ package com.viu.patronAPP.config;
 import com.viu.patronAPP.domain.model.Coords;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.EventEntity;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.event.EventMongoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class EventLoader {
 
     @Bean
@@ -37,7 +39,7 @@ public class EventLoader {
             );
 
             eventRepository.saveAll(events);
-            System.out.println("Events loaded successfully");
+            log.info("Events loaded successfully");
         };
     }
 }

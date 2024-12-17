@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, IconButton, TextField, Button } from '@mui/material';
-import { Close } from '@mui/icons-material';
+import { Close, Delete } from '@mui/icons-material';
 import colors from '../../../utils/colors';
 import { StyledTextField } from './CreateEventModalStyles';
 
@@ -10,10 +10,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
         eventDescription: '',
         eventStartDate: '',
         eventEndDate: '',
-        coords: {
-            latitude: '',
-            longitude: '',
-        },
+        coords: [], // Cambiado para soportar múltiples coordenadas
         eventMaxCapacity: '',
     });
 
@@ -30,10 +27,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                 eventDescription: '',
                 eventStartDate: '',
                 eventEndDate: '',
-                coords: {
-                    latitude: '',
-                    longitude: '',
-                },
+                coords: [],
                 eventMaxCapacity: '',
             });
             setCapacityError(false);
@@ -43,26 +37,15 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
     }, [open]);
 
     const handleChange = (field, value) => {
-        if (field.includes('coords.')) {
-            const coordField = field.split('.')[1];
-            setEventData(prev => ({
-                ...prev,
-                coords: {
-                    ...prev.coords,
-                    [coordField]: value,
-                },
-            }));
-        } else {
-            setEventData(prev => ({
-                ...prev,
-                [field]: value,
-            }));
-        }
+        setEventData(prev => ({
+            ...prev,
+            [field]: value,
+        }));
     };
 
     const handleMaxCapacityChange = (value) => {
         if (value < 0) {
-            setCapacityError(true);  // Mostrar error si el valor es negativo
+            setCapacityError(true); // Mostrar error si el valor es negativo
         } else {
             setCapacityError(false); // Quitar error si el valor es válido
         }
@@ -72,26 +55,48 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
         }));
     };
 
-    // Verificar si las fechas son válidas
     const handleDateValidation = () => {
-        const today = new Date().toISOString().slice(0, 16); // Fecha actual en formato ISO (yyyy-mm-ddThh:mm)
+        const today = new Date().toISOString().slice(0, 16);
         const startDateValid = eventData.eventStartDate >= today;
         const endDateValid = eventData.eventEndDate > eventData.eventStartDate;
 
-        setStartDateError(eventData.eventStartDate && !startDateValid); // Solo mostrar error si el campo no está vacío
-        setEndDateError(eventData.eventEndDate && !endDateValid); // Solo mostrar error si el campo no está vacío
+        setStartDateError(eventData.eventStartDate && !startDateValid);
+        setEndDateError(eventData.eventEndDate && !endDateValid);
 
         return startDateValid && endDateValid;
     };
 
     useEffect(() => {
-        // Comprobar las fechas y capacidad siempre que haya un cambio
         handleDateValidation();
     }, [eventData]);
 
+    // Manejo dinámico de coordenadas
+    const handleAddCoord = () => {
+        setEventData(prev => ({
+            ...prev,
+            coords: [...prev.coords, { latitude: '', longitude: '' }], // Agregar coordenada vacía
+        }));
+    };
+
+    const handleRemoveCoord = (index) => {
+        setEventData(prev => ({
+            ...prev,
+            coords: prev.coords.filter((_, i) => i !== index),
+        }));
+    };
+
+    const handleCoordChange = (index, field, value) => {
+        setEventData(prev => ({
+            ...prev,
+            coords: prev.coords.map((coord, i) =>
+                i === index ? { ...coord, [field]: value } : coord
+            ),
+        }));
+    };
+
     const handleSubmit = () => {
         if (capacityError || !handleDateValidation()) {
-            return; // No enviar si hay error en la capacidad o las fechas
+            return; // No enviar si hay errores
         }
         onCreate(eventData);
         onClose();
@@ -119,7 +124,6 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                     position: 'relative',
                 }}
             >
-                {/* Botón "X" para cerrar */}
                 <IconButton
                     onClick={onClose}
                     sx={{
@@ -132,12 +136,10 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                     <Close />
                 </IconButton>
 
-                {/* Título */}
                 <Typography variant="h5" sx={{ marginBottom: 3, fontSize: '24px', color: colors.textDark, fontWeight: 'bold' }}>
                     Crear Nuevo Evento
                 </Typography>
 
-                {/* Campos del formulario */}
                 <StyledTextField
                     label="Nombre del Evento"
                     variant="outlined"
@@ -180,22 +182,42 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                     error={endDateError}
                     helperText={endDateError ? 'La fecha de fin debe ser posterior a la fecha de inicio.' : ''}
                 />
-                <StyledTextField
-                    label="Latitud"
-                    variant="outlined"
-                    fullWidth
-                    value={eventData.coords.latitude}
-                    onChange={e => handleChange('coords.latitude', e.target.value)}
-                    sx={{ marginBottom: 2 }}
-                />
-                <StyledTextField
-                    label="Longitud"
-                    variant="outlined"
-                    fullWidth
-                    value={eventData.coords.longitude}
-                    onChange={e => handleChange('coords.longitude', e.target.value)}
-                    sx={{ marginBottom: 2 }}
-                />
+                <Typography sx={{ marginBottom: 2 }}>Coordenadas:</Typography>
+                {eventData.coords.map((coord, index) => (
+                    <Box key={index} sx={{ display: 'flex', gap: 2, alignItems: 'center', marginBottom: 2 }}>
+                        <StyledTextField
+                            label="Latitud"
+                            variant="outlined"
+                            fullWidth
+                            value={coord.latitude}
+                            onChange={e => handleCoordChange(index, 'latitude', e.target.value)}
+                        />
+                        <StyledTextField
+                            label="Longitud"
+                            variant="outlined"
+                            fullWidth
+                            value={coord.longitude}
+                            onChange={e => handleCoordChange(index, 'longitude', e.target.value)}
+                        />
+                        <Button
+                            onClick={() => handleRemoveCoord(index)}
+                            sx={{ backgroundColor: colors.primary, color: 'white', ':hover': { backgroundColor: colors.secondary } }}
+                        >
+                            <Delete></Delete>
+                        </Button>
+                    </Box>
+                ))}
+                <Button
+                    onClick={handleAddCoord}
+                    sx={{
+                        backgroundColor: colors.primary,
+                        color: 'white',
+                        marginBottom: 3,
+                        ':hover': { backgroundColor: colors.secondary },
+                    }}
+                >
+                    Agregar Coordenada
+                </Button>
                 <StyledTextField
                     label="Capacidad Máxima"
                     type="number"
@@ -207,19 +229,15 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                     error={capacityError}
                     helperText={capacityError ? 'La capacidad no puede ser negativa' : ''}
                 />
-
-                {/* Botón para crear el evento */}
                 <Button
                     onClick={handleSubmit}
                     fullWidth
                     sx={{
                         backgroundColor: colors.primary,
                         color: 'white',
-                        ':hover': {
-                            backgroundColor: colors.secondary,
-                        },
+                        ':hover': { backgroundColor: colors.secondary },
                     }}
-                    disabled={capacityError || startDateError || endDateError}  // Desactivar el botón si hay error
+                    disabled={capacityError || startDateError || endDateError}
                 >
                     Crear Evento
                 </Button>

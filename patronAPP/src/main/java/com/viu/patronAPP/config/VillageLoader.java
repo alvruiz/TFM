@@ -5,6 +5,7 @@ import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.FestivityEn
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.VillageEntity;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.festivity.FestivityMongoRepository;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.village.VillageMongoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class VillageLoader {
 
     @Bean
@@ -83,7 +85,7 @@ public class VillageLoader {
             );
 
             villageRepository.saveAll(villages);
-            System.out.println("Villages loaded successfully");
+            log.info("Villages loaded successfully");
 
             List<FestivityEntity> festivities = Arrays.asList(
                     FestivityEntity.builder().name("Fiesta Patronal San Pedro").id("1").villageId("7").patron("San Pedro").startDate(LocalDate.of(2025, 4, 1)).endDate(LocalDate.of(2025, 4, 2)).build(),
@@ -139,7 +141,7 @@ public class VillageLoader {
 
             );
             festivityRepository.saveAll(festivities);
-            System.out.println("Festivities loaded successfully");
+            log.info("Festivities loaded successfully");
         };
     }
 }

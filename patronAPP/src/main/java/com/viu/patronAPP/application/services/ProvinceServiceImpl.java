@@ -9,12 +9,14 @@ import com.viu.patronAPP.domain.ports.out.FestivityPort;
 import com.viu.patronAPP.domain.ports.out.ProvincePort;
 import com.viu.patronAPP.domain.ports.out.VillagePort;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ProvinceServiceImpl implements ProvinceUseCasesPort {
 
     private final ProvincePort provincePort;
@@ -28,13 +30,19 @@ public class ProvinceServiceImpl implements ProvinceUseCasesPort {
 
     @Override
     public Province getProvinceById(String provinceId) {
-        return provincePort.getProvinceById(provinceId);
+        Province province = provincePort.getProvinceById(provinceId);
+        if (province == null) {
+            log.info("Province not found: {}", provinceId);
+            throw new NotFoundException("Province not found");
+        }
+        return province;
     }
 
     @Override
     public List<Village> getVillagesByProvince(String provinceId, String page, String size) {
         Province province = getProvinceById(provinceId);
         if (province == null) {
+            log.info("Province not found: {}", provinceId);
             throw new NotFoundException("Province not found");
         }
         List<Village> villages = villagePort.getVillagesByProvince(provinceId, page, size);

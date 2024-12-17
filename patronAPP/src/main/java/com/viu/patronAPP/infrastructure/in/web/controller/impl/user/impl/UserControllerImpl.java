@@ -7,17 +7,20 @@ import com.viu.patronAPP.infrastructure.DTO.user.UserLoginDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserRegisterDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.user.UserController;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class UserControllerImpl implements UserController {
 
     private final UserUseCasesPort userService;
 
     @Override
     public ResponseEntity<UserDTO> getUserByEmail(String email) {
+        log.info("Get user by email: {}", email);
         User user = userService.getUserByEmail(email);
         UserDTO userDTO = UserDTO.builder()
                 .name(user.getName())
@@ -34,6 +37,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public ResponseEntity<UserDTO> createUser(UserRegisterDTO userDTO) {
+        log.info("Create user: {}", userDTO.getEmail());
         User user = User.builder()
                 .name(userDTO.getName())
                 .password(userDTO.getPassword())
@@ -60,6 +64,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public ResponseEntity<UserDTO> login(UserLoginDTO userLoginDTO) {
+        log.info("Login user: {}", userLoginDTO.getEmail());
         User user = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
         UserDTO userDTO = UserDTO.builder()
                 .name(user.getName())

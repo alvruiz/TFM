@@ -15,6 +15,7 @@ import com.viu.patronAPP.infrastructure.DTO.province.VillageDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.event.EventController;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class EventControllerImpl implements EventController {
 
 
@@ -55,12 +57,14 @@ public class EventControllerImpl implements EventController {
 
     @Override
     public ResponseEntity<List<EventDTO>> getEventByFestivityId(String festivityId) {
+        log.info("Get event by festivity id: {}", festivityId);
         List<Event> event = eventUseCasesPort.getEventByFestivityId(festivityId);
         return ResponseEntity.ok(event.stream().map(eventDTO -> EventDTO.builder().id(eventDTO.getId()).eventName(eventDTO.getName()).eventDescription(eventDTO.getDescription()).eventStartDate(eventDTO.getStartDate()).eventEndDate(eventDTO.getEndDate()).coords(eventDTO.getCoords()).eventMaxCapacity(eventDTO.getMaxCapacity()).attendees(eventDTO.getAttendees()).eventFestivityId(eventDTO.getFestivityId()).build()).collect(Collectors.toList()));
     }
 
     @Override
     public ResponseEntity<String> deleteEvent(String eventId) {
+        log.info("Delete event by id: {}", eventId);
         eventUseCasesPort.deleteEvent(eventId);
         return ResponseEntity.ok("Deleted");
     }
@@ -74,8 +78,10 @@ public class EventControllerImpl implements EventController {
         User userUpdated = userUseCasesPort.updateUser(user);
         List<String> events = user.getEventsParticipating();
         if (events.contains(subscribeDTO.getEventId())) {
+            log.info("Subscribed to event: {}", subscribeDTO.getEventId());
             events = events.stream().filter(eventId -> !eventId.equals(subscribeDTO.getEventId())).toList();
         } else {
+            log.info("Unsubscribed from event: {}", subscribeDTO.getEventId());
             events.add(subscribeDTO.getEventId());
         }
         eventUseCasesPort.suscribeOrUnsuscribeEvent(user.getId(), subscribeDTO.getEventId());

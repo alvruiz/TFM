@@ -9,29 +9,29 @@
 
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
-                <mdc/> <!-- MDC variables on the Thread will be written as JSON fields-->
-                <context/> <!--Outputs entries from logback's context -->
-                <version/> <!-- Logstash json format version, the @version field in the output-->
+                <mdc>
+                    <excludeKeys>password,sensitiveData</excludeKeys> <!-- Evitar datos sensibles -->
+                </mdc>
+                <context/>
+                <version/>
                 <logLevel/>
                 <loggerName/>
-
                 <pattern>
                     <pattern>
                         {
-                        <!-- we can add some custom fields to be sent with all the log entries.-->
-                        <!--make filtering easier in Logstash-->
-                        "appName": "elasticsearch-spring-boot",
-                        "appVersion": "1.0"
+                        "appName": "patron-app",
+                        "appVersion": "1.0",
+                        "environment": "production",
+                        "applicationRegion": "us-east-1",
+                        "ipAddress": "${IP_ADDRESS:-unknown}",
+                        "instanceId": "instance-1"
                         }
                     </pattern>
                 </pattern>
-
                 <threadName/>
                 <message/>
-
-                <logstashMarkers/> <!-- Useful so we can add extra information for specific log lines as Markers-->
-                <arguments/> <!--or through StructuredArguments-->
-
+                <logstashMarkers/>
+                <arguments/>
                 <stackTrace/>
             </providers>
         </encoder>
@@ -43,5 +43,5 @@
     </root>
 
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.mesadhan" level="DEBUG"/>
+    <logger name="com.viu.patronAPP" level="DEBUG"/>
 </configuration>
