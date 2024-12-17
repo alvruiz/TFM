@@ -55,4 +55,16 @@ public class FestivityControllerImpl implements FestivityController {
                 .build()).collect(Collectors.toList()));
     }
 
+    @Override
+    public ResponseEntity<FestivityDTO> getFestivityById(String festivityId) {
+        Festivity festivity = festivityUseCasesPort.getById(festivityId);
+        return ResponseEntity.ok(FestivityDTO.builder()
+                .id(festivity.getId())
+                .name(festivity.getName())
+                .startDate(festivity.getStartDate())
+                .endDate(festivity.getEndDate())
+                .patron(festivity.getPatron())
+                .villageId(festivity.getVillageId())
+                .build());
+    }
 }

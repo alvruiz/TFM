@@ -15,11 +15,12 @@ import { StyledTypographySubtitle, StyledTypographyTitle } from "./IndividualVil
 import colors from "../../utils/colors";
 import EventDetailsModal from "./modal/EventDetailsModal";
 import FestivityEvent from "../../model/Event";
+import useModalStore from "../../stores/modal-store";
 const IndividualVillage = () => {
     const id = useParams().id;
     const [calendarStartDate, setCalendarStartDate] = useState(null);
-    const [openModal, setOpenModal] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState(null);
+    const { openModal, setOpenModal, selectedEvent, setSelectedEvent } = useModalStore();
+
     const { getEvents, getVillage, village, events } = useVillageStore();
     useEffect(() => {
         const fetchVillage = async () => {
@@ -56,13 +57,24 @@ const IndividualVillage = () => {
         setSelectedEvent(null);
     };
     const defaultDate = "2025-08-19";
-
+    const eventStyleGetter = (event, start, end, isSelected) => {
+        var style = {
+            backgroundColor: colors.secondary,
+            borderRadius: '0px',
+            opacity: 0.8,
+            color: colors.textDark,
+            border: '0px',
+            display: 'block'
+        };
+        return {
+            style: style
+        };
+    }
     return (
         <StyledEngineProvider injectFirst>
             <Root>
                 <Header />
                 <Grid container sx={{ flexGrow: 1, height: 'calc(100vh - 64px)', margin: 0, padding: 0 }}>
-                    {/* Card section occupying full width */}
                     <Grid size={{ xs: 12 }} sx={{ padding: 0 }}>
                         <Card style={{ border: "none", boxShadow: "none", padding: 0 }}>
                             <CardContent sx={{ backgroundImage: `url(${village?.imageUrl ?? ""})`, backgroundSize: "cover", backgroundPosition: "center" }}>
@@ -80,10 +92,8 @@ const IndividualVillage = () => {
                         </Card>
                     </Grid>
 
-                    {/* Content section below the Card (Map and Calendar side by side) */}
                     <Grid container sx={{ flexGrow: 1, height: 'calc(100vh - 10vh - 64px)', padding: 0 }}>
 
-                        {/* Calendar - This comes first on smaller screens */}
                         <Grid
                             size={{ xs: 12, sm: 12, md: 6, lg: 7 }}
                             order={{ xs: 1, sm: 1, md: 2, lg: 2 }}
@@ -101,13 +111,15 @@ const IndividualVillage = () => {
                                     date={calendarStartDate || defaultDate}
                                     startAccessor="start"
                                     endAccessor="end"
+                                    eventPropGetter={(eventStyleGetter)}
+
                                     style={{ height: '100%' }}
                                     onSelectEvent={(event) => handleEventClick(events.find(event2 => event.id === event2.id))}
+
                                 />
                             </div>
                         </Grid>
 
-                        {/* Event Map - This comes second on smaller screens */}
                         <Grid
                             size={{ xs: 12, sm: 12, md: 6, lg: 5 }}
                             order={{ xs: 2, sm: 2, md: 1, lg: 1 }}

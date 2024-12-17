@@ -11,4 +11,6 @@ public interface UserUseCasesPort {
     public User getUserByEmail(String email);
 
     public User login(String email, String password);
+
+    public User updateUser(User user);
 }

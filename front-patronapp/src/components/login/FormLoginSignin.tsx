@@ -104,7 +104,8 @@ const LoginSignInPage = () => {
             console.log('Iniciar sesión con:', formData.email, formData.password);
         } else {
             const result = await register(formData.name, formData.surname, formData.email, formData.password, formData.age, formData.gender, formData.imageUrl);
-            if (result) {
+            const login = await getUser(formData.email, formData.password);
+            if (result && login) {
                 navigate('/')
             }
             console.log('Registro con:', formData);

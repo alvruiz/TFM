@@ -51,4 +51,10 @@ public class UserServiceImpl implements UserUseCasesPort {
 
         return user;
     }
+
+    @Override
+    public User updateUser(User user) {
+        userRepository.updateUser(user);
+        return user;
+    }
 }

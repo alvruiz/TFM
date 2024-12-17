@@ -15,4 +15,6 @@ public interface EventPort {
     public void updateEvent(String eventId, Event event);
 
     public List<Event> getEventByFestivityId(String festivityId);
+
+    public List<Event> getEventByUserId(String userId);
 }

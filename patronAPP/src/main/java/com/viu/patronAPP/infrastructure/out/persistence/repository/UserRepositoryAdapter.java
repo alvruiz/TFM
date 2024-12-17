@@ -6,6 +6,7 @@ import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.UserEntity;
 import com.viu.patronAPP.infrastructure.out.persistence.mapper.user.UserMapper;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.user.UserMongoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,6 +22,10 @@ public class UserRepositoryAdapter implements UserPort {
 
     @Override
     public void createUser(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+
         UserEntity userEntity = UserMapper.mapUserDomainToEntity(user);
         userRepository.save(userEntity);
     }
@@ -28,5 +33,12 @@ public class UserRepositoryAdapter implements UserPort {
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).map(UserMapper::mapUserEntityToDomain).orElse(null);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        UserEntity userEntity = UserMapper.mapUserDomainToEntity(user);
+        userRepository.save(userEntity);
+        return user;
     }
 }

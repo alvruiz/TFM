@@ -40,4 +40,9 @@ public class FestivityRepositoryAdapter implements FestivityPort {
     public List<Festivity> getAllFestivitiesByVillageIds(List<String> ids) {
         return festivityRepository.findAll().stream().filter(festivityEntity -> ids.contains(festivityEntity.getVillageId())).map(FestivityMapper::mapFestivityEntityToDomain).toList();
     }
+
+    @Override
+    public Festivity getById(String festivityId) {
+        return FestivityMapper.mapFestivityEntityToDomain(Objects.requireNonNull(festivityRepository.findById(festivityId).orElse(null)));
+    }
 }

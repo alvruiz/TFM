@@ -12,4 +12,6 @@ public interface FestivityPort {
     public List<Festivity> getAllFestivities(String page, String size);
 
     public List<Festivity> getAllFestivitiesByVillageIds(List<String> ids);
+
+    public Festivity getById(String festivityId);
 }

@@ -30,19 +30,19 @@ public class UserDataLoader {
                     .rol(Rol.ADMIN)
                     .imageUrl("https://store-images.s-microsoft.com/image/apps.31920.f265099d-4c71-493f-b32c-b66015371675.41795bd4-3595-4260-808a-d3feb5d18d45.5b70495e-924a-49e6-a2cd-85d3bdfa781d.png")
                     .villageId("1")
-                    .eventsParticipating(Arrays.asList("Evento1", "Evento2"))
+                    .eventsParticipating(Arrays.asList("1", "2"))
                     .build();
 
             UserEntity user1 = UserEntity.builder()
                     .name("Carlos")
                     .surname("García")
                     .imageUrl("https://st3.depositphotos.com/12985790/15794/i/450/depositphotos_157947226-stock-photo-man-looking-at-camera.jpg")
-                    .password("$2a$12$yEqw.B7oQ4tE5X0BL7eV4.IykONqjXJ4SKbA0YO1Lmcg9JeEoQ2K6")
-                    .email("carlos.garcia@ejemplo.com")
+                    .password("$2a$10$vhUahOWCAasqZCp/WsfeEeXWPzQYiIe5GUb4U6uUGg0.CCnGm2ea2")
+                    .email("alcaldecastronuno@cm.com")
+                    .villageId("1")
                     .age(29)
                     .gender("M")
-                    .rol(Rol.USER)
-                    .eventsParticipating(Arrays.asList("Evento1"))
+                    .rol(Rol.CM)
                     .build();
 
             UserEntity user2 = UserEntity.builder()

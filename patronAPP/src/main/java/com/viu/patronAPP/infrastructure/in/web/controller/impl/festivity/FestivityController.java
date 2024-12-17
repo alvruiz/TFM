@@ -56,4 +56,8 @@ public interface FestivityController {
     @CrossOrigin
     public ResponseEntity<List<FestivityDTO>> getFestivities(@RequestParam @Parameter(description = "Page to retrieve festivities for") String page,
                                                              @RequestParam @Parameter(description = "Size of the page to retrieve festivities for") String size);
+
+    @GetMapping("/{festivityId}")
+    @CrossOrigin
+    public ResponseEntity<FestivityDTO> getFestivityById(@PathVariable String festivityId);
 }

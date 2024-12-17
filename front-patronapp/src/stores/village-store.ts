@@ -23,7 +23,6 @@ const useVillageStore = create<VillageStore>((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await getVillage(id);
-            const events = await getEvents(response.festivity.id);
             set({ village: response, isLoading: false });
         } catch (error) {
             set({ error: 'Error al obtener la villa', isLoading: false });

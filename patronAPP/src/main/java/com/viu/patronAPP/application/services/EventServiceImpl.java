@@ -68,4 +68,14 @@ public class EventServiceImpl implements EventUseCasesPort {
         }
         return eventPort.getEventByFestivityId(festivityId);
     }
+
+    @Override
+    public List<Event> getEventByUserId(String userId) {
+        List<Event> event = eventPort.getEventByUserId(userId);
+        if (event == null) {
+            throw new NotFoundException("Event not found");
+        }
+        return eventPort.getEventByUserId(userId);
+    }
+
 }

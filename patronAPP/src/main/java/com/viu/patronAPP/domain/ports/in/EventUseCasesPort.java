@@ -14,4 +14,6 @@ public interface EventUseCasesPort {
     public void suscribeOrUnsuscribeEvent(String userId, String eventId);
 
     public List<Event> getEventByFestivityId(String festivityId);
+
+    public List<Event> getEventByUserId(String userId);
 }

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface EventMongoRepository extends MongoRepository<EventEntity, String> {
     List<EventEntity> findByFestivityId(String festivityId);
+
+    List<EventEntity> findByAttendeesContaining(String userId);
 }

@@ -12,3 +12,26 @@ export const StyledCloseButton = styled(Button)`
   display: flex;
   align-items: center;
 `;
+
+
+export const StyledJoinButton = styled(Button)`
+  color: ${colors.textDark};
+  background-color: ${colors.secondary};
+  &:hover {
+    background-color: ${colors.textDark};
+    color: ${colors.secondary};
+  }
+  width: 100%;
+`;
+
+export const StyledUnsuscribeButton = styled(Button)`
+  color: ${colors.secondary};
+  background-color: ${colors.textDark};
+  &:hover {
+    background-color: ${colors.secondary};
+    color: ${colors.textDark};
+  }
+  display: flex;
+  align-items: center;
+`;
+

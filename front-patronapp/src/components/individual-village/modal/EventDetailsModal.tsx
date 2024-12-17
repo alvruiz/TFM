@@ -1,14 +1,49 @@
-import React from 'react';
-import { Modal, Box, Typography, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Modal, Box, Typography, IconButton } from '@mui/material';
 import ModalMap from '../../map/events/ModalMap';
 import { StyledTypographySubtitle } from '../IndividualVillageStyles';
 import { StyledButton } from '../../map/SpainMapStyle';
 import colors from '../../../utils/colors';
-import { StyledCloseButton } from './EventDetailsModalStyles';
-import { CalendarMonth, Description, LocationOn, Person } from '@mui/icons-material';
-
+import { CalendarMonth, Description, LocationOn, Person, Close } from '@mui/icons-material';
+import useUserStore from '../../../stores/user-store';
+import { StyledJoinButton, StyledUnsuscribeButton } from './EventDetailsModalStyles';
+import useEventStore from '../../../stores/event-store';
+import useVillageStore from '../../../stores/village-store';
 const EventDetailsModal = ({ village, open, event, onClose }) => {
-    if (!event) return null;
+    const { getPersistedUser, user, setUser } = useUserStore();
+    const { getEvents, events } = useVillageStore();
+
+    const { joinEvent } = useEventStore();
+    const [currentEvent, setCurrentEvent] = useState(event);
+
+    useEffect(() => {
+        setCurrentEvent(event);
+    }, [event]);
+
+    useEffect(() => {
+        if (!user) {
+            getPersistedUser();
+        }
+    }, []);
+    useEffect(() => {
+        const fetchEventDetails = async () => {
+            try {
+                await getEvents(village.id);
+
+                const selectedEvent = events.find(e => e.id === event.id);
+
+                if (selectedEvent) {
+                    setCurrentEvent(selectedEvent);
+                }
+            } catch (error) {
+                console.error("Error fetching events:", error);
+            }
+        };
+
+        fetchEventDetails();
+    }, [user]);
+
+    if (!currentEvent || !currentEvent.eventName) return null;
 
     return (
         <Modal
@@ -27,63 +62,111 @@ const EventDetailsModal = ({ village, open, event, onClose }) => {
                     padding: 4,
                     borderRadius: 2,
                     boxShadow: 24,
-                    maxWidth: '600px',
+                    maxWidth: '900px',
                     width: '90%',
+                    position: 'relative', // Necesario para posicionar la "X" correctamente
                 }}
             >
+                {/* Botón "X" para cerrar */}
+                <IconButton
+                    onClick={onClose}
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        color: colors.textDark,
+                    }}
+                >
+                    <Close />
+                </IconButton>
+
+                {/* Título del evento */}
                 <Typography variant="h5" sx={{ marginBottom: 2, fontSize: '24px', color: colors.textDark, fontWeight: 'bold' }}>
-                    {event.eventName}
+                    {currentEvent.eventName}
                 </Typography>
 
                 {/* Descripción con icono */}
                 <Typography variant="body1" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <Description sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Descripción: </strong> {event.eventDescription}
+                    <strong>Descripción: </strong> {currentEvent.eventDescription}
                 </Typography>
 
                 {/* Fecha de inicio con icono */}
                 <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <CalendarMonth sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Fecha de inicio: </strong> {new Date(event.eventStartDate).toLocaleString()}
+                    <strong>Fecha de inicio: </strong> {new Date(currentEvent.eventStartDate).toLocaleString()}
                 </Typography>
 
                 {/* Fecha de fin con icono */}
                 <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <CalendarMonth sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Fecha de fin: </strong> {new Date(event.eventEndDate).toLocaleString()}
+                    <strong>Fecha de fin: </strong> {new Date(currentEvent.eventEndDate).toLocaleString()}
                 </Typography>
 
                 {/* Capacidad con icono */}
                 <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <Person sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Capacidad: </strong> {event.attendees.length}/{event.eventMaxCapacity}
+                    <strong>Capacidad: </strong> {currentEvent.attendees.length}/{currentEvent.eventMaxCapacity}
                 </Typography>
 
                 {/* Coordenadas con icono */}
                 <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <LocationOn sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Coordenadas: </strong> Latitud {event.coords.latitude}, Longitud {event.coords.longitude}
+                    <strong>Coordenadas: </strong> Latitud {currentEvent.coords.latitude}, Longitud {currentEvent.coords.longitude}
                 </Typography>
 
                 {/* Mapa del evento */}
-                <ModalMap event={event} />
+                <ModalMap event={currentEvent} />
 
-                {/* Botón de cierre con estilo personalizado */}
-                <StyledCloseButton
-                    onClick={onClose}
-                    sx={{
-                        marginTop: 2,
-                        display: 'block',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        color: colors.primary,
-                    }}
-                >
-                    Cerrar
-                </StyledCloseButton>
+                {/* Opcion de apuntarse si el usuario no está apuntado al evento */}
+                {user && !user.eventsParticipating.includes(currentEvent.id) && currentEvent.attendees.length < currentEvent.eventMaxCapacity &&
+                    < StyledJoinButton
+                        onClick={async () => {
+                            setUser(await joinEvent(user.email, currentEvent.id));
+                        }}
+                        sx={{
+                            marginTop: 5,
+                            width: '100%',
+                            display: 'block',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            backgroundColor: colors.backgroundLight,
+                            color: 'white',
+                            ':hover': {
+                                backgroundColor: colors.textDark,
+                            },
+                        }}
+                    >
+                        Apuntarse
+                    </StyledJoinButton>
+                }
+                {user && user.eventsParticipating.includes(currentEvent.id) &&
+                    <StyledUnsuscribeButton
+                        onClick={async () => {
+                            setUser(await joinEvent(user.email, currentEvent.id));
+                        }}
+                        sx={{
+                            marginTop: 5,
+                            width: '100%',
+                            display: 'block',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            backgroundColor: colors.secondary,
+                            color: colors.textDark,
+                            ':hover': {
+                                backgroundColor: colors.textDark,
+                                color: colors.secondary,
+                            },
+                        }}
+                    >
+                        Desapuntarse
+                    </StyledUnsuscribeButton>
+                }
             </Box>
-        </Modal>
+        </Modal >
     );
 };
 
 export default EventDetailsModal;
+
+

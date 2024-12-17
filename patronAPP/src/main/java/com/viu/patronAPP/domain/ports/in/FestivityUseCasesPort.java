@@ -11,4 +11,6 @@ public interface FestivityUseCasesPort {
     public Festivity getFestivityByVillageId(String villageId);
 
     public List<Festivity> getAllFestivities(String page, String size);
+
+    public Festivity getById(String festivityId);
 }

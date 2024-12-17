@@ -1,3 +1,4 @@
+import { Role } from "./Role";
 export interface User {
     email: string;
     password: string;
@@ -5,5 +6,8 @@ export interface User {
     surname: string;
     age: string;
     gender: string;
+    rol: Role;
     imageUrl: string;
+    eventsParticipating: string[];
+    villageId: string;
 }

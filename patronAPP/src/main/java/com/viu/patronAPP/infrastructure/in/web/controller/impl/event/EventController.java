@@ -1,7 +1,9 @@
 package com.viu.patronAPP.infrastructure.in.web.controller.impl.event;
 
+import com.viu.patronAPP.infrastructure.DTO.event.EventAndVillageDTO;
 import com.viu.patronAPP.infrastructure.DTO.event.EventDTO;
 import com.viu.patronAPP.infrastructure.DTO.event.SubscribeDTO;
+import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,7 +50,8 @@ public interface EventController {
             }
     )
     @PostMapping("/subscribe")
-    public ResponseEntity<String> subscribeOrUnsubscribeEvent(@RequestBody SubscribeDTO suscribeDTO);
+    @CrossOrigin
+    public ResponseEntity<UserDTO> subscribeOrUnsubscribeEvent(@RequestBody SubscribeDTO suscribeDTO);
 
     @Operation(
             summary = "Get an event by festivity ID",
@@ -61,4 +64,29 @@ public interface EventController {
     @GetMapping("/{festivityId}")
     @CrossOrigin
     public ResponseEntity<List<EventDTO>> getEventByFestivityId(@PathVariable String festivityId);
+
+    @Operation(
+            summary = "Get an event by user ID",
+            description = "This endpoint retrieves an event by its user ID.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Event retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Event not found")
+            }
+    )
+    @GetMapping("/user/{userId}")
+    @CrossOrigin
+    public ResponseEntity<List<EventAndVillageDTO>> getEventByUserId(@PathVariable String userId);
+
+
+    @Operation(
+            summary = "Get an event by festivity ID",
+            description = "This endpoint retrieves an event by user email.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Event retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Event not found")
+            }
+    )
+    @GetMapping("/email/{email}")
+    @CrossOrigin
+    public ResponseEntity<List<EventAndVillageDTO>> getEventsByEmail(@PathVariable String email);
 }

@@ -2,6 +2,7 @@ package com.viu.patronAPP.infrastructure.in.web.controller.impl.user;
 
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserLoginDTO;
+import com.viu.patronAPP.infrastructure.DTO.user.UserRegisterDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +38,7 @@ public interface UserController {
     @PostMapping()
     @CrossOrigin
     public ResponseEntity<UserDTO> createUser(
-            @RequestBody @Parameter(description = "User details to be created") UserDTO userDTO
+            @RequestBody @Parameter(description = "User details to be created") UserRegisterDTO userDTO
     );
 
     @Operation(

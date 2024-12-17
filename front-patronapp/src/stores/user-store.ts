@@ -1,13 +1,19 @@
 import { create } from 'zustand';
 import { User } from '../model/User';
 import { login } from '../services/login.service';
+import { getEventsByEmail } from '../services/get-events.service';
+import FestivityEvent from '../model/Event';
 
 interface UserStore {
     user: User | null;
     isLoading: boolean;
     error: string | null;
+    eventsUser: FestivityEvent[];
     getUser: (email: string, password: string) => Promise<User>;
     updateUser: (user: User) => void;
+    getEventsUser: (email: string) => Promise<void>;
+    getPersistedUser: () => User | null;
+    setUser(user: User): void;
     logOut: () => void;
 }
 
@@ -16,10 +22,14 @@ const useUserStore = create<UserStore>((set) => {
     const parsedUser = savedUser ? JSON.parse(savedUser) : null;
 
     return {
+        eventsUser: [],
         user: parsedUser,
         isLoading: false,
         error: null,
-
+        setUser: (user: User) => {
+            set({ user });
+            localStorage.setItem('user', JSON.stringify(user));
+        },
         getUser: async (email: string, password: string): Promise<User> => {
             set({ isLoading: true, error: null });
 
@@ -34,6 +44,21 @@ const useUserStore = create<UserStore>((set) => {
                 set({ error: 'Error al obtener el usuario', isLoading: false });
             }
         },
+        getPersistedUser: () => {
+            set({ user: parsedUser })
+            return parsedUser;
+        },
+        getEventsUser: async (email: string) => {
+            set({ isLoading: true, error: null });
+
+            try {
+                const response = await getEventsByEmail(email);
+                set({ eventsUser: response, isLoading: false });
+            } catch (error) {
+                set({ error: 'Error al obtener los eventos', isLoading: false });
+            }
+        },
+
 
         logOut: () => {
             set({ user: null });

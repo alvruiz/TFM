@@ -4,6 +4,7 @@ import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.ports.in.UserUseCasesPort;
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserLoginDTO;
+import com.viu.patronAPP.infrastructure.DTO.user.UserRegisterDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.user.UserController;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,10 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<UserDTO> createUser(UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(UserRegisterDTO userDTO) {
         User user = User.builder()
                 .name(userDTO.getName())
+                .password(userDTO.getPassword())
                 .surname(userDTO.getSurname())
                 .email(userDTO.getEmail())
                 .age(userDTO.getAge())
@@ -44,7 +46,16 @@ public class UserControllerImpl implements UserController {
                 .eventsParticipating(userDTO.getEventsParticipating())
                 .build();
         userService.createUser(user);
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok(UserDTO.builder()
+                .name(user.getName())
+                .surname(user.getSurname())
+                .email(user.getEmail())
+                .age(user.getAge())
+                .gender(user.getGender())
+                .rol(user.getRol())
+                .imageUrl(user.getImageUrl())
+                .eventsParticipating(user.getEventsParticipating())
+                .build());
     }
 
     @Override
@@ -55,6 +66,7 @@ public class UserControllerImpl implements UserController {
                 .surname(user.getSurname())
                 .email(user.getEmail())
                 .age(user.getAge())
+                .villageId(user.getVillageId())
                 .gender(user.getGender())
                 .rol(user.getRol())
                 .imageUrl(user.getImageUrl())

@@ -78,3 +78,18 @@ export const StyledSelect = styled(Select)({
         color: colors.textDark,
     },
 });
+
+export const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
+    fontSize: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    fontWeight: 'bold',
+    color: colors.primary,
+}));
+
+export const StyledTypographySubtitle = styled(Typography)(({ theme }) => ({
+    fontSize: '1.1rem',
+    width: '100%',
+    display: 'flex',
+    color: colors.primary,
+}));

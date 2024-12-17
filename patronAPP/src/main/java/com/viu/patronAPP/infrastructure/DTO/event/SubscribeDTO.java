@@ -6,6 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class SubscribeDTO {
-    private String userId;
+    private String email;
     private String eventId;
 }
