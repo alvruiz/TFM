@@ -7,7 +7,7 @@ export default interface FestivityEvent {
     coords: {
         latitude: string;
         longitude: string;
-    };
+    }[];
     attendees: string[];
     eventMaxCapacity: number;
     eventFestivityId: string;

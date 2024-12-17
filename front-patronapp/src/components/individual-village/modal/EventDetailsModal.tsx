@@ -119,7 +119,7 @@ const EventDetailsModal = ({ village, open, event, onClose }) => {
                 <ModalMap event={currentEvent} />
 
                 {/* Opcion de apuntarse si el usuario no está apuntado al evento */}
-                {user && !user.eventsParticipating.includes(currentEvent.id) && currentEvent.attendees.length < currentEvent.eventMaxCapacity &&
+                {user && user.eventsParticipating && !user.eventsParticipating.includes(currentEvent.id) && currentEvent.attendees.length < currentEvent.eventMaxCapacity &&
                     < StyledJoinButton
                         onClick={async () => {
                             setUser(await joinEvent(user.email, currentEvent.id));
@@ -140,7 +140,7 @@ const EventDetailsModal = ({ village, open, event, onClose }) => {
                         Apuntarse
                     </StyledJoinButton>
                 }
-                {user && user.eventsParticipating.includes(currentEvent.id) &&
+                {user && user.eventsParticipating && user.eventsParticipating.includes(currentEvent.id) &&
                     <StyledUnsuscribeButton
                         onClick={async () => {
                             setUser(await joinEvent(user.email, currentEvent.id));

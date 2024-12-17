@@ -7,13 +7,15 @@ const ModalMap = ({ event }) => {
     useEffect(() => {
         if (!event || !event.coords) return;
 
-        // Extraer las coordenadas del evento
-        const { latitude, longitude } = event.coords;
+        // Extraer las coordenadas del evento (asegurarse que siempre sea un array)
+        const coordinates = event.coords;
 
-        // Crear el mapa y centrarlo en las coordenadas del evento
+        // Crear el mapa y centrarlo en la primera coordenada (si hay alguna)
+        const { latitude, longitude } = coordinates[0];
+
         const map = L.map("modal-map", {
-            center: [latitude, longitude], // Coordenadas del evento
-            zoom: 20, // Nivel de zoom más cercano para un solo evento
+            center: [latitude, longitude], // Coordenadas del primer punto
+            zoom: coordinates.length > 1 ? 14 : 18, // Si hay ruta, un poco menos de zoom
             dragging: false, // Desactivar el desplazamiento
             scrollWheelZoom: false, // Desactivar zoom con rueda del ratón
             touchZoom: false, // Desactivar zoom táctil
@@ -28,24 +30,34 @@ const ModalMap = ({ event }) => {
             }
         ).addTo(map);
 
-        // Añadir un marcador para el evento
-        L.marker([latitude, longitude], {
-            icon: L.icon({
-                iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            })
-        })
-            .addTo(map)
-            .bindPopup(`<b>${event.eventName}</b><br>Lat: ${latitude}<br>Lng: ${longitude}`);
+        if (coordinates.length === 1) {
+            // Si hay solo una coordenada, se muestra un marcador
+            L.marker([latitude, longitude], {
+                icon: L.icon({
+                    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                })
+            }).addTo(map); // Sin popup
+        } else if (coordinates.length > 1) {
+            // Si hay varias coordenadas, se dibuja una ruta
+            L.polyline(
+                coordinates.map(coord => [coord.latitude, coord.longitude]),
+                {
+                    color: 'red',  // Color de la ruta
+                    weight: 6,     // Grosor de la ruta
+                    opacity: 0.8   // Opacidad de la ruta
+                }
+            ).addTo(map);
+        }
 
         // Limpiar mapa cuando el componente se desmonte
         return () => {
             map.remove();
         };
-    }, []); // Reactividad ante cambios en el evento
+    }, [event]); // Reactividad ante cambios en el evento
 
     return <div id="modal-map" style={{ height: "250px", width: "100%" }}></div>;
 };

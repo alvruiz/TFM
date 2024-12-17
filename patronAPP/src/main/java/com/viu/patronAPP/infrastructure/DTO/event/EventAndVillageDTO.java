@@ -17,7 +17,7 @@ public class EventAndVillageDTO {
     private String eventFestivityId;
     private LocalDateTime eventStartDate;
     private LocalDateTime eventEndDate;
-    private Coords coords;
+    private List<Coords> coords;
     private Integer eventMaxCapacity;
     private List<String> attendees;
     private VillageDTO village;

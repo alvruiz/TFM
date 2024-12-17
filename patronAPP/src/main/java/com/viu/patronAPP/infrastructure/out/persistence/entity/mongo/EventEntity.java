@@ -19,7 +19,7 @@ public class EventEntity {
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Coords coords;
+    private List<Coords> coords;
     private Integer maxCapacity;
     private List<String> attendees;
     private String festivityId;
