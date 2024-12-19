@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, StyledEngineProvider, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Card, CardContent, StyledEngineProvider } from '@mui/material';
 import Header from '../header/Header';
-import { EditProfileContainer, Title, StyledButton, StyledTextField, ProfileImageContainer, StyledTypographyTitle, StyledTypographySubtitle } from './EditProfileStyles';
+import { EditProfileContainer, Title, StyledButton, StyledTextField, StyledTypographyTitle, StyledTypographySubtitle } from './EditProfileStyles';
 import ProfileCircle from '../header/ProfileCircleHeader';
 import colors from '../../utils/colors';
 import useUserStore from '../../stores/user-store';
 import useVillageStore from '../../stores/village-store';
 import { Role } from '../../model/Role';
-import { Person } from '@mui/icons-material';
 
 const EditProfile = () => {
     const { user, setUser, getPersistedUser } = useUserStore();
@@ -21,10 +20,7 @@ const EditProfile = () => {
     }, []);
 
 
-    const getUserFromLocalStorage = () => {
-        const user = localStorage.getItem('user');
-        return user ? JSON.parse(user) : null;
-    };
+
 
     if (!user) {
         return <div>Loading...</div>;

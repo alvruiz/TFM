@@ -1,5 +1,6 @@
 package com.viu.patronAPP.infrastructure.out.persistence.repository;
 
+import com.viu.patronAPP.domain.model.Rol;
 import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.ports.out.UserPort;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.UserEntity;
@@ -8,6 +9,9 @@ import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.user.Us
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -41,4 +45,17 @@ public class UserRepositoryAdapter implements UserPort {
         userRepository.save(userEntity);
         return user;
     }
+
+    public List<User> getAdmins() {
+        return userRepository.findByRol(Rol.ADMIN).stream().map(UserMapper::mapUserEntityToDomain).collect(Collectors.toList());
+    }
+
+    public List<User> getCMs() {
+        return userRepository.findByRol(Rol.CM).stream().map(UserMapper::mapUserEntityToDomain).collect(Collectors.toList());
+    }
+
+    public List<User> getNormalUsers() {
+        return userRepository.findByRol(Rol.USER).stream().map(UserMapper::mapUserEntityToDomain).collect(Collectors.toList());
+    }
+
 }

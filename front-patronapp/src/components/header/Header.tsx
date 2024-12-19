@@ -114,7 +114,7 @@ const Header = () => {
                                                     fontSize: '16px',
                                                 }}
                                             >
-                                                Community Manager
+                                                Administrador
                                             </Typography>
                                         )}
                                         <ProfileCircle imageUrl={user.imageUrl} altText={user.name} width={40} height={40} />

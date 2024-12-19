@@ -108,9 +108,8 @@ const IndividualVillage = () => {
                                         start: event.eventStartDate ? new Date(event.eventStartDate) : new Date(),
                                         end: event.eventEndDate ? new Date(event.eventEndDate) : new Date()
                                     })) : []}
-                                    date={calendarStartDate || defaultDate}
-                                    startAccessor="start"
-                                    endAccessor="end"
+                                    showMultiDayTimes
+                                    defaultDate={calendarStartDate || defaultDate}
                                     eventPropGetter={(eventStyleGetter)}
 
                                     style={{ height: '100%' }}

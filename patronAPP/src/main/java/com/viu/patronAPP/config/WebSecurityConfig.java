@@ -29,7 +29,9 @@ public class WebSecurityConfig {
             "/festivities/**",
             "/villages/**",
             "/events/**",
-            "/events/subscribe"
+            "/events/subscribe",
+            "/actuator/**",
+            "/health/**",
 
     };
 

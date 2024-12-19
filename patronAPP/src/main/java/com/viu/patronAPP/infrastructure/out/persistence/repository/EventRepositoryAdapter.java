@@ -18,6 +18,7 @@ public class EventRepositoryAdapter implements EventPort {
 
     private final EventMongoRepository eventRepository;
 
+
     @Override
     public Event createEvent(Event event) {
         EventEntity entityEntity = EventMapper.mapEventDomainToEntity(event);
@@ -50,6 +51,10 @@ public class EventRepositoryAdapter implements EventPort {
     @Override
     public List<Event> getEventByUserId(String userId) {
         return eventRepository.findByAttendeesContaining(userId).stream().map(EventMapper::mapEventEntityToDomain).toList();
+    }
+
+    public int countEvents() {
+        return (int) eventRepository.count();
     }
 }
 

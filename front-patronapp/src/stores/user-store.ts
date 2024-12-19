@@ -18,12 +18,9 @@ interface UserStore {
 }
 
 const useUserStore = create<UserStore>((set) => {
-    const savedUser = localStorage.getItem('user');
-    const parsedUser = savedUser ? JSON.parse(savedUser) : null;
-
     return {
         eventsUser: [],
-        user: parsedUser,
+        user: null,
         isLoading: false,
         error: null,
         setUser: (user: User) => {
@@ -45,7 +42,10 @@ const useUserStore = create<UserStore>((set) => {
             }
         },
         getPersistedUser: () => {
-            set({ user: parsedUser })
+            const savedUser = localStorage.getItem('user');
+            const parsedUser = savedUser ? JSON.parse(savedUser) : null;
+
+            set({ user: parsedUser });
             return parsedUser;
         },
         getEventsUser: async (email: string) => {
@@ -58,8 +58,6 @@ const useUserStore = create<UserStore>((set) => {
                 set({ error: 'Error al obtener los eventos', isLoading: false });
             }
         },
-
-
         logOut: () => {
             set({ user: null });
             localStorage.removeItem('user'); // Elimina el usuario del localStorage

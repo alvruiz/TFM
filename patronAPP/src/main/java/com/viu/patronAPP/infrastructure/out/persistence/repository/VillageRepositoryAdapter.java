@@ -32,4 +32,9 @@ public class VillageRepositoryAdapter implements VillagePort {
     public Village getVillageById(String id) {
         return villageRepository.findById(id).map(VillageMapper::mapVillageEntityToDomain).orElse(null);
     }
+
+    public int countVillages() {
+        return (int) villageRepository.count();
+    }
+
 }

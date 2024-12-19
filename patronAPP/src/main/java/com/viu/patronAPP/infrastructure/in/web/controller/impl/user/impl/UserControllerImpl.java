@@ -6,6 +6,8 @@ import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserLoginDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserRegisterDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.user.UserController;
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @Slf4j
 public class UserControllerImpl implements UserController {
-
+    private final MeterRegistry registry;
     private final UserUseCasesPort userService;
 
     @Override
@@ -63,6 +65,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
+    @Counted(value = "patronapp_login_attempts", description = "Increments the counter for each login attempt")
     public ResponseEntity<UserDTO> login(UserLoginDTO userLoginDTO) {
         log.info("Login user: {}", userLoginDTO.getEmail());
         User user = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());

@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-
+  
   mongo:
     image: mongo:6.0
     restart: always
@@ -13,8 +13,8 @@ services:
       - 27017:27017
     volumes:
       - ./mongo-init:/docker-entrypoint-initdb.d
-
-
+  
+  
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
     container_name: elasticsearch
@@ -38,7 +38,7 @@ services:
       - 9200:9200
     networks:
       - elknet
-
+  
   kibana:
     image: docker.elastic.co/kibana/kibana:7.2.0
     container_name: kibana
@@ -48,7 +48,7 @@ services:
       - 5601:5601
     networks:
       - elknet
-
+  
   logstash:
     image: docker.elastic.co/logstash/logstash:7.2.0
     container_name: logstash
@@ -59,10 +59,35 @@ services:
       - "5000:5000"
     networks:
       - elknet
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "9091:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - monitoring
 volumes:
   esdata1:
     driver: local
+  grafana-data:
 
 networks:
   elknet:
+  monitoring:
