@@ -5,14 +5,17 @@ import colors from '../../../utils/colors';
 
 const ModalMap = ({ event }) => {
     useEffect(() => {
-        if (!event || !event.coords) return;
+        if (!event || !event.coords || event.coords.length === 0) return; // Ensure coords are available
 
-        // Extraer las coordenadas del evento (asegurarse que siempre sea un array)
+        // Extraer las coordenadas del evento
         const coordinates = event.coords;
 
-        // Crear el mapa y centrarlo en la primera coordenada (si hay alguna)
-        const { latitude, longitude } = coordinates[0];
+        // Safeguard to avoid destructuring error
+        const { latitude, longitude } = coordinates[0] || {};
 
+        if (!latitude || !longitude) return; // If there's no valid coordinates, return
+
+        // Crear el mapa y centrarlo en la primera coordenada
         const map = L.map("modal-map", {
             center: [latitude, longitude], // Coordenadas del primer punto
             zoom: coordinates.length > 1 ? 14 : 18, // Si hay ruta, un poco menos de zoom

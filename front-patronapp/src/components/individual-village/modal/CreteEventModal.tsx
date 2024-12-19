@@ -167,7 +167,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                     onChange={e => handleChange('eventStartDate', e.target.value)}
                     InputLabelProps={{ shrink: true }}
                     sx={{ marginBottom: 2 }}
-                    error={startDateError}
+                    error={Boolean(startDateError)} // Aseguramos que sea un booleano
                     helperText={startDateError ? 'La fecha de inicio debe ser posterior a hoy.' : ''}
                 />
                 <StyledTextField
@@ -179,9 +179,11 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                     onChange={e => handleChange('eventEndDate', e.target.value)}
                     InputLabelProps={{ shrink: true }}
                     sx={{ marginBottom: 2 }}
-                    error={endDateError}
+                    error={Boolean(endDateError)} // Convertir en booleano explícito
                     helperText={endDateError ? 'La fecha de fin debe ser posterior a la fecha de inicio.' : ''}
                 />
+
+
                 <Typography sx={{ marginBottom: 2 }}>Coordenadas:</Typography>
                 {eventData.coords.map((coord, index) => (
                     <Box key={index} sx={{ display: 'flex', gap: 2, alignItems: 'center', marginBottom: 2 }}>
@@ -226,7 +228,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                     value={eventData.eventMaxCapacity}
                     onChange={e => handleMaxCapacityChange(e.target.value)}
                     sx={{ marginBottom: 3 }}
-                    error={capacityError}
+                    error={Boolean(capacityError)} // Convertir explícitamente
                     helperText={capacityError ? 'La capacidad no puede ser negativa' : ''}
                 />
                 <Button
@@ -237,7 +239,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                         color: 'white',
                         ':hover': { backgroundColor: colors.secondary },
                     }}
-                    disabled={capacityError || startDateError || endDateError}
+                    disabled={Boolean(capacityError) || Boolean(startDateError) || Boolean(endDateError)}
                 >
                     Crear Evento
                 </Button>

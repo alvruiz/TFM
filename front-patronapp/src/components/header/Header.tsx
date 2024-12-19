@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Stack, Button, Toolbar, Container, AppBar, IconButton, Typography } from "@mui/material";
-import { Add, Home, Logout, Person } from '@mui/icons-material';
+import { Stack, Button, Toolbar, AppBar, IconButton, Typography, useMediaQuery, Menu, MenuItem } from "@mui/material";
+import { Add, Home, Logout, Person, Menu as MenuIcon, EventNote } from '@mui/icons-material';
 import colors from "../../utils/colors";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useUserStore from "../../stores/user-store";
@@ -8,8 +8,8 @@ import ProfileCircle from "./ProfileCircleHeader";
 import { Content } from "../list/MainPageStyles";
 import { Role } from "../../model/Role";
 import CreateEventModal from "../individual-village/modal/CreteEventModal";
-import useVillageStore from "../../stores/village-store";
 import { LogoutButton, StyledButton, StyledIconButton } from "./HeaderStyles";
+import useVillageStore from "../../stores/village-store";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -21,6 +21,23 @@ const Header = () => {
 
     // Estado para abrir/cerrar el modal
     const [modalOpen, setModalOpen] = useState(false);
+
+    // Detectar si estamos en una pantalla pequeña
+    const isMobile = useMediaQuery('(max-width:600px)');
+
+    // Estado para el menú desplegable
+    const [anchorEl, setAnchorEl] = useState(null);
+    const isMenuOpen = Boolean(anchorEl);
+
+    // Función para abrir el menú
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    // Función para cerrar el menú
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
 
     // Función para manejar el cierre del modal
     const handleCloseModal = () => {
@@ -71,7 +88,6 @@ const Header = () => {
                     </Stack>
 
                     <Stack direction="row" gap={3} alignItems="center">
-                        {/* Botón de Iniciar sesión solo si no está logueado */}
                         {!user ? (
                             <Button
                                 variant="contained"
@@ -91,7 +107,7 @@ const Header = () => {
                             </Button>
                         ) : (
                             <>
-                                {currentRoute !== '/editProfile' && (
+                                {!isMobile && currentRoute !== '/editProfile' && (
                                     <Stack direction="row" alignItems="center">
                                         {user.rol === Role.CM && (
                                             <Typography
@@ -118,46 +134,68 @@ const Header = () => {
                                             </Typography>
                                         )}
                                         <ProfileCircle imageUrl={user.imageUrl} altText={user.name} width={40} height={40} />
-                                    </Stack>)}
-                                {user.rol === Role.CM && currentRoute !== `/village/${user.villageId}` && (
-                                    <StyledButton
-
-                                        onClick={() => navigate(`/village/${user.villageId}`)} // Redirigir al pueblo del alcalde
-                                    >
-                                        <Home />
-                                    </StyledButton>
-                                )
-                                }
-                                {currentRoute === `/village/${id}` && (user.rol === Role.ADMIN || (user.rol === Role.CM && user.villageId === id)) && (
-                                    <StyledButton onClick={() => setModalOpen(true)}>
-                                        <Add />
-                                        <Typography variant="body2" sx={{}}>
-                                            Añadir evento
-                                        </Typography>
-                                    </StyledButton>
+                                    </Stack>
                                 )}
-
-                                {/* Mostrar solo el icono en pantallas pequeñas */}
-                                <LogoutButton onClick={handleLogout}>
-                                    <Logout />
-                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                        Cerrar sesión
-                                    </Typography>
-                                </LogoutButton>
-                                <StyledIconButton
-                                    sx={{
-                                        display: { xs: 'flex', sm: 'none' },
-                                        color: colors.textDark,
-                                        backgroundColor: colors.secondary,
-                                        '&:hover': {
-                                            backgroundColor: colors.primary,
-                                            color: colors.secondary,
-                                        },
-                                    }}
-                                    onClick={handleLogout}
-                                >
-                                    <Logout />
-                                </StyledIconButton>
+                                {isMobile ? (
+                                    <>
+                                        <IconButton onClick={handleMenuOpen}>
+                                            <MenuIcon sx={{ color: colors.textDark }} />
+                                        </IconButton>
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            open={isMenuOpen}
+                                            onClose={handleMenuClose}
+                                            PaperProps={{
+                                                style: { width: 200 },
+                                            }}
+                                        >
+                                            <MenuItem onClick={() => navigate(`/village/${user.villageId}`)}>
+                                                <Home sx={{ marginRight: 1 }} /> Ir a mi pueblo
+                                            </MenuItem>
+                                            {currentRoute === `/village/${id}` && (user.rol === Role.ADMIN || (user.rol === Role.CM && user.villageId === id)) && (
+                                                <MenuItem onClick={() => setModalOpen(true)}>
+                                                    <Add sx={{ marginRight: 1 }} /> Añadir evento
+                                                </MenuItem>
+                                            )}
+                                            {user.rol === Role.ADMIN && (
+                                                <MenuItem onClick={() => navigate('/agenda')}>
+                                                    <EventNote sx={{ marginRight: 1 }} /> Agenda
+                                                </MenuItem>
+                                            )}
+                                            <MenuItem onClick={handleLogout}>
+                                                <Logout sx={{ marginRight: 1 }} /> Cerrar sesión
+                                            </MenuItem>
+                                        </Menu>
+                                    </>
+                                ) : (
+                                    <>
+                                        {user.rol === Role.CM && currentRoute !== `/village/${user.villageId}` && (
+                                            <StyledButton
+                                                onClick={() => navigate(`/village/${user.villageId}`)}
+                                            >
+                                                <Home />
+                                            </StyledButton>
+                                        )}
+                                        {currentRoute === `/village/${id}` && (user.rol === Role.ADMIN || (user.rol === Role.CM && user.villageId === id)) && (
+                                            <StyledButton onClick={() => setModalOpen(true)}>
+                                                <Add />
+                                                <Typography variant="body2">Añadir evento</Typography>
+                                            </StyledButton>
+                                        )}
+                                        {user.rol === Role.ADMIN && (
+                                            <StyledButton onClick={() => navigate('/agenda')}>
+                                                <EventNote />
+                                                <Typography variant="body2">Agenda</Typography>
+                                            </StyledButton>
+                                        )}
+                                        <LogoutButton onClick={handleLogout}>
+                                            <Logout />
+                                            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                                                Cerrar sesión
+                                            </Typography>
+                                        </LogoutButton>
+                                    </>
+                                )}
                             </>
                         )}
                     </Stack>

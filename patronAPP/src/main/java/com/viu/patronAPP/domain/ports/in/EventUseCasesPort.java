@@ -15,5 +15,7 @@ public interface EventUseCasesPort {
 
     public List<Event> getEventByFestivityId(String festivityId);
 
-    public List<Event> getEventByUserId(String userId);
+    public List<Event> getEventsByUserId(String userId);
+
+    public List<Event> getEventsByIdsList(List<String> eventIds);
 }

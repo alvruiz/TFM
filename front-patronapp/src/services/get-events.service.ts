@@ -34,3 +34,21 @@ export const getEventsByEmail = async (email: string): Promise<FestivityEvent[]>
         throw error;
     }
 };
+
+export const getEventsByIds = async (ids: string[]): Promise<FestivityEvent[]> => {
+    try {
+        const response = await axios.post<FestivityEvent[]>(`${API_BASE_URL}/events/list`, ids, {
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            withCredentials: false
+        });
+        console.log(response.data)
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching events:', error);
+        throw error;
+    }
+};

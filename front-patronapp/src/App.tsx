@@ -9,6 +9,7 @@ import MainPage from './components/list/MainPage';
 import VillagesPage from './components/villages/VillagesPage';
 import EditProfile from './components/editprofile/EditProfile';
 import IndividualVillage from './components/individual-village/IndividualVillage';
+import Agenda from './components/agenda/Agenda';
 function App() {
   return (
     <Router>
@@ -30,6 +31,7 @@ function App() {
         <Route path="/editProfile" element={<EditProfile />} />
         <Route path="/province/:id" element={<VillagesPage />} />
         <Route path="/village/:id" element={<IndividualVillage />} />
+        <Route path="/agenda" element={<Agenda />} />
       </Routes>
     </Router>
   );

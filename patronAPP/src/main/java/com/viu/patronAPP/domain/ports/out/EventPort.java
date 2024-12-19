@@ -17,4 +17,6 @@ public interface EventPort {
     public List<Event> getEventByFestivityId(String festivityId);
 
     public List<Event> getEventByUserId(String userId);
+
+    public List<Event> getEventByIdsList(List<String> eventIds);
 }

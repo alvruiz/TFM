@@ -89,4 +89,8 @@ public interface EventController {
     @GetMapping("/email/{email}")
     @CrossOrigin
     public ResponseEntity<List<EventAndVillageDTO>> getEventsByEmail(@PathVariable String email);
+
+    @PostMapping("/list")
+    @CrossOrigin
+    public ResponseEntity<List<EventAndVillageDTO>> getEventsByIDsList(@RequestBody List<String> ids);
 }

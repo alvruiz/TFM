@@ -53,8 +53,15 @@ public class EventRepositoryAdapter implements EventPort {
         return eventRepository.findByAttendeesContaining(userId).stream().map(EventMapper::mapEventEntityToDomain).toList();
     }
 
+    @Override
+    public List<Event> getEventByIdsList(List<String> eventIds) {
+        return eventRepository.findByIdIn(eventIds).stream().map(EventMapper::mapEventEntityToDomain).toList();
+    }
+
     public int countEvents() {
         return (int) eventRepository.count();
     }
+
+
 }
 

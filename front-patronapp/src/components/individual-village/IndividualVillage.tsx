@@ -42,7 +42,7 @@ const IndividualVillage = () => {
             setCalendarStartDate(new Date(village.festivity.startDate));
         }
     }, [village, calendarStartDate]);
-
+    if (calendarStartDate === null) return null;
     const localizer = momentLocalizer(moment);
     if (!village || !events) {
         return <ClipLoader color="#6A4A3C" loading={true} size={70} />;

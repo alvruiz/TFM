@@ -11,4 +11,7 @@ public interface EventMongoRepository extends MongoRepository<EventEntity, Strin
     List<EventEntity> findByFestivityId(String festivityId);
 
     List<EventEntity> findByAttendeesContaining(String userId);
+
+    List<EventEntity> findByIdIn(List<String> ids);
+
 }

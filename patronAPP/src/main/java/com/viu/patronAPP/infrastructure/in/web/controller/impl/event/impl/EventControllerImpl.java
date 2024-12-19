@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -101,20 +102,63 @@ public class EventControllerImpl implements EventController {
 
     @Override
     public ResponseEntity<List<EventAndVillageDTO>> getEventByUserId(String userId) {
-        List<Event> events = eventUseCasesPort.getEventByUserId(userId);
+        List<Event> events = eventUseCasesPort.getEventsByUserId(userId);
         if (events.isEmpty()) {
             return ResponseEntity.ok(new ArrayList<>());
         }
+
+        return ResponseEntity.ok(returnEventAndVillageDTO(events));
+    }
+
+    @Override
+    public ResponseEntity<List<EventAndVillageDTO>> getEventsByEmail(String email) {
+        User user = userUseCasesPort.getUserByEmail(email);
+        return this.getEventByUserId(user.getId());
+    }
+
+    @Override
+    public ResponseEntity<List<EventAndVillageDTO>> getEventsByIDsList(List<String> ids) {
+        List<Event> events = eventUseCasesPort.getEventsByIdsList(ids);
+        if (events.isEmpty()) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
+
+        return ResponseEntity.ok(returnEventAndVillageDTO(events));
+    }
+
+
+    private List<EventAndVillageDTO> returnEventAndVillageDTO(List<Event> events) {
         Map<String, Festivity> festivityMap = events.stream()
-                .map(event -> festivityUseCasesPort.getById(event.getFestivityId()))
-                .collect(Collectors.toMap(Festivity::getId, festivity -> festivity));
+                .map(event -> {
+                    Festivity festivity = festivityUseCasesPort.getById(event.getFestivityId());
+                    return festivity;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(
+                        Festivity::getId,
+                        festivity -> festivity,
+                        (existing, replacement) -> existing
+                ));
+
         Map<String, Village> villageMap = festivityMap.values().stream()
-                .map(festivity -> villageUseCasesPort.getVillageById(festivity.getVillageId()))
-                .collect(Collectors.toMap(Village::getId, village -> village));
+                .map(festivity -> {
+                    Village village = villageUseCasesPort.getVillageById(festivity.getVillageId());
+                    return village;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(Village::getId, village -> village, (existing, replacement) -> existing));
+
         List<EventAndVillageDTO> result = events.stream()
                 .map(event -> {
                     Festivity festivity = festivityMap.get(event.getFestivityId());
+                    if (festivity == null) {
+                        return null;
+                    }
+
                     Village village = villageMap.get(festivity.getVillageId());
+                    if (village == null) {
+                        return null;
+                    }
 
                     return EventAndVillageDTO.builder()
                             .id(event.getId())
@@ -135,13 +179,12 @@ public class EventControllerImpl implements EventController {
                                     .build())
                             .build();
                 })
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(result);
+                .filter(Objects::nonNull)
+                .toList();
+
+        return result;
     }
 
-    @Override
-    public ResponseEntity<List<EventAndVillageDTO>> getEventsByEmail(String email) {
-        User user = userUseCasesPort.getUserByEmail(email);
-        return this.getEventByUserId(user.getId());
-    }
+
 }
+
