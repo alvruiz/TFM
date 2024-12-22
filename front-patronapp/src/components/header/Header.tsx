@@ -9,12 +9,10 @@ import { Content } from "../list/MainPageStyles";
 import { Role } from "../../model/Role";
 import CreateEventModal from "../individual-village/modal/CreteEventModal";
 import { LogoutButton, StyledButton, StyledIconButton } from "./HeaderStyles";
-import useVillageStore from "../../stores/village-store";
 
 const Header = () => {
     const navigate = useNavigate();
     const { user, logOut } = useUserStore();
-    const { getVillage } = useVillageStore();
     const { id } = useParams();
     const location = useLocation();
     const currentRoute = location.pathname;
@@ -43,12 +41,6 @@ const Header = () => {
     const handleCloseModal = () => {
         setModalOpen(false);
     };
-
-    useEffect(() => {
-        if (user && user.villageId) {
-            getVillage(user.villageId);
-        }
-    }, [user]);
 
     // Función para manejar la creación del evento
     const handleCreateEvent = (eventData) => {

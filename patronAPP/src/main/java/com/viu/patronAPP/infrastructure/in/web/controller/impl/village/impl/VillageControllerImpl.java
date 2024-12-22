@@ -21,7 +21,7 @@ public class VillageControllerImpl implements VillageController {
     public ResponseEntity<VillageDTO> getVillageById(String villageId) {
         log.info("Get village by id: {}", villageId);
         Village village = villageUseCasesPort.getVillageById(villageId);
-        return ResponseEntity.ok(VillageDTO.builder().id(village.getId()).provinceId(village.getProvinceId()).name(village.getName()).coords(village.getCoords()).imageUrl(village.getImageUrl())
-                .festivity(FestivityDTO.builder().id(village.getFestivity().getId()).name(village.getFestivity().getName()).startDate(village.getFestivity().getStartDate()).endDate(village.getFestivity().getEndDate()).patron(village.getFestivity().getPatron()).villageId(village.getFestivity().getVillageId()).build()).build());
+        return ResponseEntity.ok(VillageDTO.builder().id(village.getId()).provinceId(village.getProvince().getId()).name(village.getName()).coords(village.getCoords()).imageUrl(village.getImageUrl())
+                .festivity(FestivityDTO.builder().id(village.getFestivity().getId()).name(village.getFestivity().getName()).startDate(village.getFestivity().getStartDate()).endDate(village.getFestivity().getEndDate()).patron(village.getFestivity().getPatron()).villageId(villageId).build()).build());
     }
 }

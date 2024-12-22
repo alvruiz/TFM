@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.out.persistence.mapper.user;
+package com.viu.patronAPP.infrastructure.out.persistence.mapper;
 
 import com.viu.patronAPP.domain.model.Village;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.VillageEntity;
@@ -12,7 +12,8 @@ public class VillageMapper {
                 .name(village.getName())
                 .coords(village.getCoords())
                 .imageUrl(village.getImageUrl())
-                .provinceId(village.getProvinceId())
+                .province(ProvinceMapper.mapProvinceDomainToEntity(village.getProvince()))
+                .festivity(FestivityMapper.mapFestivityDomainToEntity(village.getFestivity()))
                 .build();
     }
 
@@ -22,7 +23,8 @@ public class VillageMapper {
                 .name(villageEntity.getName())
                 .coords(villageEntity.getCoords())
                 .imageUrl(villageEntity.getImageUrl())
-                .provinceId(villageEntity.getProvinceId())
+                .province(ProvinceMapper.mapProvinceEntityToDomain(villageEntity.getProvince()))
+                .festivity(FestivityMapper.mapFestivityEntityToDomain(villageEntity.getFestivity()))
                 .build();
     }
 }

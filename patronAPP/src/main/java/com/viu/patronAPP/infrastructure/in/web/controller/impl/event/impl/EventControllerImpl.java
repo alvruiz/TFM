@@ -21,10 +21,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,6 +41,7 @@ public class EventControllerImpl implements EventController {
     @Override
     public ResponseEntity<EventDTO> createEvent(EventDTO eventDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<User> attendees = eventDTO.getAttendees().stream().map(userUseCasesPort::getUserById).toList();
         Event event = Event.builder()
                 .name(eventDTO.getEventName())
                 .description(eventDTO.getEventDescription())
@@ -48,8 +49,7 @@ public class EventControllerImpl implements EventController {
                 .endDate(eventDTO.getEventEndDate())
                 .coords(eventDTO.getCoords())
                 .maxCapacity(eventDTO.getEventMaxCapacity())
-                .attendees(eventDTO.getAttendees())
-                .festivityId(eventDTO.getEventFestivityId())
+                .attendees(attendees)
                 .build();
         eventUseCasesPort.createEvent(event);
         eventDTO.setId(event.getId());
@@ -60,7 +60,7 @@ public class EventControllerImpl implements EventController {
     public ResponseEntity<List<EventDTO>> getEventByFestivityId(String festivityId) {
         log.info("Get event by festivity id: {}", festivityId);
         List<Event> event = eventUseCasesPort.getEventByFestivityId(festivityId);
-        return ResponseEntity.ok(event.stream().map(eventDTO -> EventDTO.builder().id(eventDTO.getId()).eventName(eventDTO.getName()).eventDescription(eventDTO.getDescription()).eventStartDate(eventDTO.getStartDate()).eventEndDate(eventDTO.getEndDate()).coords(eventDTO.getCoords()).eventMaxCapacity(eventDTO.getMaxCapacity()).attendees(eventDTO.getAttendees()).eventFestivityId(eventDTO.getFestivityId()).build()).collect(Collectors.toList()));
+        return ResponseEntity.ok(event.stream().map(eventDTO -> EventDTO.builder().id(eventDTO.getId()).eventName(eventDTO.getName()).eventDescription(eventDTO.getDescription()).eventStartDate(eventDTO.getStartDate()).eventEndDate(eventDTO.getEndDate()).coords(eventDTO.getCoords()).eventMaxCapacity(eventDTO.getMaxCapacity()).attendees(eventDTO.getAttendees().stream().map(User::getId).toList()).eventFestivityId(festivityId).build()).collect(Collectors.toList()));
     }
 
     @Override
@@ -79,10 +79,10 @@ public class EventControllerImpl implements EventController {
         User userUpdated = userUseCasesPort.updateUser(user);
         List<String> events = user.getEventsParticipating();
         if (events.contains(subscribeDTO.getEventId())) {
-            log.info("Subscribed to event: {}", subscribeDTO.getEventId());
+            log.info("Unsubscribed to event: {}", subscribeDTO.getEventId());
             events = events.stream().filter(eventId -> !eventId.equals(subscribeDTO.getEventId())).toList();
         } else {
-            log.info("Unsubscribed from event: {}", subscribeDTO.getEventId());
+            log.info("Subscribed from event: {}", subscribeDTO.getEventId());
             events.add(subscribeDTO.getEventId());
         }
         eventUseCasesPort.suscribeOrUnsuscribeEvent(user.getId(), subscribeDTO.getEventId());
@@ -128,61 +128,43 @@ public class EventControllerImpl implements EventController {
 
 
     private List<EventAndVillageDTO> returnEventAndVillageDTO(List<Event> events) {
-        Map<String, Festivity> festivityMap = events.stream()
-                .map(event -> {
-                    Festivity festivity = festivityUseCasesPort.getById(event.getFestivityId());
-                    return festivity;
-                })
-                .filter(Objects::nonNull)
+        Map<String, Festivity> festivitiesMap = events.stream()
                 .collect(Collectors.toMap(
-                        Festivity::getId,
-                        festivity -> festivity,
-                        (existing, replacement) -> existing
+                        Event::getId,
+                        event -> festivityUseCasesPort.getFestivityByEvent(event.getId()),
+                        (existing, replacement) -> existing // Manejar duplicados manteniendo el existente
                 ));
 
-        Map<String, Village> villageMap = festivityMap.values().stream()
-                .map(festivity -> {
-                    Village village = villageUseCasesPort.getVillageById(festivity.getVillageId());
-                    return village;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toMap(Village::getId, village -> village, (existing, replacement) -> existing));
+        Map<String, Village> villagesMap = festivitiesMap.entrySet().stream()
+                .filter(entry -> entry.getValue() != null) // Asegurar que solo procesemos festividades válidas
+                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), villageUseCasesPort.getVillageByFestivity(entry.getValue())))
+                .filter(entry -> entry.getValue() != null) // Evitar valores nulos en el mapa
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        List<EventAndVillageDTO> result = events.stream()
-                .map(event -> {
-                    Festivity festivity = festivityMap.get(event.getFestivityId());
-                    if (festivity == null) {
-                        return null;
-                    }
+        List<EventAndVillageDTO> eventAndVillageDTOs = events.stream().map(event -> {
+            Festivity festivity = festivitiesMap.get(event.getId());
+            Village village = villagesMap.get(event.getId());
 
-                    Village village = villageMap.get(festivity.getVillageId());
-                    if (village == null) {
-                        return null;
-                    }
-
-                    return EventAndVillageDTO.builder()
-                            .id(event.getId())
-                            .eventName(event.getName())
-                            .eventDescription(event.getDescription())
-                            .eventFestivityId(event.getFestivityId())
-                            .eventStartDate(event.getStartDate())
-                            .eventEndDate(event.getEndDate())
-                            .coords(event.getCoords())
-                            .eventMaxCapacity(event.getMaxCapacity())
-                            .attendees(event.getAttendees())
-                            .village(VillageDTO.builder()
-                                    .id(village.getId())
-                                    .name(village.getName())
-                                    .coords(village.getCoords())
-                                    .imageUrl(village.getImageUrl())
-                                    .provinceId(village.getProvinceId())
-                                    .build())
-                            .build();
-                })
-                .filter(Objects::nonNull)
-                .toList();
-
-        return result;
+            return EventAndVillageDTO.builder()
+                    .id(event.getId())
+                    .eventName(event.getName())
+                    .eventDescription(event.getDescription())
+                    .eventFestivityId(festivity != null ? festivity.getId() : null)
+                    .eventStartDate(event.getStartDate())
+                    .eventEndDate(event.getEndDate())
+                    .coords(event.getCoords())
+                    .eventMaxCapacity(event.getMaxCapacity())
+                    .attendees(event.getAttendees().stream().map(User::getId).collect(Collectors.toList()))
+                    .village(village != null ? VillageDTO.builder()
+                            .id(village.getId())
+                            .name(village.getName())
+                            .coords(village.getCoords())
+                            .imageUrl(village.getImageUrl())
+                            .provinceId(village.getProvince().getId())
+                            .build() : null)
+                    .build();
+        }).toList();
+        return eventAndVillageDTOs;
     }
 
 

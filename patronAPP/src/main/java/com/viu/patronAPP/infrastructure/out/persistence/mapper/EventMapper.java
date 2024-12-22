@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.out.persistence.mapper.user;
+package com.viu.patronAPP.infrastructure.out.persistence.mapper;
 
 import com.viu.patronAPP.domain.model.Event;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.EventEntity;
@@ -15,8 +15,7 @@ public class EventMapper {
                 .endDate(eventEntity.getEndDate())
                 .coords(eventEntity.getCoords())
                 .maxCapacity(eventEntity.getMaxCapacity())
-                .attendees(eventEntity.getAttendees())
-                .festivityId(eventEntity.getFestivityId())
+                .attendees(eventEntity.getAttendees().stream().map(UserMapper::mapUserEntityToDomain).toList())
                 .build();
     }
 
@@ -29,8 +28,7 @@ public class EventMapper {
                 .endDate(event.getEndDate())
                 .coords(event.getCoords())
                 .maxCapacity(event.getMaxCapacity())
-                .attendees(event.getAttendees())
-                .festivityId(event.getFestivityId())
+                .attendees(event.getAttendees().stream().map(UserMapper::mapUserDomainToEntity).toList())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.viu.patronAPP.application.services;
 
+import com.viu.patronAPP.domain.model.Festivity;
 import com.viu.patronAPP.domain.model.Village;
 import com.viu.patronAPP.domain.model.exceptions.NotFoundException;
 import com.viu.patronAPP.domain.ports.in.VillageUseCasesPort;
@@ -23,7 +24,17 @@ public class VillageServiceImpl implements VillageUseCasesPort {
             log.info("Village not found: {}", id);
             throw new NotFoundException("Village not found");
         }
-        village.setFestivity(festivityPort.getFestivityByVillageId(village.getId()));
         return village;
     }
+
+    @Override
+    public Village getVillageByFestivity(Festivity festivity) {
+        Village village = villagePort.getVillageByFestivity(festivity.getId());
+        if (village == null) {
+            log.info("Village not found for festivity id: {}", festivity.getId());
+            throw new NotFoundException("Village not found");
+        }
+        return village;
+    }
+
 }

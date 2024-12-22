@@ -3,7 +3,7 @@ package com.viu.patronAPP.infrastructure.out.persistence.repository;
 import com.viu.patronAPP.domain.model.Event;
 import com.viu.patronAPP.domain.ports.out.EventPort;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.EventEntity;
-import com.viu.patronAPP.infrastructure.out.persistence.mapper.user.EventMapper;
+import com.viu.patronAPP.infrastructure.out.persistence.mapper.EventMapper;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.event.EventMongoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -44,17 +44,13 @@ public class EventRepositoryAdapter implements EventPort {
     }
 
     @Override
-    public List<Event> getEventByFestivityId(String festivityId) {
-        return eventRepository.findByFestivityId(festivityId).stream().map(EventMapper::mapEventEntityToDomain).toList();
-    }
-
-    @Override
     public List<Event> getEventByUserId(String userId) {
         return eventRepository.findByAttendeesContaining(userId).stream().map(EventMapper::mapEventEntityToDomain).toList();
     }
 
     @Override
     public List<Event> getEventByIdsList(List<String> eventIds) {
+        List<EventEntity> events = eventRepository.findByIdIn(eventIds).stream().toList();
         return eventRepository.findByIdIn(eventIds).stream().map(EventMapper::mapEventEntityToDomain).toList();
     }
 

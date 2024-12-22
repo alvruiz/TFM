@@ -1,17 +1,21 @@
 package com.viu.patronAPP.application.services;
 
 import com.viu.patronAPP.domain.model.Event;
+import com.viu.patronAPP.domain.model.Festivity;
 import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.model.exceptions.NotFoundException;
 import com.viu.patronAPP.domain.ports.in.EventUseCasesPort;
 import com.viu.patronAPP.domain.ports.out.EventPort;
+import com.viu.patronAPP.domain.ports.out.FestivityPort;
 import com.viu.patronAPP.domain.ports.out.UserPort;
+import com.viu.patronAPP.domain.ports.out.VillagePort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +24,8 @@ public class EventServiceImpl implements EventUseCasesPort {
 
     private final EventPort eventPort;
     private final UserPort userPort;
+    private final VillagePort villagePort;
+    private final FestivityPort festivityPort;
 
     @Override
     public Event createEvent(Event event) {
@@ -53,7 +59,7 @@ public class EventServiceImpl implements EventUseCasesPort {
             throw new NotFoundException("User not found");
         }
 
-        List<String> attendees = new ArrayList<>((event.getAttendees()));
+        List<String> attendees = new ArrayList<>((event.getAttendees().stream().map(User::getId).collect(Collectors.toList())));
         if (attendees.contains(userId)) {
             log.info("User {} is already attendee of event {}", userId, eventId);
             attendees.remove(userId);
@@ -64,17 +70,16 @@ public class EventServiceImpl implements EventUseCasesPort {
             }
             attendees.add(userId);
         }
-        event.setAttendees(attendees);
+        ArrayList<User> attendeesModified = new ArrayList<>(event.getAttendees());
+        attendeesModified.add(user);
+        event.setAttendees(attendeesModified);
         eventPort.updateEvent(eventId, event);
     }
 
     @Override
     public List<Event> getEventByFestivityId(String festivityId) {
-        if (eventPort.getEventByFestivityId(festivityId) == null) {
-            log.info("Event not found for festivity id: {}", festivityId);
-            throw new NotFoundException("Event not found");
-        }
-        return eventPort.getEventByFestivityId(festivityId);
+        Festivity festivity = festivityPort.getById(festivityId);
+        return festivity.getEvents();
     }
 
     @Override

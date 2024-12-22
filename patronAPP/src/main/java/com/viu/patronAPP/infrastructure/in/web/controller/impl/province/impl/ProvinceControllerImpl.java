@@ -53,14 +53,14 @@ public class ProvinceControllerImpl implements ProvinceController {
                 .id(village.getId())
                 .coords(village.getCoords())
                 .imageUrl(village.getImageUrl())
-                .provinceId(village.getProvinceId())
+                .provinceId(village.getProvince().getId())
                 .festivity(village.getFestivity() != null ? FestivityDTO.builder()
                         .id(village.getFestivity().getId())
                         .name(village.getFestivity().getName())
                         .startDate(village.getFestivity().getStartDate())
                         .endDate(village.getFestivity().getEndDate())
                         .patron(village.getFestivity().getPatron())
-                        .villageId(village.getFestivity().getVillageId())
+                        .villageId(village.getId())
                         .build() : null)
                 .build()).collect(Collectors.toList()));
     }

@@ -16,6 +16,5 @@ public class Event {
     private LocalDateTime endDate;
     private List<Coords> coords;
     private int maxCapacity;
-    private List<String> attendees;
-    private String festivityId;
+    private List<User> attendees;
 }

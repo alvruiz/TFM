@@ -18,9 +18,10 @@ interface UserStore {
 }
 
 const useUserStore = create<UserStore>((set) => {
+    const localStorageUser = localStorage.getItem('user');
     return {
         eventsUser: [],
-        user: null,
+        user: localStorageUser ? JSON.parse(localStorageUser) : null,
         isLoading: false,
         error: null,
         setUser: (user: User) => {

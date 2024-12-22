@@ -1,7 +1,9 @@
 package com.viu.patronAPP.infrastructure.in.web.controller.impl.festivity.impl;
 
 import com.viu.patronAPP.domain.model.Festivity;
+import com.viu.patronAPP.domain.model.Village;
 import com.viu.patronAPP.domain.ports.in.FestivityUseCasesPort;
+import com.viu.patronAPP.domain.ports.in.VillageUseCasesPort;
 import com.viu.patronAPP.infrastructure.DTO.festivity.FestivityDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.festivity.FestivityController;
 import lombok.AllArgsConstructor;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FestivityControllerImpl implements FestivityController {
     private final FestivityUseCasesPort festivityUseCasesPort;
-
+    private final VillageUseCasesPort villageUseCasesPort;
 
     @Override
     public ResponseEntity<FestivityDTO> createFestivity(FestivityDTO festivityDTO) {
@@ -27,7 +29,6 @@ public class FestivityControllerImpl implements FestivityController {
                 .startDate(festivityDTO.getStartDate())
                 .endDate(festivityDTO.getEndDate())
                 .patron(festivityDTO.getPatron())
-                .villageId(festivityDTO.getVillageId())
                 .build();
         festivityUseCasesPort.createFestivity(festivity);
         return ResponseEntity.ok(festivityDTO);
@@ -37,12 +38,13 @@ public class FestivityControllerImpl implements FestivityController {
     public ResponseEntity<FestivityDTO> getFestivityByVillageId(String villageId) {
         log.info("Get festivity by village id: {}", villageId);
         Festivity festivity = festivityUseCasesPort.getFestivityByVillageId(villageId);
+        Village village = villageUseCasesPort.getVillageById(villageId);
         return ResponseEntity.ok(FestivityDTO.builder()
                 .name(festivity.getName())
                 .startDate(festivity.getStartDate())
                 .endDate(festivity.getEndDate())
                 .patron(festivity.getPatron())
-                .villageId(festivity.getVillageId())
+                .villageId(village.getId())
                 .build());
     }
 
@@ -56,7 +58,7 @@ public class FestivityControllerImpl implements FestivityController {
                 .startDate(festivity.getStartDate())
                 .endDate(festivity.getEndDate())
                 .patron(festivity.getPatron())
-                .villageId(festivity.getVillageId())
+                .villageId(villageUseCasesPort.getVillageByFestivity(festivity).getId())
                 .build()).collect(Collectors.toList()));
     }
 
@@ -70,7 +72,7 @@ public class FestivityControllerImpl implements FestivityController {
                 .startDate(festivity.getStartDate())
                 .endDate(festivity.getEndDate())
                 .patron(festivity.getPatron())
-                .villageId(festivity.getVillageId())
+                .villageId(villageUseCasesPort.getVillageByFestivity(festivity).getId())
                 .build());
     }
 }

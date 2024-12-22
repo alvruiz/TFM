@@ -2,7 +2,7 @@ package com.viu.patronAPP.infrastructure.out.persistence.repository;
 
 import com.viu.patronAPP.domain.model.Province;
 import com.viu.patronAPP.domain.ports.out.ProvincePort;
-import com.viu.patronAPP.infrastructure.out.persistence.mapper.user.ProvinceMapper;
+import com.viu.patronAPP.infrastructure.out.persistence.mapper.ProvinceMapper;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.province.ProvinceMongoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;

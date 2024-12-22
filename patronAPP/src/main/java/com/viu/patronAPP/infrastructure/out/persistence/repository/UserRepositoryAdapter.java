@@ -4,7 +4,7 @@ import com.viu.patronAPP.domain.model.Rol;
 import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.ports.out.UserPort;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.UserEntity;
-import com.viu.patronAPP.infrastructure.out.persistence.mapper.user.UserMapper;
+import com.viu.patronAPP.infrastructure.out.persistence.mapper.UserMapper;
 import com.viu.patronAPP.infrastructure.out.persistence.repository.mongo.user.UserMongoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

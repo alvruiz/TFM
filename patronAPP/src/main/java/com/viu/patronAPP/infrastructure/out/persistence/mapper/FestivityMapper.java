@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.out.persistence.mapper.user;
+package com.viu.patronAPP.infrastructure.out.persistence.mapper;
 
 import com.viu.patronAPP.domain.model.Festivity;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.FestivityEntity;
@@ -13,7 +13,7 @@ public class FestivityMapper {
                 .startDate(festivityEntity.getStartDate())
                 .endDate(festivityEntity.getEndDate())
                 .patron(festivityEntity.getPatron())
-                .villageId(festivityEntity.getVillageId())
+                .events(festivityEntity.getEvents().stream().map(EventMapper::mapEventEntityToDomain).toList())
                 .build();
     }
 
@@ -24,7 +24,7 @@ public class FestivityMapper {
                 .startDate(festivity.getStartDate())
                 .endDate(festivity.getEndDate())
                 .patron(festivity.getPatron())
-                .villageId(festivity.getVillageId())
+                .events(festivity.getEvents().stream().map(EventMapper::mapEventDomainToEntity).toList())
                 .build();
     }
 }

@@ -3,9 +3,11 @@ package com.viu.patronAPP.infrastructure.out.persistence.entity.mongo;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Document(collection = "festivities")
 @Data
@@ -17,5 +19,6 @@ public class FestivityEntity {
     private LocalDate startDate;
     private LocalDate endDate;
     private String patron;
-    private String villageId;
+    @DBRef
+    private List<EventEntity> events;
 }

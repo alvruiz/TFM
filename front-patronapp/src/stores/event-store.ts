@@ -6,7 +6,6 @@ import { getEventsByEmail, getEventsByIds } from "../services/get-events.service
 interface EventStore {
     userEvents: FestivityEvent[];
     setUserEvents: (userEvents: FestivityEvent[]) => void;
-
     getUserEvents: (ids: string[]) => void;
     joinEvent: (userId: string, eventId: string) => Promise<User>;
 }

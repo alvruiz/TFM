@@ -7,11 +7,10 @@ import java.util.List;
 public interface FestivityPort {
     public Festivity createFestivity(Festivity festivity);
 
-    public Festivity getFestivityByVillageId(String villageId);
 
     public List<Festivity> getAllFestivities(String page, String size);
 
-    public List<Festivity> getAllFestivitiesByVillageIds(List<String> ids);
-
     public Festivity getById(String festivityId);
+
+    public Festivity getFestivityByEvent(String eventId);
 }

@@ -9,41 +9,20 @@ import useUserStore from '../../../stores/user-store';
 import { StyledJoinButton, StyledUnsuscribeButton } from './EventDetailsModalStyles';
 import useEventStore from '../../../stores/event-store';
 import useVillageStore from '../../../stores/village-store';
-const EventDetailsModal = ({ village, open, event, onClose }) => {
+import useModalStore from '../../../stores/modal-store';
+const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
     const { getPersistedUser, user, setUser } = useUserStore();
-    const { getEvents, events } = useVillageStore();
 
     const { joinEvent } = useEventStore();
-    const [currentEvent, setCurrentEvent] = useState(event);
-
-    useEffect(() => {
-        setCurrentEvent(event);
-    }, [event]);
 
     useEffect(() => {
         if (!user) {
             getPersistedUser();
         }
     }, []);
-    useEffect(() => {
-        const fetchEventDetails = async () => {
-            try {
-                await getEvents(village.id);
 
-                const selectedEvent = events.find(e => e.id === event.id);
 
-                if (selectedEvent) {
-                    setCurrentEvent(selectedEvent);
-                }
-            } catch (error) {
-                console.error("Error fetching events:", error);
-            }
-        };
-
-        fetchEventDetails();
-    }, [user]);
-
-    if (!currentEvent || !currentEvent.eventName) return null;
+    if (!selectedEvent || !selectedEvent.eventName) return null;
 
     return (
         <Modal
@@ -82,47 +61,42 @@ const EventDetailsModal = ({ village, open, event, onClose }) => {
 
                 {/* Título del evento */}
                 <Typography variant="h5" sx={{ marginBottom: 2, fontSize: '24px', color: colors.textDark, fontWeight: 'bold' }}>
-                    {currentEvent.eventName}
+                    {selectedEvent.eventName}
                 </Typography>
 
                 {/* Descripción con icono */}
                 <Typography variant="body1" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <Description sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Descripción: </strong> {currentEvent.eventDescription}
+                    <strong>Descripción: </strong> {selectedEvent.eventDescription}
                 </Typography>
 
                 {/* Fecha de inicio con icono */}
                 <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <CalendarMonth sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Fecha de inicio: </strong> {new Date(currentEvent.eventStartDate).toLocaleString()}
+                    <strong>Fecha de inicio: </strong> {new Date(selectedEvent.eventStartDate).toLocaleString()}
                 </Typography>
 
                 {/* Fecha de fin con icono */}
                 <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <CalendarMonth sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Fecha de fin: </strong> {new Date(currentEvent.eventEndDate).toLocaleString()}
+                    <strong>Fecha de fin: </strong> {new Date(selectedEvent.eventEndDate).toLocaleString()}
                 </Typography>
 
                 {/* Capacidad con icono */}
                 <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
                     <Person sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Capacidad: </strong> {currentEvent.attendees.length}/{currentEvent.eventMaxCapacity}
+                    <strong>Capacidad: </strong> {selectedEvent.attendees.length}/{selectedEvent.eventMaxCapacity}
                 </Typography>
 
-                {/* Coordenadas con icono */}
-                <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
-                    <LocationOn sx={{ marginRight: 1, fontSize: '20px' }} />
-                    <strong>Coordenadas: </strong> Latitud {currentEvent.coords.latitude}, Longitud {currentEvent.coords.longitude}
-                </Typography>
 
                 {/* Mapa del evento */}
-                <ModalMap event={currentEvent} />
+                <ModalMap event={selectedEvent} />
 
                 {/* Opcion de apuntarse si el usuario no está apuntado al evento */}
-                {user && user.eventsParticipating && !user.eventsParticipating.includes(currentEvent.id) && currentEvent.attendees.length < currentEvent.eventMaxCapacity &&
+                {user && user.eventsParticipating && !user.eventsParticipating.includes(selectedEvent.id) && selectedEvent.attendees.length < selectedEvent.eventMaxCapacity &&
                     < StyledJoinButton
                         onClick={async () => {
-                            setUser(await joinEvent(user.email, currentEvent.id));
+                            setUser(await joinEvent(user.email, selectedEvent.id));
                         }}
                         sx={{
                             marginTop: 5,
@@ -140,10 +114,10 @@ const EventDetailsModal = ({ village, open, event, onClose }) => {
                         Apuntarse
                     </StyledJoinButton>
                 }
-                {user && user.eventsParticipating && user.eventsParticipating.includes(currentEvent.id) &&
+                {user && user.eventsParticipating && user.eventsParticipating.includes(selectedEvent.id) &&
                     <StyledUnsuscribeButton
                         onClick={async () => {
-                            setUser(await joinEvent(user.email, currentEvent.id));
+                            setUser(await joinEvent(user.email, selectedEvent.id));
                         }}
                         sx={{
                             marginTop: 5,

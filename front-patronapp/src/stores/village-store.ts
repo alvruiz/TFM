@@ -10,6 +10,8 @@ interface VillageStore {
     isLoading: boolean;
     error: string | null;
     getVillage: (id: string) => Promise<void>;
+    setVillage: (village: Village) => void;
+    setEvents: (events: FestivityEvent[]) => void;
     getEvents: (festivityId: string) => Promise<void>;
 }
 
@@ -19,6 +21,8 @@ const useVillageStore = create<VillageStore>((set, get) => ({
     isLoading: false,
     error: null,
 
+    setVillage: (village: Village) => set({ village }),
+    setEvents: (events: FestivityEvent[]) => set({ events }),
     getVillage: async (id: string) => {
         set({ isLoading: true, error: null });
         try {

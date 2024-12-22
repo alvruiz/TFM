@@ -14,6 +14,7 @@ public class Metrics {
     private UserRepositoryAdapter userRepositoryAdapter;
     private EventRepositoryAdapter eventRepositoryAdapter;
 
+
     public Metrics(MeterRegistry meterRegistry, VillageRepositoryAdapter villageRepositoryAdapter, EventRepositoryAdapter eventRepositoryAdapter, UserRepositoryAdapter userRepositoryAdapter) {
         this.villageRepositoryAdapter = villageRepositoryAdapter;
         this.userRepositoryAdapter = userRepositoryAdapter;

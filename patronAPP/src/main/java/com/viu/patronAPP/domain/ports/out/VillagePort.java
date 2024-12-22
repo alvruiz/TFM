@@ -7,7 +7,11 @@ import java.util.List;
 public interface VillagePort {
     public List<Village> getVillagesByProvince(String provinceId, String page, String size);
 
-    public List<Village> getAllVillages(String provinceId);
+    public List<Village> getAllVillages();
+
+    public List<Village> getAllVillagesByProvinceID(String provinceId);
 
     public Village getVillageById(String id);
+
+    public Village getVillageByFestivity(String festivityId);
 }

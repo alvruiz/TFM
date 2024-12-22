@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import LoginSignInPage from './components/login/FormLoginSignin';
 import Header from './components/header/Header';
@@ -10,7 +10,10 @@ import VillagesPage from './components/villages/VillagesPage';
 import EditProfile from './components/editprofile/EditProfile';
 import IndividualVillage from './components/individual-village/IndividualVillage';
 import Agenda from './components/agenda/Agenda';
+import useUserStore from './stores/user-store';
 function App() {
+
+
   return (
     <Router>
       <ToastContainer

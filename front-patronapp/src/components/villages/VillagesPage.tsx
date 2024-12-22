@@ -8,12 +8,15 @@ import { CalendarMonth, ArrowDownward } from '@mui/icons-material';
 import colors from '../../utils/colors';
 import { StyledCard, StyledCardActionArea } from './VillagesPageStyle';
 import AdvancedSearch from './AdvancedSearch';
+import useVillageStore from '../../stores/village-store';
+import useModalStore from '../../stores/modal-store';
 
 const VillagesPage = () => {
     const { id } = useParams();
     const { getVillages, actualVillages, setActualVillages, getProvinces, actualPage, setActualPage, amountItems, setAmountItems } = useProvinceStore();
     const [isLoading, setIsLoading] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(9);
+    const { setVillage, setEvents } = useVillageStore();
 
     const [hasMore, setHasMore] = useState(true);
     const navigate = useNavigate();
@@ -41,7 +44,8 @@ const VillagesPage = () => {
 
         updateItemsPerPage();
         window.addEventListener('resize', updateItemsPerPage);
-
+        setVillage(null);
+        setEvents([]);
         return () => {
             window.removeEventListener('resize', updateItemsPerPage);
         };

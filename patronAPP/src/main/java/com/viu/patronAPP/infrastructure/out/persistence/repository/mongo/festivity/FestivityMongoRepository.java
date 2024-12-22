@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface FestivityMongoRepository extends MongoRepository<FestivityEntity, String> {
-    Optional<FestivityEntity> findByVillageId(String villageId);
 
-
+    Optional<FestivityEntity> findByEvents_Id(String eventId);
 }

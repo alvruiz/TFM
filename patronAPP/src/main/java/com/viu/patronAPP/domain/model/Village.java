@@ -10,6 +10,6 @@ public class Village {
     private String name;
     private Coords coords;
     private String imageUrl;
-    private String provinceId;
+    private Province province;
     private Festivity festivity;
 }

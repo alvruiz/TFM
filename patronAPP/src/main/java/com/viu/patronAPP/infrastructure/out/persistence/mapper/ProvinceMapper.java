@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.out.persistence.mapper.user;
+package com.viu.patronAPP.infrastructure.out.persistence.mapper;
 
 import com.viu.patronAPP.domain.model.Province;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.ProvinceEntity;

@@ -1,4 +1,4 @@
-package com.viu.patronAPP.infrastructure.out.persistence.mapper.user;
+package com.viu.patronAPP.infrastructure.out.persistence.mapper;
 
 
 import com.viu.patronAPP.domain.model.User;

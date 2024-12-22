@@ -23,25 +23,28 @@ const IndividualVillage = () => {
 
     const { getEvents, getVillage, village, events } = useVillageStore();
     useEffect(() => {
+        setOpenModal(false);
         const fetchVillage = async () => {
             await getVillage(id);
+            if (village && village.festivity) {
+                setCalendarStartDate(new Date(village.festivity.startDate));
+            }
         };
         fetchVillage();
     }, [id]);
-
     useEffect(() => {
         const fetchEvents = async () => {
             if (village === null) return;
-            await getEvents(village.id);
+            await getEvents(village.festivity.id);
+            if (village && village.festivity && !calendarStartDate) {
+                setCalendarStartDate(new Date(village.festivity.startDate));
+            }
         };
         fetchEvents();
     }, [village]);
 
-    useEffect(() => {
-        if (village && village.festivity && !calendarStartDate) {
-            setCalendarStartDate(new Date(village.festivity.startDate));
-        }
-    }, [village, calendarStartDate]);
+
+
     if (calendarStartDate === null) return null;
     const localizer = momentLocalizer(moment);
     if (!village || !events) {
@@ -135,12 +138,13 @@ const IndividualVillage = () => {
                     </Grid>
 
                 </Grid>
-                <EventDetailsModal
-                    open={openModal}
-                    event={selectedEvent}
-                    onClose={handleCloseModal}
-                    village={village}
-                />
+                {openModal &&
+                    <EventDetailsModal
+                        open={openModal}
+                        selectedEvent={selectedEvent}
+                        onClose={handleCloseModal}
+                        village={village}
+                    />}
             </Root>
         </StyledEngineProvider>
     );

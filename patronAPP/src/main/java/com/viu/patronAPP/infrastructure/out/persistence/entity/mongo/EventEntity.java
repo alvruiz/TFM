@@ -4,6 +4,7 @@ import com.viu.patronAPP.domain.model.Coords;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,6 @@ public class EventEntity {
     private LocalDateTime endDate;
     private List<Coords> coords;
     private Integer maxCapacity;
-    private List<String> attendees;
-    private String festivityId;
+    @DBRef
+    private List<UserEntity> attendees;
 }

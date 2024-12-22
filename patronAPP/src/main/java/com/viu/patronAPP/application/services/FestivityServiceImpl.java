@@ -1,10 +1,12 @@
 package com.viu.patronAPP.application.services;
 
 import com.viu.patronAPP.domain.model.Festivity;
+import com.viu.patronAPP.domain.model.Village;
 import com.viu.patronAPP.domain.model.exceptions.GeneralException;
 import com.viu.patronAPP.domain.model.exceptions.NotFoundException;
 import com.viu.patronAPP.domain.ports.in.FestivityUseCasesPort;
 import com.viu.patronAPP.domain.ports.out.FestivityPort;
+import com.viu.patronAPP.domain.ports.out.VillagePort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.List;
 public class FestivityServiceImpl implements FestivityUseCasesPort {
 
     private final FestivityPort festivityPort;
+    private final VillagePort villagePort;
 
     public Festivity createFestivity(Festivity festivity) {
         Festivity festivityExist = getById(festivity.getId());
@@ -28,8 +31,24 @@ public class FestivityServiceImpl implements FestivityUseCasesPort {
     }
 
     @Override
+    public Festivity getFestivityByEvent(String eventId) {
+        Festivity festivity = festivityPort.getFestivityByEvent(eventId);
+        if (festivity == null) {
+            log.info("Festivity not found for event id: {}", eventId);
+            throw new NotFoundException("Festivity not found");
+        }
+        return festivity;
+
+    }
+
+    @Override
     public Festivity getFestivityByVillageId(String villageId) {
-        Festivity festivity = festivityPort.getFestivityByVillageId(villageId);
+        Village village = villagePort.getVillageById(villageId);
+        if (village == null) {
+            log.info("Village not found for village id: {}", villageId);
+            throw new NotFoundException("Village not found");
+        }
+        Festivity festivity = village.getFestivity();
         if (festivity == null) {
             log.info("Festivity not found for village id: {}", villageId);
             throw new NotFoundException("Festivity not found");
