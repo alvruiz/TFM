@@ -9,6 +9,61 @@ import FestivityEvent from '../../model/Event';
 import useUserStore from '../../stores/user-store';
 import { Root } from '../list/MainPageStyles';
 import Header from '../header/Header';
+import { StyledButton } from '../editprofile/EditProfileStyles';
+import { CalendarMonth } from '@mui/icons-material';
+
+function download(filename, fileBody) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileBody));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+function createDownloadICSFile(events, timezone) {
+    let icsBody = 'BEGIN:VCALENDAR\n' +
+        'VERSION:2.0\n' +
+        'PRODID:-//bobbin v0.1//NONSGML iCal Writer//EN\n' +
+        'CALSCALE:GREGORIAN\n' +
+        'METHOD:PUBLISH\n';
+
+    events.forEach(event => {
+        const startDate = moment(event.eventStartDate);
+        const endDate = moment(event.eventEndDate);
+
+        icsBody += 'BEGIN:VEVENT\n' +
+            'DTSTART:' + convertToICSDate(startDate.toDate()) + 'Z\n' + // UTC time
+            'DTEND:' + convertToICSDate(endDate.toDate()) + 'Z\n' + // UTC time
+            'DTSTAMP:' + convertToICSDate(new Date()) + 'Z\n' +
+            'UID:' + event.id + '@yoursever.com\n' +
+            'CREATED:' + convertToICSDate(new Date()) + 'Z\n' +
+            'DESCRIPTION:' + event.eventDescription + '\n' +
+            'LAST-MODIFIED:' + convertToICSDate(new Date()) + 'Z\n' +
+            'SEQUENCE:0\n' +
+            'STATUS:CONFIRMED\n' +
+            'SUMMARY:' + event.eventName + '\n' +
+            'TRANSP:OPAQUE\n' +
+            'END:VEVENT\n';
+    });
+
+    icsBody += 'END:VCALENDAR\n';
+
+    download('events.ics', icsBody);
+}
+
+function convertToICSDate(dateTime) {
+    const year = dateTime.getFullYear().toString();
+    const month = (dateTime.getMonth() + 1) < 10 ? "0" + (dateTime.getMonth() + 1).toString() : (dateTime.getMonth() + 1).toString();
+    const day = dateTime.getDate() < 10 ? "0" + dateTime.getDate().toString() : dateTime.getDate().toString();
+    const hours = dateTime.getHours() < 10 ? "0" + dateTime.getHours().toString() : dateTime.getHours().toString();
+    const minutes = dateTime.getMinutes() < 10 ? "0" + dateTime.getMinutes().toString() : dateTime.getMinutes().toString();
+
+    return year + month + day + "T" + hours + minutes + "00";
+}
 
 export default function Agenda() {
     const localizer = momentLocalizer(moment);
@@ -58,6 +113,12 @@ export default function Agenda() {
         setSelectedEvent(null);
     };
 
+    const exportEventsToICS = () => {
+        const timezone = "Europe/Madrid";
+        createDownloadICSFile(userEvents, timezone);
+    };
+
+
     const eventStyleGetter = (event, start, end, isSelected) => {
         var style = {
             backgroundColor: colors.secondary,
@@ -75,6 +136,10 @@ export default function Agenda() {
         <Root>
             <Header></Header>
             <div style={{ height: '100%', padding: 10, backgroundColor: colors.backgroundLight2, display: 'flex', flexDirection: 'column' }}>
+                <StyledButton style={{ marginBottom: 20, padding: 5, fontStyle: 'normal', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={exportEventsToICS}>
+                    <CalendarMonth style={{ marginRight: 8 }} /> {/* Opcionalmente agrega un margen entre el icono y el texto */}
+                    <span style={{ height: '100%', display: 'flex', alignItems: 'center' }}>Exportar Eventos</span>
+                </StyledButton>
                 <Calendar
                     localizer={localizer}
                     events={userEvents && userEvents.length > 0 ? userEvents.map((event: FestivityEvent) => ({

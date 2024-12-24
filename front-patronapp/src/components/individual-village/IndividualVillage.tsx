@@ -16,13 +16,12 @@ import colors from "../../utils/colors";
 import EventDetailsModal from "./modal/EventDetailsModal";
 import FestivityEvent from "../../model/Event";
 import useModalStore from "../../stores/modal-store";
-import APIFacade from "../../services/APIFacade";
 const IndividualVillage = () => {
     const id = useParams().id;
     const [calendarStartDate, setCalendarStartDate] = useState(null);
     const { openModal, setOpenModal, selectedEvent, setSelectedEvent } = useModalStore();
 
-    const { getVillage, village, events } = useVillageStore();
+    const { getEvents, getVillage, village, events } = useVillageStore();
     useEffect(() => {
         setOpenModal(false);
         const fetchVillage = async () => {
@@ -36,7 +35,7 @@ const IndividualVillage = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             if (village === null) return;
-            await APIFacade.getEvents(village.festivity.id);
+            await getEvents(village.festivity.id);
             if (village && village.festivity && !calendarStartDate) {
                 setCalendarStartDate(new Date(village.festivity.startDate));
             }
