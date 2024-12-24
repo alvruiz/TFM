@@ -1,10 +1,8 @@
 import { create } from 'zustand';
 import { Province } from '../model/Province';
-import { getProvinces } from '../services/get-provinces.service';
-import { getVillageFestivity, getVillages } from '../services/get-villages.service';
 import { Village } from '../model/Village';
 import { Festivity } from '../model/Festivity';
-import { getEvents } from '../services/get-events.service';
+import APIFacade from '../services/APIFacade';
 interface ProvinceStore {
     provinces: Province[];
     villages: Village[];
@@ -40,7 +38,7 @@ const useProvinceStore = create<ProvinceStore>((set, get) => ({
         set({ isLoading: true, error: null });
 
         try {
-            const response = await getProvinces();
+            const response = await APIFacade.getProvinces();
             set({ provinces: response, isLoading: false });
         } catch (error) {
             set({ error: 'Error al obtener las provincias', isLoading: false });
@@ -49,7 +47,7 @@ const useProvinceStore = create<ProvinceStore>((set, get) => ({
     getVillagesPaginated: async (id: string, page: number, itemsPerPage: number): Promise<Village[]> => {
         const actualProvince = get().provinces.find((province) => province.id === id);
         try {
-            const response = await getVillages(id, page, itemsPerPage);
+            const response = await APIFacade.getVillages(id, page, itemsPerPage);
 
 
             set({ actualProvince: actualProvince, villages: response, isLoading: false });
@@ -62,7 +60,7 @@ const useProvinceStore = create<ProvinceStore>((set, get) => ({
     getVillages: async (id: string): Promise<Village[]> => {
         const actualProvince = get().provinces.find((province) => province.id === id);
         try {
-            const response = await getVillages(id);
+            const response = await APIFacade.getVillages(id);
 
             set({ actualVillages: response, actualProvince: actualProvince, villages: response, isLoading: false });
             return response;
@@ -76,7 +74,7 @@ const useProvinceStore = create<ProvinceStore>((set, get) => ({
         set({ isLoading: true, error: null });
 
         try {
-            const response = await getVillageFestivity(page, itemsPerPage);
+            const response = await APIFacade.getVillageFestivity(page, itemsPerPage);
             set({ festivities: response, isLoading: false });
         } catch (error) {
             set({ error: 'Error al obtener la festividad', isLoading: false });

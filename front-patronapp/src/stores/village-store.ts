@@ -1,9 +1,7 @@
 import { create } from "zustand";
-import { getEvents } from "../services/get-events.service";
-import { getVillage } from "../services/get-villages.service";
 import { Village } from "../model/Village";
 import FestivityEvent from "../model/Event";
-
+import APIFacade from "../services/APIFacade";
 interface VillageStore {
     village: Village | null;
     events: FestivityEvent[];
@@ -26,7 +24,7 @@ const useVillageStore = create<VillageStore>((set, get) => ({
     getVillage: async (id: string) => {
         set({ isLoading: true, error: null });
         try {
-            const response = await getVillage(id);
+            const response = await APIFacade.getVillage(id);
             set({ village: response, isLoading: false });
         } catch (error) {
             set({ error: 'Error al obtener la villa', isLoading: false });
@@ -35,7 +33,7 @@ const useVillageStore = create<VillageStore>((set, get) => ({
     getEvents: async (festivityId: string) => {
         set({ isLoading: true, error: null });
         try {
-            const response = await getEvents(festivityId);
+            const response = await APIFacade.getEvents(festivityId);
             set({ events: response, isLoading: false });
         } catch (error) {
             set({ error: 'Error al obtener los eventos', isLoading: false });

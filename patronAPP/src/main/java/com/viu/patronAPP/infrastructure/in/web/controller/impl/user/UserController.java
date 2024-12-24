@@ -1,5 +1,6 @@
 package com.viu.patronAPP.infrastructure.in.web.controller.impl.user;
 
+import com.viu.patronAPP.infrastructure.DTO.user.UpdateUsertDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserLoginDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserRegisterDTO;
@@ -52,4 +53,29 @@ public interface UserController {
     @PostMapping("/login")
     @CrossOrigin
     public ResponseEntity<UserDTO> login(@RequestBody @Parameter(description = "User login details") UserLoginDTO userLoginDTO);
+
+
+    @Operation(
+            summary = "Update user details",
+            description = "This endpoint allows you to update the user details by providing the required user details.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User updated successfully"),
+                    @ApiResponse(responseCode = "400", description = "Invalid input provided")
+            }
+    )
+    @PutMapping()
+    @CrossOrigin
+    public ResponseEntity<UserDTO> updateUser(@RequestBody @Parameter(description = "User details to be updated") UpdateUsertDTO userDTO);
+
+
+    @Operation(
+            summary = "Delete user",
+            description = "This endpoint allows you to delete a user by providing the email address.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+                    @ApiResponse(responseCode = "404", description = "User not found")
+            }
+    )
+    @DeleteMapping("/{email}")
+    public ResponseEntity<String> deleteUser(@PathVariable @Parameter(description = "Email of the user to delete") String email);
 }

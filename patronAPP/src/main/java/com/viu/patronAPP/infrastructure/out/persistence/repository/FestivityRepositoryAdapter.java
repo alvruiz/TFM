@@ -40,7 +40,15 @@ public class FestivityRepositoryAdapter implements FestivityPort {
 
     @Override
     public Festivity getById(String festivityId) {
-        return FestivityMapper.mapFestivityEntityToDomain(Objects.requireNonNull(festivityRepository.findById(festivityId).orElse(null)));
+        FestivityEntity entity = festivityRepository.findById(festivityId).orElse(null);
+        return entity != null ? FestivityMapper.mapFestivityEntityToDomain(entity) : null;
+    }
+
+    @Override
+    public Festivity updateFestivity(Festivity festivity) {
+        FestivityEntity entityEntity = FestivityMapper.mapFestivityDomainToEntity(festivity);
+        festivityRepository.save(entityEntity);
+        return FestivityMapper.mapFestivityEntityToDomain(entityEntity);
     }
 
 }

@@ -13,4 +13,6 @@ public interface FestivityPort {
     public Festivity getById(String festivityId);
 
     public Festivity getFestivityByEvent(String eventId);
+
+    Festivity updateFestivity(Festivity festivity);
 }

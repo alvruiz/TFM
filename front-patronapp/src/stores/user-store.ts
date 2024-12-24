@@ -1,9 +1,7 @@
 import { create } from 'zustand';
 import { User } from '../model/User';
-import { login } from '../services/login.service';
-import { getEventsByEmail } from '../services/get-events.service';
 import FestivityEvent from '../model/Event';
-
+import APIFacade from '../services/APIFacade';
 interface UserStore {
     user: User | null;
     isLoading: boolean;
@@ -32,7 +30,7 @@ const useUserStore = create<UserStore>((set) => {
             set({ isLoading: true, error: null });
 
             try {
-                const response = await login(email, password);
+                const response = await APIFacade.login(email, password);
 
                 set({ user: response, isLoading: false });
                 localStorage.setItem('user', JSON.stringify(response));
@@ -53,7 +51,7 @@ const useUserStore = create<UserStore>((set) => {
             set({ isLoading: true, error: null });
 
             try {
-                const response = await getEventsByEmail(email);
+                const response = await APIFacade.getEventsByEmail(email);
                 set({ eventsUser: response, isLoading: false });
             } catch (error) {
                 set({ error: 'Error al obtener los eventos', isLoading: false });

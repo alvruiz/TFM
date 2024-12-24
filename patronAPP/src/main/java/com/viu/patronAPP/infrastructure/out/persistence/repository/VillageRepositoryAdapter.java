@@ -45,8 +45,27 @@ public class VillageRepositoryAdapter implements VillagePort {
         return villageRepository.findByFestivity(festivityId).map(VillageMapper::mapVillageEntityToDomain).orElse(null);
     }
 
+    @Override
+    public Village createVillage(Village village) {
+        VillageEntity entity = VillageMapper.mapVillageDomainToEntity(village);
+        return VillageMapper.mapVillageEntityToDomain(villageRepository.save(entity));
+    }
+
+    @Override
+    public void updateVillage(String villageId, Village village) {
+        VillageEntity entity = VillageMapper.mapVillageDomainToEntity(village);
+        villageRepository.save(entity);
+    }
+
+    @Override
+    public void deleteVillage(String villageId) {
+        villageRepository.deleteById(villageId);
+    }
+
+
     public int countVillages() {
         return (int) villageRepository.count();
     }
+
 
 }

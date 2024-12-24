@@ -68,4 +68,9 @@ public class UserServiceImpl implements UserUseCasesPort {
         userRepository.updateUser(user);
         return user;
     }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.deleteUser(id);
+    }
 }

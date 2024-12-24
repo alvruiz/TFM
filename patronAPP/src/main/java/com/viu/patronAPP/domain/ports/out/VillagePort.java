@@ -14,4 +14,10 @@ public interface VillagePort {
     public Village getVillageById(String id);
 
     public Village getVillageByFestivity(String festivityId);
+
+    public Village createVillage(Village village);
+
+    public void updateVillage(String villageId, Village village);
+
+    public void deleteVillage(String villageId);
 }

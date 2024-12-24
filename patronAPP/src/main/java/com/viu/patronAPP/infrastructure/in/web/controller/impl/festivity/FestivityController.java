@@ -18,7 +18,7 @@ public interface FestivityController {
             summary = "Create a new festivity",
             description = "This endpoint allows the creation of a new festivity by providing the necessary festivity details.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Festivity created successfully"),
+                    @ApiResponse(responseCode = "201", description = "Festivity created successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input")
             }
     )
@@ -36,7 +36,7 @@ public interface FestivityController {
                     @ApiResponse(responseCode = "404", description = "Festivity not found for the given village ID")
             }
     )
-    @GetMapping("/{villageId}")
+    @GetMapping("/villages/{villageId}")
     @CrossOrigin
     public ResponseEntity<FestivityDTO> getFestivityByVillageId(
 
@@ -57,7 +57,27 @@ public interface FestivityController {
     public ResponseEntity<List<FestivityDTO>> getFestivities(@RequestParam @Parameter(description = "Page to retrieve festivities for") String page,
                                                              @RequestParam @Parameter(description = "Size of the page to retrieve festivities for") String size);
 
+    @Operation(
+            summary = "Get a festivity by id",
+            description = "This endpoint retrieves a festivity by its id.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Festivity retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Festivity not found")
+            }
+    )
     @GetMapping("/{festivityId}")
     @CrossOrigin
     public ResponseEntity<FestivityDTO> getFestivityById(@PathVariable String festivityId);
+
+    @Operation(
+            summary = "Update a festivity",
+            description = "This endpoint allows the update of a festivity by providing the necessary festivity details.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Festivity retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Festivity not found")
+            }
+    )
+    @PutMapping("/{festivityId}")
+    @CrossOrigin
+    public ResponseEntity<FestivityDTO> updateFestivity(@PathVariable String festivityId, @RequestBody FestivityDTO festivityDTO);
 }

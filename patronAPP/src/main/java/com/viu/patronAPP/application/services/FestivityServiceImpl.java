@@ -22,8 +22,9 @@ public class FestivityServiceImpl implements FestivityUseCasesPort {
     private final VillagePort villagePort;
 
     public Festivity createFestivity(Festivity festivity) {
-        Festivity festivityExist = getById(festivity.getId());
-        if (festivityExist != null) {
+        boolean exitsFestivity = exitsFestivity(festivity.getId());
+
+        if (exitsFestivity) {
             log.info("Festivity already exists: {}", festivity.getId());
             throw new GeneralException("Festivity already exists");
         }
@@ -71,5 +72,23 @@ public class FestivityServiceImpl implements FestivityUseCasesPort {
             throw new NotFoundException("Festivity not found");
         }
         return festivity;
+    }
+
+    @Override
+    public void updateFestivity(String festivityId, Festivity festivity) {
+        Festivity festivityToUpdate = festivityPort.getById(festivityId);
+        if (festivityToUpdate == null) {
+            log.info("Festivity not found for id: {}", festivityId);
+            throw new NotFoundException("Festivity not found");
+        }
+        festivityToUpdate.setName(festivity.getName());
+        festivityToUpdate.setStartDate(festivity.getStartDate());
+        festivityToUpdate.setEndDate(festivity.getEndDate());
+        festivityPort.updateFestivity(festivityToUpdate);
+    }
+
+    public Boolean exitsFestivity(String festivityId) {
+        Festivity festivity = festivityPort.getById(festivityId);
+        return festivity != null;
     }
 }

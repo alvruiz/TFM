@@ -11,4 +11,6 @@ public interface UserPort {
     public User getUserByEmail(String email);
 
     public User updateUser(User user);
+
+    public void deleteUser(String id);
 }

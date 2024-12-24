@@ -20,11 +20,11 @@ public interface EventController {
             summary = "Create a new event",
             description = "This endpoint allows the creation of a new event by providing event details.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Event created successfully"),
+                    @ApiResponse(responseCode = "201", description = "Event created successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid input")
             }
     )
-    @PostMapping("/")
+    @PostMapping()
     @PreAuthorize("hasAnyRole('ADMIN','CM')")
     public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDTO);
 
@@ -79,7 +79,7 @@ public interface EventController {
 
 
     @Operation(
-            summary = "Get an event by festivity ID",
+            summary = "Get an event by email",
             description = "This endpoint retrieves an event by user email.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Event retrieved successfully"),

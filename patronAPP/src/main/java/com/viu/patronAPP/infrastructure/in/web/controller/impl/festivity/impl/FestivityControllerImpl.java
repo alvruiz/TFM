@@ -8,9 +8,11 @@ import com.viu.patronAPP.infrastructure.DTO.festivity.FestivityDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.festivity.FestivityController;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,13 +27,15 @@ public class FestivityControllerImpl implements FestivityController {
     public ResponseEntity<FestivityDTO> createFestivity(FestivityDTO festivityDTO) {
         log.info("Create festivity: {}", festivityDTO);
         Festivity festivity = Festivity.builder()
+                .id(festivityDTO.getId())
                 .name(festivityDTO.getName())
                 .startDate(festivityDTO.getStartDate())
                 .endDate(festivityDTO.getEndDate())
+                .events(new ArrayList<>())
                 .patron(festivityDTO.getPatron())
                 .build();
         festivityUseCasesPort.createFestivity(festivity);
-        return ResponseEntity.ok(festivityDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(festivityDTO);
     }
 
     @Override
@@ -74,5 +78,20 @@ public class FestivityControllerImpl implements FestivityController {
                 .patron(festivity.getPatron())
                 .villageId(villageUseCasesPort.getVillageByFestivity(festivity).getId())
                 .build());
+    }
+
+    @Override
+    public ResponseEntity<FestivityDTO> updateFestivity(String festivityId, FestivityDTO festivityDTO) {
+        log.info("Update festivity: {}", festivityDTO);
+        Festivity festivity = Festivity.builder()
+                .id(festivityDTO.getId())
+                .name(festivityDTO.getName())
+                .startDate(festivityDTO.getStartDate())
+                .endDate(festivityDTO.getEndDate())
+                .events(new ArrayList<>())
+                .patron(festivityDTO.getPatron())
+                .build();
+        festivityUseCasesPort.updateFestivity(festivityId, festivity);
+        return ResponseEntity.ok(festivityDTO);
     }
 }

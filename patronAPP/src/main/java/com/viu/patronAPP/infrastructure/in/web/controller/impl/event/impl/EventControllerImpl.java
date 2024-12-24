@@ -16,6 +16,7 @@ import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import com.viu.patronAPP.infrastructure.in.web.controller.impl.event.EventController;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,7 +54,7 @@ public class EventControllerImpl implements EventController {
                 .build();
         eventUseCasesPort.createEvent(event);
         eventDTO.setId(event.getId());
-        return ResponseEntity.ok(eventDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventDTO);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.viu.patronAPP.infrastructure.in.web.controller.impl.user.impl;
 
 import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.ports.in.UserUseCasesPort;
+import com.viu.patronAPP.infrastructure.DTO.user.UpdateUsertDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserLoginDTO;
 import com.viu.patronAPP.infrastructure.DTO.user.UserRegisterDTO;
@@ -80,6 +81,40 @@ public class UserControllerImpl implements UserController {
                 .eventsParticipating(user.getEventsParticipating())
                 .build();
         return ResponseEntity.ok(userDTO);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteUser(String email) {
+        log.info("Delete user: {}", email);
+        userService.deleteUser(email);
+        return ResponseEntity.ok("Deleted");
+    }
+
+    @Override
+    public ResponseEntity<UserDTO> updateUser(UpdateUsertDTO userDTO) {
+        log.info("Update user: {}", userDTO.getEmail());
+        User user = User.builder()
+                .name(userDTO.getName())
+                .password(userDTO.getPassword())
+                .surname(userDTO.getSurname())
+                .email(userDTO.getEmail())
+                .age(userDTO.getAge())
+                .gender(userDTO.getGender())
+                .rol(userDTO.getRol())
+                .imageUrl(userDTO.getImageUrl())
+                .eventsParticipating(userDTO.getEventsParticipating())
+                .build();
+        userService.updateUser(user);
+        return ResponseEntity.ok(UserDTO.builder()
+                .name(user.getName())
+                .surname(user.getSurname())
+                .email(user.getEmail())
+                .age(user.getAge())
+                .gender(user.getGender())
+                .rol(user.getRol())
+                .imageUrl(user.getImageUrl())
+                .eventsParticipating(user.getEventsParticipating())
+                .build());
     }
 
 }

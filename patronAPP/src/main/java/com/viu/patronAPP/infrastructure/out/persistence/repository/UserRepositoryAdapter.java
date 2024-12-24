@@ -46,6 +46,11 @@ public class UserRepositoryAdapter implements UserPort {
         return user;
     }
 
+    @Override
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+    }
+
     public List<User> getAdmins() {
         return userRepository.findByRol(Rol.ADMIN).stream().map(UserMapper::mapUserEntityToDomain).collect(Collectors.toList());
     }

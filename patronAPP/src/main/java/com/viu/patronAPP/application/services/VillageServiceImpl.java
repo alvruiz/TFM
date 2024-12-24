@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 @Slf4j
@@ -37,4 +39,36 @@ public class VillageServiceImpl implements VillageUseCasesPort {
         return village;
     }
 
+    @Override
+    public Village createVillage(Village village) {
+        return villagePort.createVillage(village);
+    }
+
+    @Override
+    public void updateVillage(String villageId, Village village) {
+        Village villageToUpdate = villagePort.getVillageById(villageId);
+        if (villageToUpdate == null) {
+            log.info("Village not found for id: {}", villageId);
+            throw new NotFoundException("Village not found");
+        }
+        villageToUpdate.setName(village.getName());
+        villageToUpdate.setCoords(village.getCoords());
+        villageToUpdate.setImageUrl(village.getImageUrl());
+        villagePort.updateVillage(villageId, villageToUpdate);
+    }
+
+    @Override
+    public void deleteVillage(String villageId) {
+        Village village = villagePort.getVillageById(villageId);
+        if (village == null) {
+            log.info("Village not found for id: {}", villageId);
+            throw new NotFoundException("Village not found");
+        }
+        villagePort.deleteVillage(villageId);
+    }
+
+    @Override
+    public List<Village> getAllVillages() {
+        return villagePort.getAllVillages();
+    }
 }

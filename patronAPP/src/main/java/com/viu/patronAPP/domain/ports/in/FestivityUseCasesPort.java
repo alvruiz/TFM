@@ -15,4 +15,6 @@ public interface FestivityUseCasesPort {
     public Festivity getById(String festivityId);
 
     public Festivity getFestivityByEvent(String eventId);
+
+    public void updateFestivity(String festivityId, Festivity festivity);
 }
