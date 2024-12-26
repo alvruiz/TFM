@@ -26,7 +26,7 @@ const Header = () => {
     // Estado para el menú desplegable
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
-
+    console.log(user.rol === Role.ADMIN)
     // Función para abrir el menú
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -174,7 +174,7 @@ const Header = () => {
                                                 <Typography variant="body2">Añadir evento</Typography>
                                             </StyledButton>
                                         )}
-                                        {user.rol === Role.ADMIN && (
+                                        {(user.rol === Role.ADMIN || user.rol === Role.USER) && (
                                             <StyledButton onClick={() => navigate('/agenda')}>
                                                 <EventNote />
                                                 <Typography variant="body2">Agenda</Typography>

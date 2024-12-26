@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class Metrics {
 
-    private VillageRepositoryAdapter villageRepositoryAdapter;
-    private UserRepositoryAdapter userRepositoryAdapter;
-    private EventRepositoryAdapter eventRepositoryAdapter;
+    private final VillageRepositoryAdapter villageRepositoryAdapter;
+    private final UserRepositoryAdapter userRepositoryAdapter;
+    private final EventRepositoryAdapter eventRepositoryAdapter;
 
 
     public Metrics(MeterRegistry meterRegistry, VillageRepositoryAdapter villageRepositoryAdapter, EventRepositoryAdapter eventRepositoryAdapter, UserRepositoryAdapter userRepositoryAdapter) {
+        System.out.println("Metrics constructor");
         this.villageRepositoryAdapter = villageRepositoryAdapter;
         this.userRepositoryAdapter = userRepositoryAdapter;
         this.eventRepositoryAdapter = eventRepositoryAdapter;

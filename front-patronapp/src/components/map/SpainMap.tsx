@@ -5,6 +5,7 @@ import useProvinceStore from '../../stores/province-store';
 import { ClipLoader } from 'react-spinners';
 import colors from '../../utils/colors';
 import { useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 const SpainMap = () => {
     const { provinces, isLoading } = useProvinceStore();
@@ -55,7 +56,7 @@ const SpainMap = () => {
                         "País Vasco": "#AB83B1",
                         "Ceuta": "#FFB1D1",
                         "Madrid": "#C1A9F3",
-                        "Illes Balears": "#F2F2F2",
+                        "Illes Balears": "#F4A151",
                         "Aragón": "#9E3A3A",
                         "La Rioja": "#4E8B5B",
                         "Canarias": "#FFE156",
@@ -154,8 +155,11 @@ const SpainMap = () => {
     return (
         <>
             {isLoading ? (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                     <ClipLoader color="#6A4A3C" loading={isLoading} size={70} />
+                    <Typography variant="body2" sx={{ fontWeight: 'bold', color: colors.textDark, marginTop: 10 }}>
+                        Cargando mapa...
+                    </Typography>
                 </div>
             ) : (
                 <div id="map" style={{ position: "absolute", height: "100vh", width: "100%" }}></div>

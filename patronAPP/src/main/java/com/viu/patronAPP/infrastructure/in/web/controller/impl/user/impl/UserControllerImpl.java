@@ -1,5 +1,6 @@
 package com.viu.patronAPP.infrastructure.in.web.controller.impl.user.impl;
 
+import com.viu.patronAPP.domain.model.Rol;
 import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.ports.in.UserUseCasesPort;
 import com.viu.patronAPP.infrastructure.DTO.user.UpdateUsertDTO;
@@ -47,7 +48,7 @@ public class UserControllerImpl implements UserController {
                 .email(userDTO.getEmail())
                 .age(userDTO.getAge())
                 .gender(userDTO.getGender())
-                .rol(userDTO.getRol())
+                .rol(userDTO.getRol() == null ? Rol.USER : userDTO.getRol())
                 .imageUrl(userDTO.getImageUrl())
                 .eventsParticipating(userDTO.getEventsParticipating())
                 .build();
