@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserUseCasesPort {
 
     @Override
     public User updateUser(User user) {
+        User getUser = userRepository.getUserByEmail(user.getEmail());
+        if (getUser == null) {
+            throw new NotFoundException("User not found");
+        }
+        user.setId(getUser.getId());
         userRepository.updateUser(user);
         return user;
     }

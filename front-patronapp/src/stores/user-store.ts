@@ -61,7 +61,8 @@ const useUserStore = create<UserStore>((set) => {
             set({ user: null });
             localStorage.removeItem('user'); // Elimina el usuario del localStorage
         },
-        updateUser: (user: User) => {
+        updateUser: async (user: User) => {
+            const response = await APIFacade.updateUser(user).then().catch(e => { throw Error("Error updating user") });
             set({ user });
             localStorage.setItem('user', JSON.stringify(user));
         },

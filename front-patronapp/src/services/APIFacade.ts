@@ -1,8 +1,10 @@
+import { User } from "../model/User";
 import { getEvents } from "./get-events.service";
 import { getEventsByEmail, getEventsByIds } from "./get-events.service";
 import { getProvinces } from "./get-provinces.service";
 import { getVillages, getVillage, getVillageFestivity } from "./get-villages.service";
 import { subscribeUnsubscribeEvent } from "./join-event.service";
+import { updateUser } from "./edit-profile.service";
 import { login } from "./login.service";
 import { register } from "./register.service";
 class APIFacade {
@@ -101,6 +103,16 @@ class APIFacade {
         } catch (error) {
             console.error("Error registering:", error);
             throw error;
+        }
+    }
+
+    static async updateUser(user: User) {
+        try {
+            console.log(user);
+            return await updateUser(user);
+        } catch (error) {
+            console.log("Error updating user");
+            return;
         }
     }
 }

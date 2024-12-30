@@ -41,7 +41,12 @@ public class UserRepositoryAdapter implements UserPort {
 
     @Override
     public User updateUser(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+    
         UserEntity userEntity = UserMapper.mapUserDomainToEntity(user);
+
         userRepository.save(userEntity);
         return user;
     }
