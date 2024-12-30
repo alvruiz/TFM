@@ -18,8 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.AbstractMap;
@@ -41,8 +39,8 @@ public class EventControllerImpl implements EventController {
 
     @Override
     public ResponseEntity<EventDTO> createEvent(EventDTO eventDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<User> attendees = eventDTO.getAttendees().stream().map(userUseCasesPort::getUserById).toList();
+        Festivity festivity = festivityUseCasesPort.getById(eventDTO.getEventFestivityId());
         Event event = Event.builder()
                 .name(eventDTO.getEventName())
                 .description(eventDTO.getEventDescription())
@@ -52,8 +50,15 @@ public class EventControllerImpl implements EventController {
                 .maxCapacity(eventDTO.getEventMaxCapacity())
                 .attendees(attendees)
                 .build();
-        eventUseCasesPort.createEvent(event);
+
+
+        Event eventUpdated = eventUseCasesPort.createEvent(event);
         eventDTO.setId(event.getId());
+        List<Event> events = new ArrayList<>(festivity.getEvents());
+        events.add(eventUpdated);
+        festivity.setEvents(events);
+        festivityUseCasesPort.updateFestivity(festivity.getId(), festivity);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(eventDTO);
     }
 

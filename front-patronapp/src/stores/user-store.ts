@@ -9,6 +9,7 @@ interface UserStore {
     eventsUser: FestivityEvent[];
     getUser: (email: string, password: string) => Promise<User>;
     updateUser: (user: User) => void;
+    authenticate: (email: string, password: string) => Promise<string>;
     getEventsUser: (email: string) => Promise<void>;
     getPersistedUser: () => User | null;
     setUser(user: User): void;
@@ -25,6 +26,16 @@ const useUserStore = create<UserStore>((set) => {
         setUser: (user: User) => {
             set({ user });
             localStorage.setItem('user', JSON.stringify(user));
+        },
+        authenticate: async (email: string, password: string): Promise<string> => {
+            set({ isLoading: true, error: null });
+            try {
+                const response = await APIFacade.authenticate(email, password);
+
+                return response;
+            } catch (error) {
+                set({ error: 'Error al obtener el usuario', isLoading: false });
+            }
         },
         getUser: async (email: string, password: string): Promise<User> => {
             set({ isLoading: true, error: null });

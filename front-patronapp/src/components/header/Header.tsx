@@ -7,8 +7,11 @@ import useUserStore from "../../stores/user-store";
 import ProfileCircle from "./ProfileCircleHeader";
 import { Content } from "../list/MainPageStyles";
 import { Role } from "../../model/Role";
-import CreateEventModal from "../individual-village/modal/CreteEventModal";
+import CreateEventModal from "../individual-village/modal/CreateEventModal";
 import { LogoutButton, StyledButton, StyledIconButton } from "./HeaderStyles";
+import { toast } from "react-toastify";
+import useEventStore from "../../stores/event-store";
+import useVillageStore from "../../stores/village-store";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -19,7 +22,9 @@ const Header = () => {
 
     // Estado para abrir/cerrar el modal
     const [modalOpen, setModalOpen] = useState(false);
-
+    const { createEvent } = useEventStore();
+    const { getEvents, events, village } = useVillageStore();
+    const { authenticate, getPersistedUser } = useUserStore();
     // Detectar si estamos en una pantalla pequeña
     const isMobile = useMediaQuery('(max-width:600px)');
 
@@ -43,8 +48,18 @@ const Header = () => {
     };
 
     // Función para manejar la creación del evento
-    const handleCreateEvent = (eventData) => {
+    const handleCreateEvent = async (eventData) => {
         console.log("Evento creado:", eventData);
+        try {
+            const jwt = await authenticate(getPersistedUser().email, getPersistedUser().password);
+            await createEvent(eventData, village.festivity.id, jwt);
+            await getEvents(village.festivity.id);
+
+
+        } catch (error) {
+            toast.error("Error al crear evento")
+            console.error("Error al crear evento:", error);
+        }
         // Aquí puedes agregar la lógica para enviar los datos del evento al backend
         handleCloseModal();
     };

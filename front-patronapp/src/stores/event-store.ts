@@ -7,6 +7,7 @@ interface EventStore {
     setUserEvents: (userEvents: FestivityEvent[]) => void;
     getUserEvents: (ids: string[]) => void;
     joinEvent: (userId: string, eventId: string) => Promise<User>;
+    createEvent: (event: FestivityEvent, festivityId: string, token: string) => Promise<FestivityEvent>;
 }
 
 const useEventStore = create<EventStore>((set, get) => ({
@@ -19,6 +20,9 @@ const useEventStore = create<EventStore>((set, get) => ({
 
     joinEvent: async (email: string, eventId: string): Promise<User> => {
         return await APIFacade.subscribeUnsubscribeEvent(email, eventId);
+    },
+    createEvent: async (event: FestivityEvent, festivityId: string, token: string): Promise<FestivityEvent> => {
+        return await APIFacade.createEvent(event, festivityId, token);
     },
 }));
 

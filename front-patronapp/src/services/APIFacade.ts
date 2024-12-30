@@ -7,7 +7,26 @@ import { subscribeUnsubscribeEvent } from "./join-event.service";
 import { updateUser } from "./edit-profile.service";
 import { login } from "./login.service";
 import { register } from "./register.service";
+import { createEvent } from "./create-event.service";
+import FestivityEvent from "../model/Event";
+import { authenticate } from "./login.service";
 class APIFacade {
+    static async authenticate(email: string, password: string) {
+        try {
+            return await authenticate(email, password);
+        } catch (error) {
+            console.error("Error authenticating:", error);
+            throw error;
+        }
+    }
+    static async createEvent(event: FestivityEvent, festivityId: string, jwt: string) {
+        try {
+            return await createEvent(event, festivityId, jwt);
+        } catch (error) {
+            console.error("Error creating event:", error);
+            throw error;
+        }
+    }
     static async getEvents(festivityId: string) {
         try {
             return await getEvents(festivityId);

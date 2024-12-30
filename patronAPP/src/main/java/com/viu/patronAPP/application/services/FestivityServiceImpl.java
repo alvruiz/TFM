@@ -84,6 +84,8 @@ public class FestivityServiceImpl implements FestivityUseCasesPort {
         festivityToUpdate.setName(festivity.getName());
         festivityToUpdate.setStartDate(festivity.getStartDate());
         festivityToUpdate.setEndDate(festivity.getEndDate());
+        festivityToUpdate.setPatron(festivity.getPatron());
+        festivityToUpdate.setEvents(festivity.getEvents());
         festivityPort.updateFestivity(festivityToUpdate);
     }
 

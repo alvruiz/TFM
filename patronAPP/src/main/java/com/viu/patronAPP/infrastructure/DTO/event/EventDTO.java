@@ -19,4 +19,5 @@ public class EventDTO {
     private List<String> attendees;
     private int eventMaxCapacity;
     private String eventFestivityId;
+
 }

@@ -4,6 +4,7 @@ import com.viu.patronAPP.config.token.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +29,11 @@ public class WebSecurityConfig {
             "/user/**",
             "/festivities/**",
             "/villages/**",
-            "/events/**",
             "/events/subscribe",
+            "/events/list",
+            "/events/user/**",
+            "/events/{festivityId}",
+            "/events/email/**",
             "/actuator/**",
             "/health/**",
 
@@ -48,11 +52,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers(WHITELIST).permitAll().anyRequest().authenticated());
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                        auth -> auth.requestMatchers(WHITELIST).permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                                .anyRequest().hasAuthority("ROLE_ADMIN"));
         return http.build();
     }
+
+
 }
