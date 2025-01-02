@@ -48,6 +48,7 @@ public class VillageLoader {
                     .build();
 
             UserEntity user1 = UserEntity.builder()
+                    .id("1")
                     .name("Carlos")
                     .surname("García")
                     .imageUrl("https://st3.depositphotos.com/12985790/15794/i/450/depositphotos_157947226-stock-photo-man-looking-at-camera.jpg")

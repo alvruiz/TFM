@@ -25,7 +25,7 @@ public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = 464214880478737476L;
 
     @Value("${jwt.secret}")
-    private String secret;
+    public String secret;
 
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);

@@ -138,13 +138,13 @@ public class EventControllerImpl implements EventController {
                 .collect(Collectors.toMap(
                         Event::getId,
                         event -> festivityUseCasesPort.getFestivityByEvent(event.getId()),
-                        (existing, replacement) -> existing // Manejar duplicados manteniendo el existente
+                        (existing, replacement) -> existing
                 ));
 
         Map<String, Village> villagesMap = festivitiesMap.entrySet().stream()
-                .filter(entry -> entry.getValue() != null) // Asegurar que solo procesemos festividades válidas
+                .filter(entry -> entry.getValue() != null)
                 .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), villageUseCasesPort.getVillageByFestivity(entry.getValue())))
-                .filter(entry -> entry.getValue() != null) // Evitar valores nulos en el mapa
+                .filter(entry -> entry.getValue() != null)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         List<EventAndVillageDTO> eventAndVillageDTOs = events.stream().map(event -> {
