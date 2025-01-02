@@ -1,4 +1,4 @@
-package com.viu.patronAPP.repository;
+package com.viu.patronAPP.unit.repository;
 
 import com.viu.patronAPP.domain.model.Festivity;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.FestivityEntity;

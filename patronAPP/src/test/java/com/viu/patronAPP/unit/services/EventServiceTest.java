@@ -1,4 +1,4 @@
-package com.viu.patronAPP.services;
+package com.viu.patronAPP.unit.services;
 
 import com.viu.patronAPP.application.services.EventServiceImpl;
 import com.viu.patronAPP.domain.model.Coords;

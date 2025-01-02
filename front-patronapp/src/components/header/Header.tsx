@@ -31,7 +31,6 @@ const Header = () => {
     // Estado para el menú desplegable
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
-    console.log(user.rol === Role.ADMIN)
     // Función para abrir el menú
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -116,7 +115,7 @@ const Header = () => {
                             <>
                                 {!isMobile && currentRoute !== '/editProfile' && (
                                     <Stack direction="row" alignItems="center">
-                                        {user.rol === Role.CM && (
+                                        {user && user.rol === Role.CM && (
                                             <Typography
                                                 sx={{
                                                     marginRight: 2,
@@ -128,7 +127,7 @@ const Header = () => {
                                                 Community Manager
                                             </Typography>
                                         )}
-                                        {user.rol === Role.ADMIN && (
+                                        {user && user.rol === Role.ADMIN && (
                                             <Typography
                                                 sx={{
                                                     marginRight: 2,
@@ -164,7 +163,7 @@ const Header = () => {
                                                     <Add sx={{ marginRight: 1 }} /> Añadir evento
                                                 </MenuItem>
                                             )}
-                                            {user.rol === Role.ADMIN && (
+                                            {user && user.rol === Role.ADMIN && (
                                                 <MenuItem onClick={() => navigate('/agenda')}>
                                                     <EventNote sx={{ marginRight: 1 }} /> Agenda
                                                 </MenuItem>
@@ -176,7 +175,7 @@ const Header = () => {
                                     </>
                                 ) : (
                                     <>
-                                        {user.rol === Role.CM && currentRoute !== `/village/${user.villageId}` && (
+                                        {user && user.rol === Role.CM && currentRoute !== `/village/${user.villageId}` && (
                                             <StyledButton
                                                 onClick={() => navigate(`/village/${user.villageId}`)}
                                             >
@@ -189,7 +188,7 @@ const Header = () => {
                                                 <Typography variant="body2">Añadir evento</Typography>
                                             </StyledButton>
                                         )}
-                                        {(user.rol === Role.ADMIN || user.rol === Role.USER) && (
+                                        {(user && user.rol === Role.ADMIN || user && user.rol === Role.USER) && (
                                             <StyledButton onClick={() => navigate('/agenda')}>
                                                 <EventNote />
                                                 <Typography variant="body2">Agenda</Typography>

@@ -1,4 +1,4 @@
-package com.viu.patronAPP.mapper;
+package com.viu.patronAPP.unit.mapper;
 
 import com.viu.patronAPP.domain.model.*;
 import com.viu.patronAPP.infrastructure.out.persistence.entity.mongo.*;
