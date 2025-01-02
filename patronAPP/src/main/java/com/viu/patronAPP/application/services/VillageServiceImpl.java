@@ -2,6 +2,7 @@ package com.viu.patronAPP.application.services;
 
 import com.viu.patronAPP.domain.model.Festivity;
 import com.viu.patronAPP.domain.model.Village;
+import com.viu.patronAPP.domain.model.exceptions.GeneralException;
 import com.viu.patronAPP.domain.model.exceptions.NotFoundException;
 import com.viu.patronAPP.domain.ports.in.VillageUseCasesPort;
 import com.viu.patronAPP.domain.ports.out.FestivityPort;
@@ -41,6 +42,11 @@ public class VillageServiceImpl implements VillageUseCasesPort {
 
     @Override
     public Village createVillage(Village village) {
+        Village villageExists = villagePort.getVillageById(village.getId());
+        if (villageExists != null) {
+            log.info("Village already exists: {}", village.getId());
+            throw new GeneralException("Village already exists");
+        }
         return villagePort.createVillage(village);
     }
 

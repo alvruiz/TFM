@@ -60,18 +60,19 @@ public class EventServiceImpl implements EventUseCasesPort {
         }
 
         List<String> attendees = new ArrayList<>((event.getAttendees().stream().map(User::getId).collect(Collectors.toList())));
+        ArrayList<User> attendeesModified = new ArrayList<>(event.getAttendees());
         if (attendees.contains(userId)) {
             log.info("User {} is already attendee of event {}", userId, eventId);
             attendees.remove(userId);
+            attendeesModified.remove(user);
         } else {
             if (event.getAttendees().size() + 1 > event.getMaxCapacity()) {
                 log.info("User {} is too full for event {}", userId, eventId);
                 throw new IllegalArgumentException("Event is full");
             }
             attendees.add(userId);
+            attendeesModified.add(user);
         }
-        ArrayList<User> attendeesModified = new ArrayList<>(event.getAttendees());
-        attendeesModified.add(user);
         event.setAttendees(attendeesModified);
         eventPort.updateEvent(eventId, event);
     }

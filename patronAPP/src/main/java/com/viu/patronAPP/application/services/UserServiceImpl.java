@@ -4,7 +4,7 @@ import com.viu.patronAPP.domain.model.User;
 import com.viu.patronAPP.domain.model.exceptions.GeneralException;
 import com.viu.patronAPP.domain.model.exceptions.NotFoundException;
 import com.viu.patronAPP.domain.ports.in.UserUseCasesPort;
-import com.viu.patronAPP.infrastructure.out.persistence.repository.UserRepositoryAdapter;
+import com.viu.patronAPP.domain.ports.out.UserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserServiceImpl implements UserUseCasesPort {
 
-    private final UserRepositoryAdapter userRepository;
+    private final UserPort userRepository;
 
     @Override
     public User getUserById(String id) {
@@ -29,16 +29,11 @@ public class UserServiceImpl implements UserUseCasesPort {
 
     @Override
     public void createUser(User user) {
-        try {
-            if (userRepository.getUserByEmail(user.getEmail()) != null) {
-                log.info("User already exists: {}", user.getEmail());
-                throw new GeneralException("User already exists");
-            }
-            userRepository.createUser(user);
-        } catch (Exception e) {
-            log.error("Error creating user: {}", e.getMessage());
-            throw new GeneralException("Failed to create user due to: " + e.getMessage());
+        if (userRepository.getUserByEmail(user.getEmail()) != null) {
+            log.info("User already exists: {}", user.getEmail());
+            throw new GeneralException("User already exists");
         }
+        userRepository.createUser(user);
     }
 
     @Override
@@ -76,6 +71,10 @@ public class UserServiceImpl implements UserUseCasesPort {
 
     @Override
     public void deleteUser(String id) {
+        User getUser = userRepository.getUserById(id);
+        if (getUser == null) {
+            throw new NotFoundException("User not found");
+        }
         userRepository.deleteUser(id);
     }
 }
