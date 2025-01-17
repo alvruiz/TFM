@@ -85,4 +85,13 @@ class EventControllerImplTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].eventName").value("Concierto de Folk"));
     }
+
+    @Test
+    void testGetEventsByIDsListEmpty() throws Exception {
+        mockMvc.perform(post("/events/list")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("[]"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
+    }
 }

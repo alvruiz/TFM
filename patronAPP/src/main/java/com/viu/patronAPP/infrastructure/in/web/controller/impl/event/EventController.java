@@ -36,6 +36,7 @@ public interface EventController {
             }
     )
     @DeleteMapping("/{eventId}")
+    @CrossOrigin
     public ResponseEntity<String> deleteEvent(@PathVariable String eventId);
 
     @Operation(

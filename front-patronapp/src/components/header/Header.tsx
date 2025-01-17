@@ -24,7 +24,7 @@ const Header = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const { createEvent } = useEventStore();
     const { getEvents, events, village } = useVillageStore();
-    const { authenticate, getPersistedUser } = useUserStore();
+    const { authenticate, getPersistedUser, getPersistedJwt } = useUserStore();
     // Detectar si estamos en una pantalla pequeña
     const isMobile = useMediaQuery('(max-width:600px)');
 
@@ -50,7 +50,7 @@ const Header = () => {
     const handleCreateEvent = async (eventData) => {
         console.log("Evento creado:", eventData);
         try {
-            const jwt = await authenticate(getPersistedUser().email, getPersistedUser().password);
+            const jwt = getPersistedJwt();
             await createEvent(eventData, village.festivity.id, jwt);
             await getEvents(village.festivity.id);
 

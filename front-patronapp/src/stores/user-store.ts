@@ -2,16 +2,19 @@ import { create } from 'zustand';
 import { User } from '../model/User';
 import FestivityEvent from '../model/Event';
 import APIFacade from '../services/APIFacade';
+import { authenticate } from '../services/login.service';
 interface UserStore {
     user: User | null;
     isLoading: boolean;
     error: string | null;
+    jwt: string | null;
     eventsUser: FestivityEvent[];
     getUser: (email: string, password: string) => Promise<User>;
     updateUser: (user: User) => void;
     authenticate: (email: string, password: string) => Promise<string>;
     getEventsUser: (email: string) => Promise<void>;
     getPersistedUser: () => User | null;
+    getPersistedJwt: () => string | null;
     setUser(user: User): void;
     logOut: () => void;
 }
@@ -20,6 +23,7 @@ const useUserStore = create<UserStore>((set) => {
     const localStorageUser = localStorage.getItem('user');
     return {
         eventsUser: [],
+        jwt: '',
         user: localStorageUser ? JSON.parse(localStorageUser) : null,
         isLoading: false,
         error: null,
@@ -42,9 +46,10 @@ const useUserStore = create<UserStore>((set) => {
 
             try {
                 const response = await APIFacade.login(email, password);
-
-                set({ user: response, isLoading: false });
+                const jwt = await authenticate(email, password);
+                set({ user: response, isLoading: false, jwt });
                 localStorage.setItem('user', JSON.stringify(response));
+                localStorage.setItem('jwt', jwt);
 
                 return response;
             } catch (error) {
@@ -57,6 +62,12 @@ const useUserStore = create<UserStore>((set) => {
 
             set({ user: parsedUser });
             return parsedUser;
+        },
+        getPersistedJwt: () => {
+            const savedJwt = localStorage.getItem('jwt');
+
+            set({ jwt: savedJwt });
+            return savedJwt;
         },
         getEventsUser: async (email: string) => {
             set({ isLoading: true, error: null });

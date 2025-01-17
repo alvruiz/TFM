@@ -35,3 +35,14 @@ export const StyledUnsuscribeButton = styled(Button)`
   align-items: center;
 `;
 
+export const StyledDeleteButton = styled(Button)`
+  color: white;
+ background-color:rgb(201, 79, 79);
+  &:hover {
+    background-color: white;
+    color: red;
+  }
+  display: flex;
+  align-items: center;
+`;
+

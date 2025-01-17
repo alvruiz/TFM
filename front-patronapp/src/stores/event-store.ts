@@ -2,12 +2,14 @@ import { create } from "zustand";
 import { User } from "../model/User";
 import FestivityEvent from "../model/Event";
 import APIFacade from "../services/APIFacade";
+import { deleteEvent } from "../services/delete-event.service";
 interface EventStore {
     userEvents: FestivityEvent[];
     setUserEvents: (userEvents: FestivityEvent[]) => void;
     getUserEvents: (ids: string[]) => void;
     joinEvent: (userId: string, eventId: string) => Promise<User>;
     createEvent: (event: FestivityEvent, festivityId: string, token: string) => Promise<FestivityEvent>;
+    deleteEvent: (eventId: string, token: string) => Promise<FestivityEvent>;
 }
 
 const useEventStore = create<EventStore>((set, get) => ({
@@ -23,6 +25,9 @@ const useEventStore = create<EventStore>((set, get) => ({
     },
     createEvent: async (event: FestivityEvent, festivityId: string, token: string): Promise<FestivityEvent> => {
         return await APIFacade.createEvent(event, festivityId, token);
+    },
+    deleteEvent: async (eventId: string, token: string): Promise<FestivityEvent> => {
+        return await APIFacade.deleteEvent(eventId, token);
     },
 }));
 

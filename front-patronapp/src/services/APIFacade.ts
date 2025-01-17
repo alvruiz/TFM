@@ -8,6 +8,7 @@ import { updateUser } from "./edit-profile.service";
 import { login } from "./login.service";
 import { register } from "./register.service";
 import { createEvent } from "./create-event.service";
+import { deleteEvent } from "./delete-event.service";
 import FestivityEvent from "../model/Event";
 import { authenticate } from "./login.service";
 class APIFacade {
@@ -131,6 +132,14 @@ class APIFacade {
             return await updateUser(user);
         } catch (error) {
             console.log("Error updating user");
+            return;
+        }
+    }
+    static async deleteEvent(eventId: string, token: string) {
+        try {
+            return await deleteEvent(eventId, token);
+        } catch (error) {
+            console.log("Error deleting event");
             return;
         }
     }

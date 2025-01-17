@@ -183,9 +183,6 @@ public class VillageLoader {
 
             eventRepository.deleteAll();
             List<UserEntity> adminUsers = userMongoRepository.findByEmail("admin@admin.com").stream().toList();
-            if (adminUsers.isEmpty()) {
-                throw new IllegalStateException("No se encontró el usuario admin@admin.com");
-            }
             UserEntity adminUser = adminUsers.get(0);
 
             List<EventEntity> events7 = List.of(
