@@ -25,7 +25,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepositoryAdapter.getUserByEmail(email);
         if (user != null) {
-            if (user.getRol() != Rol.ADMIN) throw new UsernameNotFoundException("Does not have Rol admin");
+            if (user.getRol() != Rol.ADMIN && user.getRol() != Rol.CM)
+                throw new UsernameNotFoundException("Does not have Rol admin or cm");
             List<GrantedAuthority> authorities = Arrays.asList(user.getRol().name())
                     .stream()
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role))

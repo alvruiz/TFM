@@ -3,6 +3,7 @@ import { User } from '../model/User';
 import FestivityEvent from '../model/Event';
 import APIFacade from '../services/APIFacade';
 import { authenticate } from '../services/login.service';
+import { Role } from '../model/Role';
 interface UserStore {
     user: User | null;
     isLoading: boolean;
@@ -46,7 +47,11 @@ const useUserStore = create<UserStore>((set) => {
 
             try {
                 const response = await APIFacade.login(email, password);
-                const jwt = await authenticate(email, password);
+                let jwt = ''
+                if (response.rol === Role.CM || response.rol === Role.ADMIN) {
+                    jwt = await authenticate(email, password);
+
+                }
                 set({ user: response, isLoading: false, jwt });
                 localStorage.setItem('user', JSON.stringify(response));
                 localStorage.setItem('jwt', jwt);

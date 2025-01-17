@@ -226,6 +226,7 @@ const LoginSignInPage = () => {
                                                 label="Sexo"
                                                 required
                                                 error={!!errors.gender}
+                                                data-testid="gender-select"
                                             >
                                                 <MenuItem value="male">Hombre</MenuItem>
                                                 <MenuItem value="female">Mujer</MenuItem>
