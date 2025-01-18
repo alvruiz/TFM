@@ -25,9 +25,10 @@ export const register = async (name: string, surname: string, email: string, pas
     } catch (error: any) {
         console.error('Error logging in:', error);
 
-        // Si el error tiene una respuesta del servidor y es un 404
-        if (error.response && error.response.status === 404) {
+        // Si el error tiene una respuesta del servidor y es un 500
+        if (error.response && error.response.status === 500) {
             toast.error("Error al registrarse");
+            return
         } else {
             toast.error('Ha ocurrido un error inesperado. Error: ' + error.message);
         }

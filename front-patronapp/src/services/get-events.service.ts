@@ -45,7 +45,6 @@ export const getEventsByIds = async (ids: string[]): Promise<FestivityEvent[]> =
             },
             withCredentials: false
         });
-        console.log(response.data)
         return response.data;
     } catch (error) {
         console.error('Error fetching events:', error);

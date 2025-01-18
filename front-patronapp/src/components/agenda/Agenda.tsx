@@ -82,10 +82,6 @@ export default function Agenda() {
     useEffect(() => {
         if (!user) return;
 
-        if (userEvents.length === 0) {
-            setOpenModal(false);
-            getUserEvents(user.eventsParticipating);
-        }
     }, [user, userEvents]);
 
     useEffect(() => {

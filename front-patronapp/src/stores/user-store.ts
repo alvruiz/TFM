@@ -52,6 +52,9 @@ const useUserStore = create<UserStore>((set) => {
                     jwt = await authenticate(email, password);
 
                 }
+                if (response.eventsParticipating === null) {
+                    response.eventsParticipating = [];
+                }
                 set({ user: response, isLoading: false, jwt });
                 localStorage.setItem('user', JSON.stringify(response));
                 localStorage.setItem('jwt', jwt);

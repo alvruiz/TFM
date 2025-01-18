@@ -56,6 +56,9 @@ class APIFacade {
 
     static async getEventsByIds(ids: string[]) {
         try {
+            if (!ids) {
+                return await getEventsByIds([]);
+            }
             return await getEventsByIds(ids);
         } catch (error) {
             console.error("Error fetching events by ids:", error);

@@ -91,7 +91,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                     </Typography>
 
                     <ModalMap event={selectedEvent} />
-
+                    <p>{user.eventsParticipating}</p>
                     {user && user.eventsParticipating && !user.eventsParticipating.includes(selectedEvent.id) && selectedEvent.attendees.length < selectedEvent.eventMaxCapacity &&
                         <StyledJoinButton
                             onClick={async () => {
@@ -153,6 +153,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                         </StyledDeleteButton>
                     )}
                 </Box>
+
             </Modal>
 
             <Modal
