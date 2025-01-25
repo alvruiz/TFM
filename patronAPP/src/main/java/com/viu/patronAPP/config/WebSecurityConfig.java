@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers(WHITELIST).permitAll()
                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                                .anyRequest().hasAuthority("ROLE_ADMIN"));
+                                .anyRequest().hasAnyAuthority("ROLE_ADMIN", "ROLE_CM"));
         return http.build();
     }
 

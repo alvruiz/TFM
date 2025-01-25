@@ -38,7 +38,7 @@ public class JwtTokenUtil implements Serializable {
 
         extraClaims.put("authorities", roles);
 
-        return buildToken(extraClaims, userDetails, 1000000);
+        return buildToken(extraClaims, userDetails, 2592000000L);
     }
 
     private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {

@@ -8,19 +8,34 @@ import { StyledJoinButton, StyledUnsuscribeButton, StyledDeleteButton } from './
 import useEventStore from '../../../stores/event-store';
 import useVillageStore from '../../../stores/village-store';
 import { Role } from '../../../model/Role';
+import useModalStore from '../../../stores/modal-store';
+import { useLocation } from 'react-router-dom';
 
 const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
     const { getPersistedUser, user, setUser, getPersistedJwt } = useUserStore();
     const { joinEvent, deleteEvent } = useEventStore();
     const { getEvents } = useVillageStore();
-
+    const { getUserEvents, userEvents } = useEventStore();
     const [openConfirmModal, setOpenConfirmModal] = useState(false);
+    const { setOpenModal } = useModalStore();
+    const location = useLocation();
+    const currentRoute = location.pathname;
 
     useEffect(() => {
         if (!user) {
             getPersistedUser();
         }
+        if (user) {
+            getUserEvents(user.eventsParticipating);
+        }
+
     }, []);
+
+    useEffect(() => {
+        if (open && user) {
+            getUserEvents(user.eventsParticipating);
+        }
+    }, [open, user]);
 
     if (!selectedEvent || !selectedEvent.eventName) return null;
 
@@ -91,11 +106,12 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                     </Typography>
 
                     <ModalMap event={selectedEvent} />
-                    <p>{user.eventsParticipating}</p>
-                    {user && user.eventsParticipating && !user.eventsParticipating.includes(selectedEvent.id) && selectedEvent.attendees.length < selectedEvent.eventMaxCapacity &&
+                    {user && user.rol !== Role.CM && userEvents && !userEvents.map(event => event.id).includes(selectedEvent.id) && selectedEvent.attendees.length < selectedEvent.eventMaxCapacity &&
                         <StyledJoinButton
                             onClick={async () => {
                                 setUser(await joinEvent(user.email, selectedEvent.id));
+                                getUserEvents(user.eventsParticipating);
+                                setOpenModal(false);
                             }}
                             sx={{
                                 marginTop: 5,
@@ -103,7 +119,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                                 display: 'block',
                                 marginLeft: 'auto',
                                 marginRight: 'auto',
-                                backgroundColor: colors.backgroundLight,
+                                backgroundColor: colors.secondary,
                                 color: 'white',
                                 ':hover': {
                                     backgroundColor: colors.textDark,
@@ -114,10 +130,12 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                         </StyledJoinButton>
                     }
 
-                    {user && user.eventsParticipating && user.eventsParticipating.includes(selectedEvent.id) &&
+                    {user && user.rol !== Role.CM && userEvents && userEvents.map(event => event.id).includes(selectedEvent.id) &&
                         <StyledUnsuscribeButton
                             onClick={async () => {
                                 setUser(await joinEvent(user.email, selectedEvent.id));
+                                getUserEvents(user.eventsParticipating);
+                                setOpenModal(false);
                             }}
                             sx={{
                                 marginTop: 5,
@@ -137,7 +155,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                         </StyledUnsuscribeButton>
                     }
 
-                    {user && (user.rol === Role.ADMIN || ((user.rol === Role.CM && user.villageId === village.id))) && (
+                    {user && currentRoute !== '/agenda' && (user.rol === Role.ADMIN || ((user.rol === Role.CM && user.villageId === village.id))) && (
                         <StyledDeleteButton
                             onClick={() => setOpenConfirmModal(true)}
                             sx={{
