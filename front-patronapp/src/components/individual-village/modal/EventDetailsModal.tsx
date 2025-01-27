@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Box, Typography, IconButton, Button } from '@mui/material';
 import ModalMap from '../../map/events/ModalMap';
 import colors from '../../../utils/colors';
-import { CalendarMonth, Description, Person, Close, Delete } from '@mui/icons-material';
+import { CalendarMonth, Description, Person, Close, Delete, Home } from '@mui/icons-material';
 import useUserStore from '../../../stores/user-store';
 import { StyledJoinButton, StyledUnsuscribeButton, StyledDeleteButton } from './EventDetailsModalStyles';
 import useEventStore from '../../../stores/event-store';
@@ -81,7 +81,14 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                         <Close />
                     </IconButton>
 
+                    {/* Condicional para mostrar el nombre del pueblo solo en la ruta /agenda */}
                     <Typography variant="h5" sx={{ marginBottom: 2, fontSize: '24px', color: colors.textDark, fontWeight: 'bold' }}>
+                        {currentRoute === '/agenda' && village ? (<span>
+                            <Home sx={{ marginRight: 1, fontSize: '20px' }} />
+
+                            <span>{village.name} - </span>
+                        </span>
+                        ) : null}
                         {selectedEvent.eventName}
                     </Typography>
 
@@ -109,7 +116,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
 
                     {currentRoute === '/agenda' ? (
                         <Button
-                            onClick={() => navigate(`/village/${selectedEvent.village.id}`)} // Navigate to the village page
+                            onClick={() => navigate(`/village/${selectedEvent.village.id}`)} // Navigate to the village page without closing the modal
                             sx={{
                                 marginTop: 5,
                                 width: '100%',
@@ -185,7 +192,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                         </>
                     )}
                 </Box>
-            </Modal>
+            </Modal >
 
             <Modal
                 open={openConfirmModal}
