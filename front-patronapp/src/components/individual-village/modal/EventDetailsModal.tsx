@@ -9,7 +9,7 @@ import useEventStore from '../../../stores/event-store';
 import useVillageStore from '../../../stores/village-store';
 import { Role } from '../../../model/Role';
 import useModalStore from '../../../stores/modal-store';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
     const { getPersistedUser, user, setUser, getPersistedJwt } = useUserStore();
@@ -19,6 +19,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
     const [openConfirmModal, setOpenConfirmModal] = useState(false);
     const { setOpenModal } = useModalStore();
     const location = useLocation();
+    const navigate = useNavigate(); // Hook for navigation
     const currentRoute = location.pathname;
 
     useEffect(() => {
@@ -28,7 +29,6 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
         if (user) {
             getUserEvents(user.eventsParticipating);
         }
-
     }, []);
 
     useEffect(() => {
@@ -106,13 +106,10 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                     </Typography>
 
                     <ModalMap event={selectedEvent} />
-                    {user && user.rol !== Role.CM && userEvents && !userEvents.map(event => event.id).includes(selectedEvent.id) && selectedEvent.attendees.length < selectedEvent.eventMaxCapacity &&
-                        <StyledJoinButton
-                            onClick={async () => {
-                                setUser(await joinEvent(user.email, selectedEvent.id));
-                                getUserEvents(user.eventsParticipating);
-                                setOpenModal(false);
-                            }}
+
+                    {currentRoute === '/agenda' ? (
+                        <Button
+                            onClick={() => navigate(`/village/${selectedEvent.village.id}`)} // Navigate to the village page
                             sx={{
                                 marginTop: 5,
                                 width: '100%',
@@ -126,52 +123,68 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                                 },
                             }}
                         >
-                            Apuntarse
-                        </StyledJoinButton>
-                    }
+                            Ir al pueblo del evento
+                        </Button>
+                    ) : (
+                        <>
+                            {user &&
+                                user.rol !== Role.CM &&
+                                userEvents &&
+                                !userEvents.map(event => event.id).includes(selectedEvent.id) &&
+                                selectedEvent.attendees.length < selectedEvent.eventMaxCapacity && (
+                                    <StyledJoinButton
+                                        onClick={async () => {
+                                            setUser(await joinEvent(user.email, selectedEvent.id));
+                                            getUserEvents(user.eventsParticipating);
+                                            setOpenModal(false);
+                                        }}
+                                        sx={{
+                                            marginTop: 5,
+                                            width: '100%',
+                                            display: 'block',
+                                            marginLeft: 'auto',
+                                            marginRight: 'auto',
+                                            backgroundColor: colors.secondary,
+                                            color: 'white',
+                                            ':hover': {
+                                                backgroundColor: colors.textDark,
+                                            },
+                                        }}
+                                    >
+                                        Apuntarse
+                                    </StyledJoinButton>
+                                )}
 
-                    {user && user.rol !== Role.CM && userEvents && userEvents.map(event => event.id).includes(selectedEvent.id) &&
-                        <StyledUnsuscribeButton
-                            onClick={async () => {
-                                setUser(await joinEvent(user.email, selectedEvent.id));
-                                getUserEvents(user.eventsParticipating);
-                                setOpenModal(false);
-                            }}
-                            sx={{
-                                marginTop: 5,
-                                width: '100%',
-                                display: 'block',
-                                marginLeft: 'auto',
-                                marginRight: 'auto',
-                                backgroundColor: colors.secondary,
-                                color: colors.textDark,
-                                ':hover': {
-                                    backgroundColor: colors.textDark,
-                                    color: colors.secondary,
-                                },
-                            }}
-                        >
-                            Desapuntarse
-                        </StyledUnsuscribeButton>
-                    }
-
-                    {user && currentRoute !== '/agenda' && (user.rol === Role.ADMIN || ((user.rol === Role.CM && user.villageId === village.id))) && (
-                        <StyledDeleteButton
-                            onClick={() => setOpenConfirmModal(true)}
-                            sx={{
-                                width: '100%',
-                                display: 'block',
-                                marginLeft: 'auto',
-                                marginRight: 'auto',
-                                marginTop: 2,
-                            }}
-                        >
-                            <Delete sx={{ marginRight: 1 }} />
-                            Eliminar evento
-                        </StyledDeleteButton>
+                            {user &&
+                                user.rol !== Role.CM &&
+                                userEvents &&
+                                userEvents.map(event => event.id).includes(selectedEvent.id) && (
+                                    <StyledUnsuscribeButton
+                                        onClick={async () => {
+                                            setUser(await joinEvent(user.email, selectedEvent.id));
+                                            getUserEvents(user.eventsParticipating);
+                                            setOpenModal(false);
+                                        }}
+                                        sx={{
+                                            marginTop: 5,
+                                            width: '100%',
+                                            display: 'block',
+                                            marginLeft: 'auto',
+                                            marginRight: 'auto',
+                                            backgroundColor: colors.secondary,
+                                            color: colors.textDark,
+                                            ':hover': {
+                                                backgroundColor: colors.textDark,
+                                                color: colors.secondary,
+                                            },
+                                        }}
+                                    >
+                                        Desapuntarse
+                                    </StyledUnsuscribeButton>
+                                )}
+                        </>
                     )}
                 </Box>
-
             </Modal>
 
             <Modal

@@ -72,28 +72,38 @@ export default function Agenda() {
     const { openModal, setOpenModal, selectedEvent, setSelectedEvent } = useModalStore();
     const [selectedVillage, setSelectedVillage] = useState(null);
     useEffect(() => {
-        if (userEvents.length === 0) {
-            setOpenModal(false);
-            if (!user) return;
+        const fetchEvents = async () => {
+            if (userEvents.length === 0) {
+                setOpenModal(false);
+                if (!user) return;
 
-            getUserEvents(user.eventsParticipating);
-        }
-    }, [])
+                await getUserEvents(user.eventsParticipating);
+            }
+        };
+
+        fetchEvents();
+    }, []);
+
     useEffect(() => {
-        if (!user) return;
+        const fetchEvents = async () => {
+            if (user) {
+                await getUserEvents(user.eventsParticipating);
+            }
+        };
 
-    }, [user, userEvents]);
-
+        fetchEvents();
+        console.log(userEvents)
+        console.log(user.eventsParticipating)
+    }, [user, user.eventsParticipating]);
     useEffect(() => {
-        getUserEvents(user.eventsParticipating);
-
-    }, [user])
+        console.log(userEvents)
+        console.log(user.eventsParticipating)
+    }, [userEvents])
 
     if (userEvents === null) return null;
     if (!user) return null;
 
     const handleEventClick = (event) => {
-        console.log(event)
         if (event && event.village) {
             setSelectedVillage(event.village);
             setSelectedEvent(event);
@@ -107,6 +117,7 @@ export default function Agenda() {
         setOpenModal(false);
         setSelectedVillage(null);
         setSelectedEvent(null);
+
     };
 
     const exportEventsToICS = () => {
