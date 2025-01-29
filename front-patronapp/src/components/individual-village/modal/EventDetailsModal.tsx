@@ -45,6 +45,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
         await getEvents(village.festivity.id);
         onClose();
     };
+    const isFinished = new Date(selectedEvent.eventEndDate) < new Date();
 
     return (
         <>
@@ -134,7 +135,31 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                         </Button>
                     ) : (
                         <>
-                            {user &&
+                            {isFinished && (
+                                <StyledJoinButton
+                                    onClick={async () => {
+                                        setUser(await joinEvent(user.email, selectedEvent.id));
+                                        getUserEvents(user.eventsParticipating);
+                                        setOpenModal(false);
+                                    }}
+                                    disabled
+                                    sx={{
+                                        marginTop: 5,
+                                        width: '100%',
+                                        display: 'block',
+                                        marginLeft: 'auto',
+                                        marginRight: 'auto',
+                                        backgroundColor: colors.secondary,
+                                        color: 'white',
+                                        ':hover': {
+                                            backgroundColor: colors.textDark,
+                                        },
+                                    }}
+                                >
+                                    Ya terminó
+                                </StyledJoinButton>
+                            )}
+                            {!isFinished && user &&
                                 user.rol !== Role.CM &&
                                 userEvents &&
                                 !userEvents.map(event => event.id).includes(selectedEvent.id) &&
@@ -161,8 +186,32 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                                         Apuntarse
                                     </StyledJoinButton>
                                 )}
-
                             {user &&
+                                (user.rol === Role.ADMIN || (user.rol === Role.CM && user.villageId === village.id)) &&
+                                userEvents &&
+                                !userEvents.map(event => event.id).includes(selectedEvent.id) &&
+                                selectedEvent.attendees.length < selectedEvent.eventMaxCapacity && (
+                                    <StyledDeleteButton
+                                        onClick={() => setOpenConfirmModal(true)}
+
+                                        sx={{
+                                            marginTop: 5,
+                                            width: '100%',
+                                            display: 'block',
+                                            marginLeft: 'auto',
+                                            marginRight: 'auto',
+                                            backgroundColor: 'red',
+                                            color: 'white',
+                                            ':hover': {
+                                                backgroundColor: colors.textDark,
+                                            },
+                                        }}
+                                    >
+                                        Eliminar evento
+                                    </StyledDeleteButton>
+                                )}
+
+                            {!isFinished && user &&
                                 user.rol !== Role.CM &&
                                 userEvents &&
                                 userEvents.map(event => event.id).includes(selectedEvent.id) && (

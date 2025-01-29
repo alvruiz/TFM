@@ -97,12 +97,16 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
     };
 
     const handleCoordChange = (index, field, value) => {
-        setEventData(prev => ({
-            ...prev,
-            coords: prev.coords.map((coord, i) =>
-                i === index ? { ...coord, [field]: value } : coord
-            ),
-        }));
+        if (value === '' || /^-?\d+(\.\d+)?$/.test(value)) {
+            setEventData(prev => ({
+                ...prev,
+                coords: prev.coords.map((coord, i) =>
+                    i === index ? { ...coord, [field]: value } : coord
+                ),
+            }));
+
+
+        }
     };
 
     const handleSubmit = () => {
@@ -205,7 +209,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                             label="Latitud"
                             variant="outlined"
                             fullWidth
-                            value={coord.latitude}
+                            value={errors.coords ? undefined : coord.latitude}
                             onChange={e => handleCoordChange(index, 'latitude', e.target.value)}
                             error={!coord.latitude}
                         />
@@ -213,7 +217,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                             label="Longitud"
                             variant="outlined"
                             fullWidth
-                            value={coord.longitude}
+                            value={errors.coords ? undefined : coord.longitude}
                             onChange={e => handleCoordChange(index, 'longitude', e.target.value)}
                             error={!coord.longitude}
                         />
@@ -225,7 +229,7 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
                         </Button>
                     </Box>
                 ))}
-                {errors.coords && <Typography color="error">Se requiere al menos una coordenada válida.</Typography>}
+                {errors.coords && <Typography color="error" style={{ marginBottom: 2 }}>Se requiere al menos una coordenada válida.</Typography>}
                 <Button
                     onClick={handleAddCoord}
                     sx={{

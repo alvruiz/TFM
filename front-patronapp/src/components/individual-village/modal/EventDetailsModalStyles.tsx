@@ -39,7 +39,7 @@ export const StyledDeleteButton = styled(Button)`
   color: white;
  background-color:rgb(201, 79, 79);
   &:hover {
-    background-color: white;
+    background-color: rgb(101, 40, 40);
     color: red;
   }
   display: flex;
