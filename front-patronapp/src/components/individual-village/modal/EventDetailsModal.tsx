@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
     const { getPersistedUser, user, setUser, getPersistedJwt } = useUserStore();
     const { joinEvent, deleteEvent } = useEventStore();
-    const { getEvents } = useVillageStore();
+    const { getEvents, events } = useVillageStore();
     const { getUserEvents, userEvents } = useEventStore();
     const [openConfirmModal, setOpenConfirmModal] = useState(false);
     const { setOpenModal } = useModalStore();
@@ -36,6 +36,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
             getUserEvents(user.eventsParticipating);
         }
     }, [open, user]);
+
 
     if (!selectedEvent || !selectedEvent.eventName) return null;
 
@@ -107,12 +108,14 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                         <CalendarMonth sx={{ marginRight: 1, fontSize: '20px' }} />
                         <strong>Fecha de fin: </strong> {new Date(selectedEvent.eventEndDate).toLocaleString()}
                     </Typography>
-
-                    <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
-                        <Person sx={{ marginRight: 1, fontSize: '20px' }} />
-                        <strong>Capacidad: </strong> {selectedEvent.attendees.length}/{selectedEvent.eventMaxCapacity}
-                    </Typography>
-
+                    {user &&
+                        events.map(event => event.id).includes(selectedEvent.id) &&
+                        (
+                            <Typography variant="body2" sx={{ marginBottom: 1, display: 'flex', alignItems: 'center', fontSize: '16px', color: colors.textDark }}>
+                                <Person sx={{ marginRight: 1, fontSize: '20px' }} />
+                                <strong>Capacidad: </strong> {events.map(event => event.id).includes(selectedEvent.id) ? events.find(event => event.id === selectedEvent.id).attendees.length : 0}/{selectedEvent.eventMaxCapacity}
+                            </Typography>
+                        )}
                     <ModalMap event={selectedEvent} />
 
                     {currentRoute === '/agenda' ? (
@@ -186,30 +189,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                                         Apuntarse
                                     </StyledJoinButton>
                                 )}
-                            {user &&
-                                (user.rol === Role.ADMIN || (user.rol === Role.CM && user.villageId === village.id)) &&
-                                userEvents &&
-                                !userEvents.map(event => event.id).includes(selectedEvent.id) &&
-                                selectedEvent.attendees.length < selectedEvent.eventMaxCapacity && (
-                                    <StyledDeleteButton
-                                        onClick={() => setOpenConfirmModal(true)}
 
-                                        sx={{
-                                            marginTop: 5,
-                                            width: '100%',
-                                            display: 'block',
-                                            marginLeft: 'auto',
-                                            marginRight: 'auto',
-                                            backgroundColor: 'red',
-                                            color: 'white',
-                                            ':hover': {
-                                                backgroundColor: colors.textDark,
-                                            },
-                                        }}
-                                    >
-                                        Eliminar evento
-                                    </StyledDeleteButton>
-                                )}
 
                             {!isFinished && user &&
                                 user.rol !== Role.CM &&
@@ -237,6 +217,29 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                                     >
                                         Desapuntarse
                                     </StyledUnsuscribeButton>
+                                )}
+                            {user &&
+                                (user.rol === Role.ADMIN || (user.rol === Role.CM && user.villageId === village.id)) &&
+                                userEvents &&
+                                (
+                                    <StyledDeleteButton
+                                        onClick={() => setOpenConfirmModal(true)}
+
+                                        sx={{
+                                            marginTop: 5,
+                                            width: '100%',
+                                            display: 'block',
+                                            marginLeft: 'auto',
+                                            marginRight: 'auto',
+                                            backgroundColor: 'red',
+                                            color: 'white',
+                                            ':hover': {
+                                                backgroundColor: colors.textDark,
+                                            },
+                                        }}
+                                    >
+                                        Eliminar evento
+                                    </StyledDeleteButton>
                                 )}
                         </>
                     )}

@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -50,7 +52,7 @@ public class UserControllerImpl implements UserController {
                 .gender(userDTO.getGender())
                 .rol(userDTO.getRol() == null ? Rol.USER : userDTO.getRol())
                 .imageUrl(userDTO.getImageUrl())
-                .eventsParticipating(userDTO.getEventsParticipating())
+                .eventsParticipating(userDTO.getEventsParticipating() == null ? new ArrayList<>() : userDTO.getEventsParticipating())
                 .build();
         userService.createUser(user);
         return ResponseEntity.ok(UserDTO.builder()

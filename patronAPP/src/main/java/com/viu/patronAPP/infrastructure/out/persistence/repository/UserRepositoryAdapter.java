@@ -42,14 +42,19 @@ public class UserRepositoryAdapter implements UserPort {
     @Override
     public User updateUser(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
-    
-        UserEntity userEntity = UserMapper.mapUserDomainToEntity(user);
 
+        String currentPassword = user.getPassword();
+        if (!currentPassword.startsWith("$2a$") && !currentPassword.startsWith("$2b$") && !currentPassword.startsWith("$2y$")) {
+            String encryptedPassword = passwordEncoder.encode(currentPassword);
+            user.setPassword(encryptedPassword);
+        }
+
+        UserEntity userEntity = UserMapper.mapUserDomainToEntity(user);
         userRepository.save(userEntity);
+
         return user;
     }
+
 
     @Override
     public void deleteUser(String id) {

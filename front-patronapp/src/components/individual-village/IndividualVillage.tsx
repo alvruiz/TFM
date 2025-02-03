@@ -44,18 +44,22 @@ const IndividualVillage = () => {
     }, [village]);
 
 
-
+    useEffect(() => {
+        console.log("hola")
+    }, [events]);
     if (calendarStartDate === null) return null;
     const localizer = momentLocalizer(moment);
     if (!village || !events) {
         return <ClipLoader color="#6A4A3C" loading={true} size={70} />;
     }
-    const handleEventClick = (event) => {
+    const handleEventClick = async (event) => {
+        await getEvents(village.festivity.id);
         setSelectedEvent(event);
         setOpenModal(true);
     };
 
     const handleCloseModal = () => {
+
         setOpenModal(false);
         setSelectedEvent(null);
     };
@@ -116,7 +120,7 @@ const IndividualVillage = () => {
                                     eventPropGetter={(eventStyleGetter)}
 
                                     style={{ height: '100%' }}
-                                    onSelectEvent={(event) => handleEventClick(events.find(event2 => event.id === event2.id))}
+                                    onSelectEvent={async (event) => await handleEventClick(events.find(event2 => event.id === event2.id))}
 
                                 />
                             </div>
