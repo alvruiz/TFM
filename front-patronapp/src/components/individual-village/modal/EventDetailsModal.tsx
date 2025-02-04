@@ -170,6 +170,7 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                                     <StyledJoinButton
                                         onClick={async () => {
                                             setUser(await joinEvent(user.email, selectedEvent.id));
+                                            getEvents(village.festivity.id);
                                             getUserEvents(user.eventsParticipating);
                                             setOpenModal(false);
                                         }}
@@ -199,6 +200,8 @@ const EventDetailsModal = ({ village, open, selectedEvent, onClose }) => {
                                         onClick={async () => {
                                             setUser(await joinEvent(user.email, selectedEvent.id));
                                             getUserEvents(user.eventsParticipating);
+                                            getEvents(village.festivity.id);
+
                                             setOpenModal(false);
                                         }}
                                         sx={{

@@ -3,9 +3,12 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import colors from '../../../utils/colors';
 import useModalStore from '../../../stores/modal-store';
+import useEventStore from '../../../stores/event-store';
+import useVillageStore from '../../../stores/village-store';
 
 const EventMap = ({ village, events }) => {
     const { openModal, setOpenModal, selectedEvent, setSelectedEvent } = useModalStore();
+    const { getEvents, events: villageEvents } = useVillageStore();
 
     useEffect(() => {
         if (!village || !events) return;
@@ -36,6 +39,7 @@ const EventMap = ({ village, events }) => {
             // Verificar si event.coords está disponible y es un array
             if (event.coords && Array.isArray(event.coords)) {
                 if (event.coords.length === 1) {
+
                     // Si solo hay una coordenada, la tratamos como un marcador
                     const { latitude, longitude } = event.coords[0];
                     const eventName = event.eventName;
@@ -59,7 +63,7 @@ const EventMap = ({ village, events }) => {
                             <strong>Descripción:</strong> ${eventDescription}<br>
                             <strong>Fecha de inicio:</strong> ${eventStartDate}<br>
                             <strong>Fecha de fin:</strong> ${eventEndDate}<br>
-                            <strong>Asistentes:</strong> ${currentAttendees} / ${maxCapacity}<br>
+                            <strong>Asistentes:</strong> ${villageEvents.find(e => e.id === event.id).attendees.length} / ${maxCapacity}<br>
                             <div style="text-align: center; margin-top: 10px;">
                                 <button id="event-button-${event.eventName}" 
                                     style="
@@ -103,16 +107,15 @@ const EventMap = ({ village, events }) => {
                         const eventDescription = event.eventDescription;
                         const eventStartDate = new Date(event.eventStartDate).toLocaleString();
                         const eventEndDate = new Date(event.eventEndDate).toLocaleString();
-                        const currentAttendees = event.attendees.length;
                         const maxCapacity = event.eventMaxCapacity;
-
                         route.on('click', () => {
+
                             route.bindPopup(`
                                 <b>${eventName}</b><br>
                                 <strong>Descripción:</strong> ${eventDescription}<br>
                                 <strong>Fecha de inicio:</strong> ${eventStartDate}<br>
                                 <strong>Fecha de fin:</strong> ${eventEndDate}<br>
-                                <strong>Asistentes:</strong> ${currentAttendees} / ${maxCapacity}<br>
+                                <strong>Asistentes:</strong> ${villageEvents.find(e => e.id === event.id).attendees.length} / ${maxCapacity}<br>
                                 <div style="text-align: center; margin-top: 10px;">
                                     <button id="event-button-${event.eventName}" 
                                         style="
@@ -134,7 +137,7 @@ const EventMap = ({ village, events }) => {
                             // Asociar el evento al botón dentro del popup
                             const button = document.getElementById(`event-button-${event.eventName}`);
                             if (button) {
-                                button.onclick = () => handleEventClick(event);
+                                button.onclick = async () => await handleEventClick(event);
                             }
                         });
                     } else {
@@ -145,16 +148,17 @@ const EventMap = ({ village, events }) => {
                 console.warn(`Evento "${event.eventName}" no tiene coordenadas válidas.`);
             }
         });
-
         // Limpiar mapa cuando el componente se desmonte
         return () => {
             map.remove();
         };
-    }, [village, events]);
+    }, [village, events, openModal, villageEvents]);
 
     // Función que se ejecuta cuando se hace clic en "Abrir"
-    const handleEventClick = (event) => {
-        setSelectedEvent(event);  // Setea el evento seleccionado en el store
+    const handleEventClick = async (event) => {
+        await getEvents(village.festivity.id);
+        console.log(villageEvents.find(e => e.id === event.id))
+        setSelectedEvent(villageEvents.find(e => e.id === event.id));  // Setea el evento seleccionado en el store
         setOpenModal(true);  // Abre el modal
     };
 

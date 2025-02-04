@@ -57,7 +57,7 @@ const EditarPerfil = () => {
         try {
 
             updateUser(updatedUser);
-            toast.success("Updated user")
+            toast.success("Usuario actualizado")
             setFormData((prevData) => ({
                 ...prevData,
                 password: "",
