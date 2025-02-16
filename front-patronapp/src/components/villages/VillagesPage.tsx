@@ -58,7 +58,8 @@ const VillagesPage = () => {
             await getProvinces();
 
             const initialVillages = await getVillages(id);
-            setActualVillages(initialVillages); // Guardar todos los pueblos en el store
+            const sortedVillages = initialVillages.sort((a, b) => a.name.localeCompare(b.name));
+            setActualVillages(sortedVillages); // Guardar todos los pueblos en el store
             setIsLoading(false);
             if (initialVillages.length < itemsPerPage) {
                 setHasMore(false); // No hay más pueblos
