@@ -25,6 +25,7 @@ const SpainMap = () => {
             scrollWheelZoom: true, // Activar zoom con rueda del ratón
             touchZoom: true, // Activar zoom táctil
             doubleClickZoom: true, // Activar zoom con doble clic
+            zoomControl: false
         });
 
         // Cargar el mapa base con un estilo más suave de CartoDB

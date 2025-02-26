@@ -52,21 +52,24 @@ const EditarPerfil = () => {
             email: formData.email,
             password: formData.nuevaContrasena || formData.password
         };
-        await getUser(formData.email, formData.password)
-
         try {
+            const user1 = await getUser(formData.email, formData.password)
+            if (user1) {
+                await updateUser(updatedUser);
+                toast.success("Usuario actualizado")
+                setFormData((prevData) => ({
+                    ...prevData,
+                    password: "",
+                    nuevaContrasena: ""
+                }));
+            }
 
-            updateUser(updatedUser);
-            toast.success("Usuario actualizado")
-            setFormData((prevData) => ({
-                ...prevData,
-                password: "",
-                nuevaContrasena: ""
-            }));
         } catch (error) {
             toast.error("Failed to update user")
             console.error("Error al actualizar el perfil:", error.message);
+            return;
         }
+
     };
 
     if (!user) {

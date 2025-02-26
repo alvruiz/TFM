@@ -97,18 +97,15 @@ const CreateEventModal = ({ open, onClose, onCreate }) => {
     };
 
     const handleCoordChange = (index, field, value) => {
-        if (value === '' || /^-?\d+(\.\d+)?$/.test(value)) {
+        if (value === '' || /^-?\d*[.,]?\d*$/.test(value)) {
             setEventData(prev => ({
                 ...prev,
                 coords: prev.coords.map((coord, i) =>
                     i === index ? { ...coord, [field]: value } : coord
                 ),
             }));
-
-
         }
     };
-
     const handleSubmit = () => {
         if (validateFields()) {
             onCreate(eventData);
